@@ -1,17 +1,47 @@
 package com.esf.xmlParser.entities;
 
-/**
- * @author jeegna
- *
- */
-public class Video implements Comparable<Video> {
+import java.io.Serializable;
 
-	private String name;
-	private int lane;
-	private String offset;
-	private String ref;
-	private String duration;
-	private String start;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
+/**
+ * Represents a Video in FCPXML
+ *
+ * @author Jeegna Patel
+ * @version 2017/04/15
+ * @since 1.8
+ */
+public class Video implements Comparable<Video>, Serializable {
+
+	private static final long serialVersionUID = 1L;
+
+	private StringProperty name;
+	private IntegerProperty lane;
+	private StringProperty offset;
+	private StringProperty ref;
+	private StringProperty duration;
+	private StringProperty start;
+
+	public Video() {
+		name = new SimpleStringProperty();
+		lane = new SimpleIntegerProperty();
+		offset = new SimpleStringProperty();
+		ref = new SimpleStringProperty();
+		duration = new SimpleStringProperty();
+		start = new SimpleStringProperty();
+	}
+
+	/**
+	 * Gets the duration property
+	 *
+	 * @return The duration property
+	 */
+	public StringProperty durationProperty() {
+		return duration;
+	}
 
 	/**
 	 * Gets the duration
@@ -19,7 +49,7 @@ public class Video implements Comparable<Video> {
 	 * @return The duration
 	 */
 	public String getDuration() {
-		return duration;
+		return duration.get();
 	}
 
 	/**
@@ -29,7 +59,16 @@ public class Video implements Comparable<Video> {
 	 *            The new duration to set
 	 */
 	public void setDuration(String duration) {
-		this.duration = duration;
+		this.duration.set(duration);
+	}
+
+	/**
+	 * Gets the name property
+	 *
+	 * @return The name property
+	 */
+	public StringProperty nameProperty() {
+		return name;
 	}
 
 	/**
@@ -38,7 +77,7 @@ public class Video implements Comparable<Video> {
 	 * @return The name
 	 */
 	public String getName() {
-		return name;
+		return name.get();
 	}
 
 	/**
@@ -48,7 +87,16 @@ public class Video implements Comparable<Video> {
 	 *            The new name to set
 	 */
 	public void setName(String name) {
-		this.name = name;
+		this.name.set(name);
+	}
+
+	/**
+	 * Gets the start property
+	 *
+	 * @return The start property
+	 */
+	public StringProperty startProperty() {
+		return start;
 	}
 
 	/**
@@ -57,7 +105,7 @@ public class Video implements Comparable<Video> {
 	 * @return The start
 	 */
 	public String getStart() {
-		return start;
+		return start.get();
 	}
 
 	/**
@@ -67,7 +115,16 @@ public class Video implements Comparable<Video> {
 	 *            The new start to set
 	 */
 	public void setStart(String start) {
-		this.start = start;
+		this.start.set(start);
+	}
+
+	/**
+	 * Gets the lane property
+	 *
+	 * @return The lane property
+	 */
+	public IntegerProperty laneProperty() {
+		return lane;
 	}
 
 	/**
@@ -76,7 +133,7 @@ public class Video implements Comparable<Video> {
 	 * @return The lane
 	 */
 	public int getLane() {
-		return lane;
+		return lane.get();
 	}
 
 	/**
@@ -86,7 +143,16 @@ public class Video implements Comparable<Video> {
 	 *            The new lane to set
 	 */
 	public void setLane(int lane) {
-		this.lane = lane;
+		this.lane.set(lane);
+	}
+
+	/**
+	 * Gets the offset property
+	 *
+	 * @return The offset property
+	 */
+	public StringProperty offsetProperty() {
+		return offset;
 	}
 
 	/**
@@ -95,7 +161,7 @@ public class Video implements Comparable<Video> {
 	 * @return The offset
 	 */
 	public String getOffset() {
-		return offset;
+		return offset.get();
 	}
 
 	/**
@@ -105,7 +171,16 @@ public class Video implements Comparable<Video> {
 	 *            The new offset to set
 	 */
 	public void setOffset(String offset) {
-		this.offset = offset;
+		this.offset.set(offset);
+	}
+
+	/**
+	 * Gets the ref property
+	 *
+	 * @return The ref property
+	 */
+	public StringProperty refProperty() {
+		return ref;
 	}
 
 	/**
@@ -114,7 +189,7 @@ public class Video implements Comparable<Video> {
 	 * @return The ref
 	 */
 	public String getRef() {
-		return ref;
+		return ref.get();
 	}
 
 	/**
@@ -124,12 +199,12 @@ public class Video implements Comparable<Video> {
 	 *            The new ref to set
 	 */
 	public void setRef(String ref) {
-		this.ref = ref;
+		this.ref.set(ref);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#toString(java.lang.Object)
 	 */
 	@Override
@@ -140,7 +215,7 @@ public class Video implements Comparable<Video> {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Comparable#compareTo(java.lang.Object)
 	 */
 	@Override
@@ -149,6 +224,6 @@ public class Video implements Comparable<Video> {
 			return 1;
 		}
 
-		return Integer.compare(Integer.parseInt(ref.substring(1)), (Integer.parseInt(o.ref.substring(1))));
+		return Integer.compare(Integer.parseInt(ref.get().substring(1)), (Integer.parseInt(o.ref.get().substring(1))));
 	}
 }

@@ -1,20 +1,53 @@
 package com.esf.xmlParser.entities;
 
-/**
- * @author Jeegna Patel
- *
- */
-public class AssetClip implements Comparable<AssetClip> {
+import java.io.Serializable;
 
-	private String ref;
-	private String name;
-	private int lane;
-	private String offset;
-	private String duration;
-	private String start;
-	private String role;
-	private String format;
-	private String tcFormat;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
+/**
+ * Represents an AssetClip in FCPXML
+ *
+ * @author Jeegna Patel
+ * @version 2017/04/15
+ * @since 1.8
+ */
+public class AssetClip implements Comparable<AssetClip>, Serializable {
+
+	private static final long serialVersionUID = 1L;
+
+	private StringProperty ref;
+	private StringProperty name;
+	private IntegerProperty lane;
+	private StringProperty offset;
+	private StringProperty duration;
+	private StringProperty start;
+	private StringProperty role;
+	private StringProperty format;
+	private StringProperty tcFormat;
+
+	public AssetClip() {
+		ref = new SimpleStringProperty();
+		name = new SimpleStringProperty();
+		lane = new SimpleIntegerProperty();
+		offset = new SimpleStringProperty();
+		duration = new SimpleStringProperty();
+		start = new SimpleStringProperty();
+		role = new SimpleStringProperty();
+		format = new SimpleStringProperty();
+		tcFormat = new SimpleStringProperty();
+	}
+
+	/**
+	 * Gets the ref property
+	 *
+	 * @return The ref property
+	 */
+	public StringProperty refProperty() {
+		return ref;
+	}
 
 	/**
 	 * Gets the ref
@@ -22,7 +55,7 @@ public class AssetClip implements Comparable<AssetClip> {
 	 * @return The ref
 	 */
 	public String getRef() {
-		return ref;
+		return ref.get();
 	}
 
 	/**
@@ -32,7 +65,16 @@ public class AssetClip implements Comparable<AssetClip> {
 	 *            The new ref to set
 	 */
 	public void setRef(String ref) {
-		this.ref = ref;
+		this.ref.set(ref);
+	}
+
+	/**
+	 * Gets the name property
+	 *
+	 * @return The name property
+	 */
+	public StringProperty nameProperty() {
+		return name;
 	}
 
 	/**
@@ -41,7 +83,7 @@ public class AssetClip implements Comparable<AssetClip> {
 	 * @return The name
 	 */
 	public String getName() {
-		return name;
+		return name.get();
 	}
 
 	/**
@@ -51,7 +93,16 @@ public class AssetClip implements Comparable<AssetClip> {
 	 *            The new name to set
 	 */
 	public void setName(String name) {
-		this.name = name;
+		this.name.set(name);
+	}
+
+	/**
+	 * Gets the lane property
+	 *
+	 * @return The lane property
+	 */
+	public IntegerProperty laneProperty() {
+		return lane;
 	}
 
 	/**
@@ -60,7 +111,7 @@ public class AssetClip implements Comparable<AssetClip> {
 	 * @return The lane
 	 */
 	public int getLane() {
-		return lane;
+		return lane.get();
 	}
 
 	/**
@@ -70,7 +121,16 @@ public class AssetClip implements Comparable<AssetClip> {
 	 *            The new lane to set
 	 */
 	public void setLane(int lane) {
-		this.lane = lane;
+		this.lane.set(lane);
+	}
+
+	/**
+	 * Gets the offset property
+	 *
+	 * @return The offset property
+	 */
+	public StringProperty offsetProperty() {
+		return offset;
 	}
 
 	/**
@@ -79,7 +139,7 @@ public class AssetClip implements Comparable<AssetClip> {
 	 * @return The offset
 	 */
 	public String getOffset() {
-		return offset;
+		return offset.get();
 	}
 
 	/**
@@ -89,7 +149,16 @@ public class AssetClip implements Comparable<AssetClip> {
 	 *            The new offset to set
 	 */
 	public void setOffset(String offset) {
-		this.offset = offset;
+		this.offset.set(offset);
+	}
+
+	/**
+	 * Gets the duration property
+	 *
+	 * @return The duration property
+	 */
+	public StringProperty durationProperty() {
+		return duration;
 	}
 
 	/**
@@ -98,7 +167,7 @@ public class AssetClip implements Comparable<AssetClip> {
 	 * @return The duration
 	 */
 	public String getDuration() {
-		return duration;
+		return duration.get();
 	}
 
 	/**
@@ -108,7 +177,16 @@ public class AssetClip implements Comparable<AssetClip> {
 	 *            The new duration to set
 	 */
 	public void setDuration(String duration) {
-		this.duration = duration;
+		this.duration.set(duration);
+	}
+
+	/**
+	 * Gets the start property
+	 *
+	 * @return The start property
+	 */
+	public StringProperty startProperty() {
+		return start;
 	}
 
 	/**
@@ -117,7 +195,7 @@ public class AssetClip implements Comparable<AssetClip> {
 	 * @return The start
 	 */
 	public String getStart() {
-		return start;
+		return start.get();
 	}
 
 	/**
@@ -127,7 +205,16 @@ public class AssetClip implements Comparable<AssetClip> {
 	 *            The new start to set
 	 */
 	public void setStart(String start) {
-		this.start = start;
+		this.start.set(start);
+	}
+
+	/**
+	 * Gets the role property
+	 *
+	 * @return The role property
+	 */
+	public StringProperty roleProperty() {
+		return role;
 	}
 
 	/**
@@ -136,7 +223,7 @@ public class AssetClip implements Comparable<AssetClip> {
 	 * @return The role
 	 */
 	public String getRole() {
-		return role;
+		return role.get();
 	}
 
 	/**
@@ -146,7 +233,16 @@ public class AssetClip implements Comparable<AssetClip> {
 	 *            The new role to set
 	 */
 	public void setRole(String role) {
-		this.role = role;
+		this.role.set(role);
+	}
+
+	/**
+	 * Gets the format property
+	 *
+	 * @return The format property
+	 */
+	public StringProperty formatProperty() {
+		return format;
 	}
 
 	/**
@@ -155,7 +251,7 @@ public class AssetClip implements Comparable<AssetClip> {
 	 * @return The format
 	 */
 	public String getFormat() {
-		return format;
+		return format.get();
 	}
 
 	/**
@@ -165,7 +261,16 @@ public class AssetClip implements Comparable<AssetClip> {
 	 *            The new format to set
 	 */
 	public void setFormat(String format) {
-		this.format = format;
+		this.format.set(format);
+	}
+
+	/**
+	 * Gets the tcFormat property
+	 *
+	 * @return The tcFormat property
+	 */
+	public StringProperty tcFormatProperty() {
+		return tcFormat;
 	}
 
 	/**
@@ -174,7 +279,7 @@ public class AssetClip implements Comparable<AssetClip> {
 	 * @return The tcFormat
 	 */
 	public String getTcFormat() {
-		return tcFormat;
+		return tcFormat.get();
 	}
 
 	/**
@@ -184,12 +289,12 @@ public class AssetClip implements Comparable<AssetClip> {
 	 *            The new tcFormat to set
 	 */
 	public void setTcFormat(String tcFormat) {
-		this.tcFormat = tcFormat;
+		this.tcFormat.set(tcFormat);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#toString(java.lang.Object)
 	 */
 	@Override
@@ -201,7 +306,7 @@ public class AssetClip implements Comparable<AssetClip> {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Comparable#compareTo(java.lang.Object)
 	 */
 	@Override
@@ -210,6 +315,6 @@ public class AssetClip implements Comparable<AssetClip> {
 			return 1;
 		}
 
-		return Integer.compare(Integer.parseInt(ref.substring(1)), (Integer.parseInt(o.ref.substring(1))));
+		return Integer.compare(Integer.parseInt(ref.get().substring(1)), (Integer.parseInt(o.ref.get().substring(1))));
 	}
 }

@@ -1,23 +1,61 @@
 package com.esf.xmlParser.entities;
 
-/**
- * @author jeegna
- *
- */
-public class Asset implements Comparable<Asset> {
+import java.io.Serializable;
 
-	private String id;
-	private String duration;
-	private boolean hasVideo;
-	private boolean hasAudio;
-	private String name;
-	private String uid;
-	private String src;
-	private String start;
-	private String format;
-	private int audioSources;
-	private int audioChannels;
-	private int audioRate;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
+/**
+ * Represents an Asset in FCPXML
+ *
+ * @author Jeegna Patel
+ * @version 2017/04/15
+ * @since 1.8
+ */
+public class Asset implements Comparable<Asset>, Serializable {
+
+	private static final long serialVersionUID = 1L;
+
+	private StringProperty id;
+	private StringProperty duration;
+	private BooleanProperty hasVideo;
+	private BooleanProperty hasAudio;
+	private StringProperty name;
+	private StringProperty uid;
+	private StringProperty src;
+	private StringProperty start;
+	private StringProperty format;
+	private IntegerProperty audioSources;
+	private IntegerProperty audioChannels;
+	private IntegerProperty audioRate;
+
+	public Asset() {
+		id = new SimpleStringProperty();
+		duration = new SimpleStringProperty();
+		hasVideo = new SimpleBooleanProperty();
+		hasAudio = new SimpleBooleanProperty();
+		name = new SimpleStringProperty();
+		uid = new SimpleStringProperty();
+		src = new SimpleStringProperty();
+		start = new SimpleStringProperty();
+		format = new SimpleStringProperty();
+		audioSources = new SimpleIntegerProperty();
+		audioChannels = new SimpleIntegerProperty();
+		audioRate = new SimpleIntegerProperty();
+	}
+
+	/**
+	 * Gets the id property
+	 *
+	 * @return The id property
+	 */
+	public StringProperty idProperty() {
+		return id;
+	}
 
 	/**
 	 * Gets the id
@@ -25,7 +63,7 @@ public class Asset implements Comparable<Asset> {
 	 * @return The id
 	 */
 	public String getId() {
-		return id;
+		return id.get();
 	}
 
 	/**
@@ -35,7 +73,16 @@ public class Asset implements Comparable<Asset> {
 	 *            The new id to set
 	 */
 	public void setId(String id) {
-		this.id = id;
+		this.id.set(id);
+	}
+
+	/**
+	 * Gets the duration property
+	 *
+	 * @return The duration property
+	 */
+	public StringProperty durationProperty() {
+		return duration;
 	}
 
 	/**
@@ -44,7 +91,7 @@ public class Asset implements Comparable<Asset> {
 	 * @return The duration
 	 */
 	public String getDuration() {
-		return duration;
+		return duration.get();
 	}
 
 	/**
@@ -54,7 +101,16 @@ public class Asset implements Comparable<Asset> {
 	 *            The new duration to set
 	 */
 	public void setDuration(String duration) {
-		this.duration = duration;
+		this.duration.set(duration);
+	}
+
+	/**
+	 * Gets the hasVideo property
+	 *
+	 * @return The hasVideo property
+	 */
+	public BooleanProperty hasVideoProperty() {
+		return hasVideo;
 	}
 
 	/**
@@ -63,7 +119,7 @@ public class Asset implements Comparable<Asset> {
 	 * @return The hasVideo
 	 */
 	public boolean hasVideo() {
-		return hasVideo;
+		return hasVideo.get();
 	}
 
 	/**
@@ -73,7 +129,16 @@ public class Asset implements Comparable<Asset> {
 	 *            The new hasVideo to set
 	 */
 	public void setHasVideo(boolean hasVideo) {
-		this.hasVideo = hasVideo;
+		this.hasVideo.set(hasVideo);
+	}
+
+	/**
+	 * Gets the hasAudio property
+	 *
+	 * @return The hasAudio property
+	 */
+	public BooleanProperty hasAudioProperty() {
+		return hasAudio;
 	}
 
 	/**
@@ -82,7 +147,7 @@ public class Asset implements Comparable<Asset> {
 	 * @return The hasAudio
 	 */
 	public boolean hasAudio() {
-		return hasAudio;
+		return hasAudio.get();
 	}
 
 	/**
@@ -92,7 +157,16 @@ public class Asset implements Comparable<Asset> {
 	 *            The new hasAudio to set
 	 */
 	public void setHasAudio(boolean hasAudio) {
-		this.hasAudio = hasAudio;
+		this.hasAudio.set(hasAudio);
+	}
+
+	/**
+	 * Gets the name property
+	 *
+	 * @return The name property
+	 */
+	public StringProperty nameProperty() {
+		return name;
 	}
 
 	/**
@@ -101,7 +175,7 @@ public class Asset implements Comparable<Asset> {
 	 * @return The name
 	 */
 	public String getName() {
-		return name;
+		return name.get();
 	}
 
 	/**
@@ -111,7 +185,16 @@ public class Asset implements Comparable<Asset> {
 	 *            The new name to set
 	 */
 	public void setName(String name) {
-		this.name = name;
+		this.name.set(name);
+	}
+
+	/**
+	 * Gets the uid property
+	 *
+	 * @return The uid property
+	 */
+	public StringProperty uidProperty() {
+		return uid;
 	}
 
 	/**
@@ -120,7 +203,7 @@ public class Asset implements Comparable<Asset> {
 	 * @return The uid
 	 */
 	public String getUid() {
-		return uid;
+		return uid.get();
 	}
 
 	/**
@@ -130,7 +213,16 @@ public class Asset implements Comparable<Asset> {
 	 *            The new uid to set
 	 */
 	public void setUid(String uid) {
-		this.uid = uid;
+		this.uid.set(uid);
+	}
+
+	/**
+	 * Gets the src property
+	 *
+	 * @return The src property
+	 */
+	public StringProperty srcProperty() {
+		return src;
 	}
 
 	/**
@@ -139,7 +231,7 @@ public class Asset implements Comparable<Asset> {
 	 * @return The src
 	 */
 	public String getSrc() {
-		return src;
+		return src.get();
 	}
 
 	/**
@@ -149,7 +241,16 @@ public class Asset implements Comparable<Asset> {
 	 *            The new src to set
 	 */
 	public void setSrc(String src) {
-		this.src = src;
+		this.src.set(src);
+	}
+
+	/**
+	 * Gets the start property
+	 *
+	 * @return The start property
+	 */
+	public StringProperty startProperty() {
+		return start;
 	}
 
 	/**
@@ -158,7 +259,7 @@ public class Asset implements Comparable<Asset> {
 	 * @return The start
 	 */
 	public String getStart() {
-		return start;
+		return start.get();
 	}
 
 	/**
@@ -168,7 +269,16 @@ public class Asset implements Comparable<Asset> {
 	 *            The new start to set
 	 */
 	public void setStart(String start) {
-		this.start = start;
+		this.start.set(start);
+	}
+
+	/**
+	 * Gets the format property
+	 *
+	 * @return The format property
+	 */
+	public StringProperty formatProperty() {
+		return format;
 	}
 
 	/**
@@ -177,7 +287,7 @@ public class Asset implements Comparable<Asset> {
 	 * @return The format
 	 */
 	public String getFormat() {
-		return format;
+		return format.get();
 	}
 
 	/**
@@ -187,7 +297,16 @@ public class Asset implements Comparable<Asset> {
 	 *            The new format to set
 	 */
 	public void setFormat(String format) {
-		this.format = format;
+		this.format.set(format);
+	}
+
+	/**
+	 * Gets the audioSources property
+	 *
+	 * @return The audioSources property
+	 */
+	public IntegerProperty audioSourcesProperty() {
+		return audioSources;
 	}
 
 	/**
@@ -196,7 +315,7 @@ public class Asset implements Comparable<Asset> {
 	 * @return The audioSources
 	 */
 	public int getAudioSources() {
-		return audioSources;
+		return audioSources.get();
 	}
 
 	/**
@@ -206,7 +325,16 @@ public class Asset implements Comparable<Asset> {
 	 *            The new audioSources to set
 	 */
 	public void setAudioSources(int audioSources) {
-		this.audioSources = audioSources;
+		this.audioSources.set(audioSources);
+	}
+
+	/**
+	 * Gets the audioChannels property
+	 *
+	 * @return The audioChannels property
+	 */
+	public IntegerProperty audioChannelsProperty() {
+		return audioChannels;
 	}
 
 	/**
@@ -215,7 +343,7 @@ public class Asset implements Comparable<Asset> {
 	 * @return The audioChannels
 	 */
 	public int getAudioChannels() {
-		return audioChannels;
+		return audioChannels.get();
 	}
 
 	/**
@@ -225,7 +353,16 @@ public class Asset implements Comparable<Asset> {
 	 *            The new audioChannels to set
 	 */
 	public void setAudioChannels(int audioChannels) {
-		this.audioChannels = audioChannels;
+		this.audioChannels.set(audioChannels);
+	}
+
+	/**
+	 * Gets the audioRate property
+	 *
+	 * @return The audioRate property
+	 */
+	public IntegerProperty audioRateProperty() {
+		return audioRate;
 	}
 
 	/**
@@ -234,7 +371,7 @@ public class Asset implements Comparable<Asset> {
 	 * @return The audioRate
 	 */
 	public int getAudioRate() {
-		return audioRate;
+		return audioRate.get();
 	}
 
 	/**
@@ -244,12 +381,12 @@ public class Asset implements Comparable<Asset> {
 	 *            The new audioRate to set
 	 */
 	public void setAudioRate(int audioRate) {
-		this.audioRate = audioRate;
+		this.audioRate.set(audioRate);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#toString(java.lang.Object)
 	 */
 	@Override
@@ -262,7 +399,7 @@ public class Asset implements Comparable<Asset> {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Comparable#compareTo(java.lang.Object)
 	 */
 	@Override
@@ -272,6 +409,6 @@ public class Asset implements Comparable<Asset> {
 			return 1;
 		}
 
-		return Integer.compare(Integer.parseInt(id.substring(1)), (Integer.parseInt(o.id.substring(1))));
+		return Integer.compare(Integer.parseInt(id.get().substring(1)), (Integer.parseInt(o.id.get().substring(1))));
 	}
 }
