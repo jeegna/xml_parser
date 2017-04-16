@@ -42,30 +42,18 @@ public class MainController {
 	private MenuItem menuItemClose;
 	@FXML
 	private MenuItem menuItemChooseFile;
+	@FXML
+	private MenuItem menuItemAbout;
 
 	// Sidebar buttons
 	@FXML
-	private Button buttonTest;
+	private Button buttonGetVideos;
+	@FXML
+	private Button buttonGetAudios;
 
 	// Asset table
 	@FXML
 	private TableView<Asset> tableAssets;
-	@FXML
-	private TableColumn<Asset, String> columnDuration;
-	@FXML
-	private TableColumn<Asset, Boolean> columnHasVideo;
-	@FXML
-	private TableColumn<Asset, Boolean> columnHasAudio;
-	@FXML
-	private TableColumn<Asset, String> columnName;
-	@FXML
-	private TableColumn<Asset, String> columnSrc;
-	@FXML
-	private TableColumn<Asset, String> columnStart;
-	@FXML
-	private TableColumn<Asset, String> columnFormat;
-	@FXML
-	private TableColumn<Asset, String> columnUID;
 
 	private final Logger logger = Logger.getLogger(this.getClass().getName());
 	private Parser parser;
@@ -117,17 +105,9 @@ public class MainController {
 		}
 	}
 
-	/**
-	 *
-	 */
-	private File chooseFile() {
-		FileChooser fileChooser = new FileChooser();
-		ExtensionFilter filter = new ExtensionFilter("fcpxml files", "*.fcpxml");
-		// fileChooser.setTitle(resources.getString("openFile"));
-		fileChooser.getExtensionFilters().add(filter);
-		fileChooser.setSelectedExtensionFilter(filter);
+	@FXML
+	private void menuItemAbout() {
 
-		return fileChooser.showOpenDialog(menubar.getScene().getWindow());
 	}
 
 	@FXML
@@ -153,14 +133,30 @@ public class MainController {
 		}
 	}
 
+	/**
+	 * Populates the asset table with dynamically created columns
+	 *
+	 * @param list
+	 *            The list of @{code Asset} objects to populate the table with
+	 */
 	private void populateAssetTable(ObservableList<Asset> list) {
-		// Clear all previously displayed email messages
+		// Clear all previously displayed Assets
 		tableAssets.getItems().clear();
 
 		// Set row height
 		tableAssets.setFixedCellSize(30);
 
-		// Set cell factories
+		// Create columns
+		TableColumn<Asset, String> columnDuration = new TableColumn<>("Duration");
+		TableColumn<Asset, Boolean> columnHasVideo = new TableColumn<>("Has Video");
+		TableColumn<Asset, Boolean> columnHasAudio = new TableColumn<>("Has Audio");
+		TableColumn<Asset, String> columnName = new TableColumn<>("Name");
+		TableColumn<Asset, String> columnSrc = new TableColumn<>("Source");
+		TableColumn<Asset, String> columnStart = new TableColumn<>("Start");
+		TableColumn<Asset, String> columnFormat = new TableColumn<>("Format");
+		TableColumn<Asset, String> columnUID = new TableColumn<>("UID");
+
+		// Set cell values
 		columnDuration.setCellValueFactory(cellData -> cellData.getValue().durationProperty());
 		columnHasVideo.setCellValueFactory(cellData -> cellData.getValue().hasVideoProperty());
 		columnHasAudio.setCellValueFactory(cellData -> cellData.getValue().hasAudioProperty());
@@ -170,11 +166,39 @@ public class MainController {
 		columnFormat.setCellValueFactory(cellData -> cellData.getValue().formatProperty());
 		columnUID.setCellValueFactory(cellData -> cellData.getValue().uidProperty());
 
+		tableAssets.getColumns().add(columnDuration);
+		tableAssets.getColumns().add(columnHasVideo);
+		tableAssets.getColumns().add(columnHasAudio);
+		tableAssets.getColumns().add(columnName);
+		tableAssets.getColumns().add(columnSrc);
+		tableAssets.getColumns().add(columnStart);
+		tableAssets.getColumns().add(columnFormat);
+		tableAssets.getColumns().add(columnUID);
+
 		if (list != null && list.size() > 0) {
 			tableAssets.setItems(list);
 		}
 	}
 
+	/**
+	 * Opens a file chooser window for .fcpxml files and gets the selected file
+	 *
+	 * @return The file the user has selected, or {@code null} if no file was
+	 *         chosen
+	 */
+	private File chooseFile() {
+		FileChooser fileChooser = new FileChooser();
+		ExtensionFilter filter = new ExtensionFilter("fcpxml files", "*.fcpxml");
+		// fileChooser.setTitle(resources.getString("openFile"));
+		fileChooser.getExtensionFilters().add(filter);
+		fileChooser.setSelectedExtensionFilter(filter);
+
+		return fileChooser.showOpenDialog(menubar.getScene().getWindow());
+	}
+
+	/**
+	 * Closes the application
+	 */
 	private void close() {
 		logger.info("Bye!");
 		System.exit(0);
