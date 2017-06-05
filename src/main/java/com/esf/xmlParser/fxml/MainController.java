@@ -12,6 +12,8 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 
 import com.esf.xmlParser.entities.Asset;
+import com.esf.xmlParser.entities.Audio;
+import com.esf.xmlParser.entities.Video;
 import com.esf.xmlParser.util.Parser;
 
 import javafx.collections.FXCollections;
@@ -22,6 +24,7 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 
@@ -34,6 +37,10 @@ public class MainController {
 
 	@FXML
 	private ResourceBundle resources;
+
+	// Main border pane
+	@FXML
+	private BorderPane borderPane;
 
 	// Menubar
 	@FXML
@@ -51,9 +58,13 @@ public class MainController {
 	@FXML
 	private Button buttonGetAudios;
 
-	// Asset table
+	// Tables
 	@FXML
 	private TableView<Asset> tableAssets;
+	@FXML
+	private TableView<Video> tableVideos;
+	@FXML
+	private TableView<Audio> tableAudios;
 
 	private final Logger logger = Logger.getLogger(this.getClass().getName());
 	private Parser parser;
@@ -62,25 +73,16 @@ public class MainController {
 	@FXML
 	private void initialize() {
 		logger.info("Start Application");
+	}
 
-		// if (filePath == null || filePath.trim().isEmpty()) {
-		// File file = chooseFile();
-		// filePath = file.getAbsolutePath();
-		//
-		// logger.info("Chosen file path: " + filePath);
-		//
-		// try {
-		// createParser(filePath);
-		// } catch (ParserConfigurationException | SAXException | IOException e)
-		// {
-		// // TODO Auto-generated catch block
-		// e.printStackTrace();
-		// }
-		// }
+	public void getFile() {
+		File file = getFileFromFileChooser();
+		setFile(file);
 	}
 
 	/**
 	 * @param filePath
+	 *            The file's path.
 	 * @throws IOException
 	 * @throws SAXException
 	 * @throws ParserConfigurationException
@@ -91,18 +93,8 @@ public class MainController {
 
 	@FXML
 	private void menuItemChooseFile() {
-		File file = chooseFile();
-		if (file != null) {
-			filePath = file.getAbsolutePath();
-
-			logger.info("Chosen file: " + filePath);
-
-			try {
-				createParser(filePath);
-			} catch (ParserConfigurationException | SAXException | IOException e) {
-				logger.log(Level.SEVERE, e.getMessage());
-			}
-		}
+		File file = getFileFromFileChooser();
+		setFile(file);
 	}
 
 	@FXML
@@ -118,14 +110,23 @@ public class MainController {
 	@FXML
 	private void buttonGetVideosClick() {
 		if (parser != null) {
-			List<Asset> assets = parser.getAssets();
-			ObservableList<Asset> list = FXCollections.observableList(assets);
-			populateAssetTable(list);
+			List<Video> assets = parser.getVideos();
+			ObservableList<Video> list = FXCollections.observableList(assets);
+			populateVideoTable(list);
 		}
 	}
 
 	@FXML
 	private void buttonGetAudiosClick() {
+		if (parser != null) {
+			List<Audio> assets = parser.getAudios();
+			ObservableList<Audio> list = FXCollections.observableList(assets);
+			 populateAudioTable(list);
+		}
+	}
+
+	@FXML
+	private void buttonGetAssetsClick() {
 		if (parser != null) {
 			List<Asset> assets = parser.getAssets();
 			ObservableList<Asset> list = FXCollections.observableList(assets);
@@ -181,19 +182,91 @@ public class MainController {
 	}
 
 	/**
-	 * Opens a file chooser window for .fcpxml files and gets the selected file
+	 * Populates the asset table with dynamically created columns
 	 *
-	 * @return The file the user has selected, or {@code null} if no file was
-	 *         chosen
+	 * @param list
+	 *            The list of @{code Asset} objects to populate the table with
 	 */
-	private File chooseFile() {
-		FileChooser fileChooser = new FileChooser();
-		ExtensionFilter filter = new ExtensionFilter("fcpxml files", "*.fcpxml");
-		// fileChooser.setTitle(resources.getString("openFile"));
-		fileChooser.getExtensionFilters().add(filter);
-		fileChooser.setSelectedExtensionFilter(filter);
+	private void populateVideoTable(ObservableList<Video> list) {
+		// Clear all previously displayed Assets
+		tableVideos.getItems().clear();
 
-		return fileChooser.showOpenDialog(menubar.getScene().getWindow());
+		// Set row height
+		tableVideos.setFixedCellSize(30);
+
+		// Create columns
+		TableColumn<Video, String> columnName = new TableColumn<>("Name");
+		TableColumn<Video, Number> columnLane = new TableColumn<>("Lane");
+		TableColumn<Video, String> columnStart = new TableColumn<>("Clip start");
+		TableColumn<Video, String> columnDuration = new TableColumn<>("Clip duration");
+		TableColumn<Video, String> columnOffset = new TableColumn<>("Offset in clip");
+		TableColumn<Video, String> columnSrc = new TableColumn<>("Source file");
+
+		// Set cell values
+		columnName.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
+		columnLane.setCellValueFactory(cellData -> cellData.getValue().laneProperty());
+		columnStart.setCellValueFactory(cellData -> cellData.getValue().startProperty());
+		columnDuration.setCellValueFactory(cellData -> cellData.getValue().durationProperty());
+		columnOffset.setCellValueFactory(cellData -> cellData.getValue().offsetProperty());
+		columnSrc.setCellValueFactory(cellData -> cellData.getValue().refProperty());
+
+		tableVideos.getColumns().add(columnName);
+		tableVideos.getColumns().add(columnLane);
+		tableVideos.getColumns().add(columnStart);
+		tableVideos.getColumns().add(columnDuration);
+		tableVideos.getColumns().add(columnOffset);
+		tableVideos.getColumns().add(columnSrc);
+
+		if (list != null && list.size() > 0) {
+			tableVideos.setItems(list);
+		}
+	}
+
+	/**
+	 * Populates the asset table with dynamically created columns
+	 *
+	 * @param list
+	 *            The list of @{code Asset} objects to populate the table with
+	 */
+	private void populateAudioTable(ObservableList<Audio> list) {
+		// Clear all previously displayed Assets
+		tableAudios.getItems().clear();
+
+		// Set row height
+		tableAudios.setFixedCellSize(30);
+
+		// Create columns
+		TableColumn<Audio, String> columnRole = new TableColumn<>("Role");
+		TableColumn<Audio, Number> columnLane = new TableColumn<>("Lane");
+		TableColumn<Audio, String> columnStart = new TableColumn<>("Clip start");
+		TableColumn<Audio, String> columnDuration = new TableColumn<>("Clip duration");
+		TableColumn<Audio, String> columnOffset = new TableColumn<>("Offset in clip");
+		TableColumn<Audio, String> columnSrc = new TableColumn<>("Source file");
+		TableColumn<Audio, String> columnSrcChannel = new TableColumn<>("Source channel");
+		TableColumn<Audio, Number> columnSrcID = new TableColumn<>("Source ID");
+
+		// Set cell values
+		columnRole.setCellValueFactory(cellData -> cellData.getValue().roleProperty());
+		columnLane.setCellValueFactory(cellData -> cellData.getValue().laneProperty());
+		columnStart.setCellValueFactory(cellData -> cellData.getValue().startProperty());
+		columnDuration.setCellValueFactory(cellData -> cellData.getValue().durationProperty());
+		columnOffset.setCellValueFactory(cellData -> cellData.getValue().offsetProperty());
+		columnSrc.setCellValueFactory(cellData -> cellData.getValue().refProperty());
+		columnSrcChannel.setCellValueFactory(cellData -> cellData.getValue().srcChProperty());
+		columnSrcID.setCellValueFactory(cellData -> cellData.getValue().idProperty());
+
+		tableAudios.getColumns().add(columnRole);
+		tableAudios.getColumns().add(columnLane);
+		tableAudios.getColumns().add(columnStart);
+		tableAudios.getColumns().add(columnDuration);
+		tableAudios.getColumns().add(columnOffset);
+		tableAudios.getColumns().add(columnSrc);
+		tableAudios.getColumns().add(columnSrcChannel);
+		tableAudios.getColumns().add(columnSrcID);
+
+		if (list != null && list.size() > 0) {
+			tableAudios.setItems(list);
+		}
 	}
 
 	/**
@@ -202,5 +275,41 @@ public class MainController {
 	private void close() {
 		logger.info("Bye!");
 		System.exit(0);
+	}
+
+	/**
+	 * Opens a file chooser window for .fcpxml files and gets the selected file
+	 *
+	 * @return The file the user has selected, or {@code null} if no file was
+	 *         chosen
+	 */
+	private File getFileFromFileChooser() {
+		FileChooser fileChooser = new FileChooser();
+		ExtensionFilter filter = new ExtensionFilter(resources.getString("fileType"), "*.fcpxml");
+		fileChooser.setTitle(resources.getString("openFile"));
+		fileChooser.getExtensionFilters().add(filter);
+		fileChooser.setSelectedExtensionFilter(filter);
+
+		// Set initial directory to user's home folder.
+		// TODO Test this on Mac (priority) and Windows (not important)
+		String home = System.getProperty("user.home");
+		File file = new File(home);
+		fileChooser.setInitialDirectory(file);
+
+		return fileChooser.showOpenDialog(borderPane.getScene().getWindow());
+	}
+
+	private void setFile(File file) {
+		if (file != null) {
+			filePath = file.getAbsolutePath();
+
+			logger.info("Chosen file: " + filePath);
+
+			try {
+				createParser(filePath);
+			} catch (ParserConfigurationException | SAXException | IOException e) {
+				logger.log(Level.SEVERE, e.getMessage());
+			}
+		}
 	}
 }
