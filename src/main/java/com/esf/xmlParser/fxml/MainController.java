@@ -373,7 +373,12 @@ public class MainController {
 		tableAudios.setFixedCellSize(30);
 		tableAssets.setFixedCellSize(30);
 		tableAssetClips.setFixedCellSize(30);
-
+		
+		// Remove columns
+		tableVideos.getColumns().clear();
+		tableAudios.getColumns().clear();
+		tableAssets.getColumns().clear();
+		tableAssetClips.getColumns().clear();
 	}
 
 	private void setFile(File file) {
