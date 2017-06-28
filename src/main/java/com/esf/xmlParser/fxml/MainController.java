@@ -12,6 +12,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 
 import com.esf.xmlParser.entities.Asset;
+import com.esf.xmlParser.entities.AssetClip;
 import com.esf.xmlParser.entities.Audio;
 import com.esf.xmlParser.entities.Video;
 import com.esf.xmlParser.util.Parser;
@@ -57,10 +58,16 @@ public class MainController {
 	private Button buttonGetVideos;
 	@FXML
 	private Button buttonGetAudios;
+	@FXML
+	private Button buttonGetAssets;
+	@FXML
+	private Button buttonGetAssetClips;
 
 	// Tables
 	@FXML
 	private TableView<Asset> tableAssets;
+	@FXML
+	private TableView<AssetClip> tableAssetClips;
 	@FXML
 	private TableView<Video> tableVideos;
 	@FXML
@@ -110,8 +117,8 @@ public class MainController {
 	@FXML
 	private void buttonGetVideosClick() {
 		if (parser != null) {
-			List<Video> assets = parser.getVideos();
-			ObservableList<Video> list = FXCollections.observableList(assets);
+			List<Video> items = parser.getVideos();
+			ObservableList<Video> list = FXCollections.observableList(items);
 			populateVideoTable(list);
 		}
 	}
@@ -119,18 +126,27 @@ public class MainController {
 	@FXML
 	private void buttonGetAudiosClick() {
 		if (parser != null) {
-			List<Audio> assets = parser.getAudios();
-			ObservableList<Audio> list = FXCollections.observableList(assets);
-			 populateAudioTable(list);
+			List<Audio> items = parser.getAudios();
+			ObservableList<Audio> list = FXCollections.observableList(items);
+			populateAudioTable(list);
 		}
 	}
 
 	@FXML
 	private void buttonGetAssetsClick() {
 		if (parser != null) {
-			List<Asset> assets = parser.getAssets();
-			ObservableList<Asset> list = FXCollections.observableList(assets);
+			List<Asset> items = parser.getAssets();
+			ObservableList<Asset> list = FXCollections.observableList(items);
 			populateAssetTable(list);
+		}
+	}
+
+	@FXML
+	private void buttonGetAssetClipsClick() {
+		if (parser != null) {
+			List<AssetClip> items = parser.getAssetClips();
+			ObservableList<AssetClip> list = FXCollections.observableList(items);
+			populateAssetClipTable(list);
 		}
 	}
 
@@ -141,25 +157,22 @@ public class MainController {
 	 *            The list of @{code Asset} objects to populate the table with
 	 */
 	private void populateAssetTable(ObservableList<Asset> list) {
-		// Clear all previously displayed Assets
-		tableAssets.getItems().clear();
-		tableVideos.setVisible(false);
-		tableAudios.setVisible(false);
-
-		// Set row height
-		tableAssets.setFixedCellSize(30);
+		hideTables();
+		tableAssets.setVisible(true);
 
 		// Create columns
-		TableColumn<Asset, String> columnDuration = new TableColumn<>("Duration");
-		TableColumn<Asset, Boolean> columnHasVideo = new TableColumn<>("Has Video");
-		TableColumn<Asset, Boolean> columnHasAudio = new TableColumn<>("Has Audio");
-		TableColumn<Asset, String> columnName = new TableColumn<>("Name");
-		TableColumn<Asset, String> columnSrc = new TableColumn<>("Source");
-		TableColumn<Asset, String> columnStart = new TableColumn<>("Start");
-		TableColumn<Asset, String> columnFormat = new TableColumn<>("Format");
-		TableColumn<Asset, String> columnUID = new TableColumn<>("UID");
+		TableColumn<Asset, String> columnId = new TableColumn<>(resources.getString("colId"));
+		TableColumn<Asset, String> columnDuration = new TableColumn<>(resources.getString("colDuration"));
+		TableColumn<Asset, Boolean> columnHasVideo = new TableColumn<>(resources.getString("colHasVideo"));
+		TableColumn<Asset, Boolean> columnHasAudio = new TableColumn<>(resources.getString("colHasAudio"));
+		TableColumn<Asset, String> columnName = new TableColumn<>(resources.getString("colName"));
+		TableColumn<Asset, String> columnSrc = new TableColumn<>(resources.getString("colSrc"));
+		TableColumn<Asset, String> columnStart = new TableColumn<>(resources.getString("colStart"));
+		TableColumn<Asset, String> columnFormat = new TableColumn<>(resources.getString("colFormat"));
+		TableColumn<Asset, String> columnUID = new TableColumn<>(resources.getString("colUID"));
 
 		// Set cell values
+		columnId.setCellValueFactory(cellData -> cellData.getValue().idProperty());
 		columnDuration.setCellValueFactory(cellData -> cellData.getValue().durationProperty());
 		columnHasVideo.setCellValueFactory(cellData -> cellData.getValue().hasVideoProperty());
 		columnHasAudio.setCellValueFactory(cellData -> cellData.getValue().hasAudioProperty());
@@ -169,6 +182,7 @@ public class MainController {
 		columnFormat.setCellValueFactory(cellData -> cellData.getValue().formatProperty());
 		columnUID.setCellValueFactory(cellData -> cellData.getValue().uidProperty());
 
+		tableAssets.getColumns().add(columnId);
 		tableAssets.getColumns().add(columnDuration);
 		tableAssets.getColumns().add(columnHasVideo);
 		tableAssets.getColumns().add(columnHasAudio);
@@ -189,22 +203,64 @@ public class MainController {
 	 * @param list
 	 *            The list of @{code Asset} objects to populate the table with
 	 */
-	private void populateVideoTable(ObservableList<Video> list) {
-		// Clear all previously displayed Assets
-		tableVideos.getItems().clear();
-		tableVideos.setVisible(true);
-		tableAudios.setVisible(false);
-
-		// Set row height
-		tableVideos.setFixedCellSize(30);
+	private void populateAssetClipTable(ObservableList<AssetClip> list) {
+		hideTables();
+		tableAssetClips.setVisible(true);
 
 		// Create columns
-		TableColumn<Video, String> columnName = new TableColumn<>("Name");
-		TableColumn<Video, Number> columnLane = new TableColumn<>("Lane");
-		TableColumn<Video, String> columnStart = new TableColumn<>("Clip start");
-		TableColumn<Video, String> columnDuration = new TableColumn<>("Clip duration");
-		TableColumn<Video, String> columnOffset = new TableColumn<>("Offset in clip");
-		TableColumn<Video, String> columnSrc = new TableColumn<>("Source file");
+		TableColumn<AssetClip, String> columnRef = new TableColumn<>(resources.getString("colRef"));
+		TableColumn<AssetClip, String> columnName = new TableColumn<>(resources.getString("colName"));
+		TableColumn<AssetClip, Number> columnLane = new TableColumn<>(resources.getString("colLane"));
+		TableColumn<AssetClip, String> columnOffset = new TableColumn<>(resources.getString("colOffset"));
+		TableColumn<AssetClip, String> columnDuration = new TableColumn<>(resources.getString("colDuration"));
+		TableColumn<AssetClip, String> columnStart = new TableColumn<>(resources.getString("colStart"));
+		TableColumn<AssetClip, String> columnRole = new TableColumn<>(resources.getString("colRole"));
+		TableColumn<AssetClip, String> columnFormat = new TableColumn<>(resources.getString("colFormat"));
+		TableColumn<AssetClip, String> columnTcFormat = new TableColumn<>(resources.getString("colTcFormat"));
+
+		// Set cell values
+		columnRef.setCellValueFactory(cellData -> cellData.getValue().refProperty());
+		columnName.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
+		columnLane.setCellValueFactory(cellData -> cellData.getValue().laneProperty());
+		columnOffset.setCellValueFactory(cellData -> cellData.getValue().offsetProperty());
+		columnDuration.setCellValueFactory(cellData -> cellData.getValue().durationProperty());
+		columnStart.setCellValueFactory(cellData -> cellData.getValue().startProperty());
+		columnRole.setCellValueFactory(cellData -> cellData.getValue().roleProperty());
+		columnFormat.setCellValueFactory(cellData -> cellData.getValue().formatProperty());
+		columnTcFormat.setCellValueFactory(cellData -> cellData.getValue().tcFormatProperty());
+
+		tableAssetClips.getColumns().add(columnRef);
+		tableAssetClips.getColumns().add(columnName);
+		tableAssetClips.getColumns().add(columnLane);
+		tableAssetClips.getColumns().add(columnOffset);
+		tableAssetClips.getColumns().add(columnDuration);
+		tableAssetClips.getColumns().add(columnStart);
+		tableAssetClips.getColumns().add(columnRole);
+		tableAssetClips.getColumns().add(columnFormat);
+		tableAssetClips.getColumns().add(columnTcFormat);
+
+		if (list != null && list.size() > 0) {
+			tableAssetClips.setItems(list);
+		}
+	}
+
+	/**
+	 * Populates the asset table with dynamically created columns
+	 *
+	 * @param list
+	 *            The list of @{code Asset} objects to populate the table with
+	 */
+	private void populateVideoTable(ObservableList<Video> list) {
+		hideTables();
+		tableVideos.setVisible(true);
+
+		// Create columns
+		TableColumn<Video, String> columnName = new TableColumn<>(resources.getString("colName"));
+		TableColumn<Video, Number> columnLane = new TableColumn<>(resources.getString("colLane"));
+		TableColumn<Video, String> columnStart = new TableColumn<>(resources.getString("colStart"));
+		TableColumn<Video, String> columnDuration = new TableColumn<>(resources.getString("colDuration"));
+		TableColumn<Video, String> columnOffset = new TableColumn<>(resources.getString("colOffset"));
+		TableColumn<Video, String> columnSrc = new TableColumn<>(resources.getString("colRef"));
 
 		// Set cell values
 		columnName.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
@@ -233,23 +289,18 @@ public class MainController {
 	 *            The list of @{code Asset} objects to populate the table with
 	 */
 	private void populateAudioTable(ObservableList<Audio> list) {
-		// Clear all previously displayed Assets
-		tableAudios.getItems().clear();
-		tableVideos.setVisible(false);
+		hideTables();
 		tableAudios.setVisible(true);
 
-		// Set row height
-		tableAudios.setFixedCellSize(30);
-
 		// Create columns
-		TableColumn<Audio, String> columnRole = new TableColumn<>("Role");
-		TableColumn<Audio, Number> columnLane = new TableColumn<>("Lane");
-		TableColumn<Audio, String> columnStart = new TableColumn<>("Clip start");
-		TableColumn<Audio, String> columnDuration = new TableColumn<>("Clip duration");
-		TableColumn<Audio, String> columnOffset = new TableColumn<>("Offset in clip");
-		TableColumn<Audio, String> columnSrc = new TableColumn<>("Source file");
-		TableColumn<Audio, String> columnSrcChannel = new TableColumn<>("Source channel");
-		TableColumn<Audio, Number> columnSrcID = new TableColumn<>("Source ID");
+		TableColumn<Audio, String> columnRole = new TableColumn<>(resources.getString("colRole"));
+		TableColumn<Audio, Number> columnLane = new TableColumn<>(resources.getString("colLane"));
+		TableColumn<Audio, String> columnStart = new TableColumn<>(resources.getString("colStart"));
+		TableColumn<Audio, String> columnDuration = new TableColumn<>(resources.getString("colDuration"));
+		TableColumn<Audio, String> columnOffset = new TableColumn<>(resources.getString("colOffset"));
+		TableColumn<Audio, String> columnSrc = new TableColumn<>(resources.getString("colRef"));
+		TableColumn<Audio, String> columnSrcChannel = new TableColumn<>(resources.getString("colSrcCh"));
+		TableColumn<Audio, Number> columnSrcID = new TableColumn<>(resources.getString("colSrcId"));
 
 		// Set cell values
 		columnRole.setCellValueFactory(cellData -> cellData.getValue().roleProperty());
@@ -303,6 +354,26 @@ public class MainController {
 		fileChooser.setInitialDirectory(file);
 
 		return fileChooser.showOpenDialog(borderPane.getScene().getWindow());
+	}
+
+	private void hideTables() {
+		tableVideos.setVisible(false);
+		tableAudios.setVisible(false);
+		tableAssets.setVisible(false);
+		tableAssetClips.setVisible(false);
+
+		// Clear all previously displayed items
+		tableVideos.getItems().clear();
+		tableAudios.getItems().clear();
+		tableAssets.getItems().clear();
+		tableAssetClips.getItems().clear();
+
+		// Set row height
+		tableVideos.setFixedCellSize(30);
+		tableAudios.setFixedCellSize(30);
+		tableAssets.setFixedCellSize(30);
+		tableAssetClips.setFixedCellSize(30);
+
 	}
 
 	private void setFile(File file) {

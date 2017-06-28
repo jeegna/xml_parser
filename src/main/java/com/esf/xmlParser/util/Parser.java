@@ -100,7 +100,6 @@ public class Parser {
 
 				Asset asset = new Asset();
 				asset.setId(validateString(element.getAttribute(ID)));
-				asset.setDuration(validateString(element.getAttribute(DURATION)));
 
 				String hasAudio = element.getAttribute(HAS_AUDIO);
 				asset.setHasAudio(hasAudio != null && hasAudio.equals("1"));
@@ -111,11 +110,15 @@ public class Parser {
 				asset.setName(validateString(element.getAttribute(NAME)));
 				asset.setUid(validateString(element.getAttribute(UID)));
 				asset.setSrc(validateString(element.getAttribute(SOURCE)));
-				asset.setStart(validateString(element.getAttribute(START)));
 				asset.setFormat(validateString(element.getAttribute(FORMAT)));
 				asset.setAudioSources(validateNumber(element.getAttribute(AUDIO_SOURCES)));
 				asset.setAudioChannels(validateNumber(element.getAttribute(AUDIO_CHANNELS)));
 				asset.setAudioRate(validateNumber(element.getAttribute(AUDIO_RATE)));
+				
+				String duration = validateString(element.getAttribute(DURATION));
+				String start = element.getAttribute(START);
+				asset.setDuration(getTime(duration));
+				asset.setStart(getTime(start));
 
 				list.add(asset);
 			}
@@ -149,12 +152,16 @@ public class Parser {
 				assetClip.setRef(validateString(element.getAttribute(REFERENCE)));
 				assetClip.setName(validateString(element.getAttribute(NAME)));
 				assetClip.setLane(validateNumber(element.getAttribute(LANE)));
-				assetClip.setOffset(element.getAttribute(OFFSET));
-				assetClip.setDuration(validateString(element.getAttribute(DURATION)));
-				assetClip.setStart(element.getAttribute(START));
 				assetClip.setRole(validateString(element.getAttribute(AUDIO_ROLE)));
 				assetClip.setFormat(validateString(element.getAttribute(FORMAT)));
 				assetClip.setTcFormat(validateString(element.getAttribute(TC_FORMAT)));
+
+				String duration = validateString(element.getAttribute(DURATION));
+				String offset = element.getAttribute(OFFSET);
+				String start = element.getAttribute(START);
+				assetClip.setDuration(getTime(duration));
+				assetClip.setOffset(getTime(offset));
+				assetClip.setStart(getTime(start));
 
 				list.add(assetClip);
 			}
@@ -217,10 +224,14 @@ public class Parser {
 
 				video.setName(validateString(element.getAttribute(NAME)));
 				video.setLane(validateNumber(element.getAttribute(LANE)));
-				video.setOffset(validateString(element.getAttribute(OFFSET)));
 				video.setRef(validateString(element.getAttribute(REFERENCE)));
-				video.setDuration(validateString(element.getAttribute(DURATION)));
-				video.setStart(validateString(element.getAttribute(START)));
+
+				String duration = validateString(element.getAttribute(DURATION));
+				String start = validateString(element.getAttribute(START));
+				String offset = validateString(element.getAttribute(OFFSET));
+				video.setDuration(getTime(duration));
+				video.setStart(getTime(start));
+				video.setOffset(getTime(offset));
 
 				list.add(video);
 			}
@@ -294,7 +305,7 @@ public class Parser {
 		if (!time.endsWith("s")) {
 			time += "s";
 		}
-		
+
 		logger.info("New time: " + time);
 		return time;
 	}

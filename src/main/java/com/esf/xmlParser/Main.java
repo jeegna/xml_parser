@@ -62,7 +62,7 @@ public class Main extends Application {
 		// Get MainController.
 		MainController controller = (MainController) loader.getController();
 
-		// Show the file choosed window on startup.
+		// Show the file chooser window on startup.
 		stage.setOnShowing(new EventHandler<WindowEvent>() {
 			@Override
 			public void handle(WindowEvent window) {
