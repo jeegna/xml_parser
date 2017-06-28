@@ -2,8 +2,10 @@ package com.esf.xmlParser.util;
 
 import java.io.File;
 import java.io.IOException;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -26,6 +28,8 @@ import com.esf.xmlParser.entities.Video;
  * @author Jeegna Patel
  */
 public class Parser {
+
+	private final Logger logger = Logger.getLogger(this.getClass().getName());
 
 	private static final String ASSET = "asset";
 	private static final String VIDEO = "video";
@@ -249,16 +253,50 @@ public class Parser {
 				audio.setLane(validateNumber(element.getAttribute(LANE)));
 				audio.setRole(validateString(element.getAttribute(ROLE)));
 				audio.setOffset(validateString(element.getAttribute(OFFSET)));
-				audio.setDuration(validateString(element.getAttribute(DURATION)));
-				audio.setStart(validateString(element.getAttribute(START)));
 				audio.setSrcCh(validateString(element.getAttribute(SRC_CH)));
 				audio.setSrcID(validateNumber(element.getAttribute(SRC_ID)));
+
+				String duration = validateString(element.getAttribute(DURATION));
+				String start = validateString(element.getAttribute(START));
+				String offset = validateString(element.getAttribute(OFFSET));
+				audio.setDuration(getTime(duration));
+				audio.setStart(getTime(start));
+				audio.setOffset(getTime(offset));
 
 				list.add(audio);
 			}
 		}
 
 		return list;
+	}
+
+	private String getTime(String s) {
+		logger.info("Original time: " + s);
+		String time = "0";
+
+		if (s != null && !s.isEmpty()) {
+			time = s;
+			int division = s.indexOf('/');
+
+			if (division != -1) {
+				int length = s.length();
+
+				String num = s.substring(0, division);
+				String denom = s.substring(division + 1, length - 1);
+
+				BigInteger numerator = new BigInteger(num);
+				BigInteger denominator = new BigInteger(denom);
+
+				time = numerator.divide(denominator).toString();
+			}
+		}
+
+		if (!time.endsWith("s")) {
+			time += "s";
+		}
+		
+		logger.info("New time: " + time);
+		return time;
 	}
 
 	private int validateNumber(String n) {

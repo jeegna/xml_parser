@@ -143,6 +143,8 @@ public class MainController {
 	private void populateAssetTable(ObservableList<Asset> list) {
 		// Clear all previously displayed Assets
 		tableAssets.getItems().clear();
+		tableVideos.setVisible(false);
+		tableAudios.setVisible(false);
 
 		// Set row height
 		tableAssets.setFixedCellSize(30);
@@ -190,6 +192,8 @@ public class MainController {
 	private void populateVideoTable(ObservableList<Video> list) {
 		// Clear all previously displayed Assets
 		tableVideos.getItems().clear();
+		tableVideos.setVisible(true);
+		tableAudios.setVisible(false);
 
 		// Set row height
 		tableVideos.setFixedCellSize(30);
@@ -231,6 +235,8 @@ public class MainController {
 	private void populateAudioTable(ObservableList<Audio> list) {
 		// Clear all previously displayed Assets
 		tableAudios.getItems().clear();
+		tableVideos.setVisible(false);
+		tableAudios.setVisible(true);
 
 		// Set row height
 		tableAudios.setFixedCellSize(30);

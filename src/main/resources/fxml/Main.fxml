@@ -11,31 +11,44 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane fx:id="borderPane" minHeight="500.0" minWidth="750.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.esf.xmlParser.fxml.MainController">
+<BorderPane fx:id="borderPane" minHeight="500.0" minWidth="750.0"
+	xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="com.esf.xmlParser.fxml.MainController">
 	<top>
 		<MenuBar fx:id="menubar" BorderPane.alignment="CENTER">
 			<menus>
 				<Menu mnemonicParsing="false" text="%menuItemFile">
 					<items>
-						<MenuItem fx:id="menuItemClose" mnemonicParsing="false" onAction="#menuItemClose" text="%menuItemClose" />
-						<MenuItem fx:id="menuItemChooseFile" mnemonicParsing="false" onAction="#menuItemChooseFile" text="%menuItemChooseFile" />
+						<MenuItem fx:id="menuItemClose" mnemonicParsing="false"
+							onAction="#menuItemClose" text="%menuItemClose" />
+						<MenuItem fx:id="menuItemChooseFile" mnemonicParsing="false"
+							onAction="#menuItemChooseFile" text="%menuItemChooseFile" />
 					</items>
 				</Menu>
 				<Menu mnemonicParsing="false" text="%menuItemHelp">
 					<items>
-						<MenuItem fx:id="menuItemAbout" mnemonicParsing="false" onAction="#menuItemAbout" text="%menuItemAbout" />
+						<MenuItem fx:id="menuItemAbout" mnemonicParsing="false"
+							onAction="#menuItemAbout" text="%menuItemAbout" />
 					</items>
 				</Menu>
 			</menus>
 		</MenuBar>
 	</top>
 	<center>
-		<SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" BorderPane.alignment="CENTER">
+		<SplitPane dividerPositions="0.5" orientation="VERTICAL"
+			prefHeight="200.0" prefWidth="160.0" BorderPane.alignment="CENTER">
 			<items>
-				<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" />
-				<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+				<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0"
+					prefWidth="160.0" />
+				<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0"
+					prefWidth="160.0">
 					<children>
-						<TableView fx:id="table" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+						<TableView fx:id="tableVideos" AnchorPane.bottomAnchor="0.0"
+							AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+							AnchorPane.topAnchor="0.0" visible="false" />
+						<TableView fx:id="tableAudios" AnchorPane.bottomAnchor="0.0"
+							AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+							AnchorPane.topAnchor="0.0" visible="false" />
 					</children>
 				</AnchorPane>
 			</items>
@@ -44,12 +57,18 @@
 	<left>
 		<VBox prefHeight="471.0" prefWidth="169.0" BorderPane.alignment="CENTER">
 			<children>
-				<Button fx:id="buttonGetVideos" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" mnemonicParsing="false" onAction="#buttonGetVideosClick" prefHeight="50.0" text="%buttonGetVideos">
+				<Button fx:id="buttonGetVideos" maxHeight="1.7976931348623157E308"
+					maxWidth="1.7976931348623157E308" minHeight="-Infinity"
+					mnemonicParsing="false" onAction="#buttonGetVideosClick"
+					prefHeight="50.0" text="%buttonGetVideos">
 					<VBox.margin>
 						<Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
 					</VBox.margin>
 				</Button>
-				<Button fx:id="buttonGetAudios" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" mnemonicParsing="false" onAction="#buttonGetAudiosClick" prefHeight="50.0" text="%buttonGetAudios">
+				<Button fx:id="buttonGetAudios" maxHeight="1.7976931348623157E308"
+					maxWidth="1.7976931348623157E308" minHeight="-Infinity"
+					mnemonicParsing="false" onAction="#buttonGetAudiosClick"
+					prefHeight="50.0" text="%buttonGetAudios">
 					<VBox.margin>
 						<Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
 					</VBox.margin>
