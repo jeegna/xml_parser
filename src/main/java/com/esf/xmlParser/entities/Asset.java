@@ -10,7 +10,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 /**
- * Represents an Asset in FCPXML
+ * Represents an Asset tag in FCPXML
  *
  * @author Jeegna Patel
  * @version 2017/04/15
@@ -28,7 +28,7 @@ public class Asset implements Comparable<Asset>, Serializable {
 	private StringProperty uid;
 	private StringProperty src;
 	private StringProperty start;
-	private StringProperty format;
+	private Format format;
 	private IntegerProperty audioSources;
 	private IntegerProperty audioChannels;
 	private IntegerProperty audioRate;
@@ -42,7 +42,7 @@ public class Asset implements Comparable<Asset>, Serializable {
 		uid = new SimpleStringProperty();
 		src = new SimpleStringProperty();
 		start = new SimpleStringProperty();
-		format = new SimpleStringProperty();
+		format = null;
 		audioSources = new SimpleIntegerProperty();
 		audioChannels = new SimpleIntegerProperty();
 		audioRate = new SimpleIntegerProperty();
@@ -273,21 +273,12 @@ public class Asset implements Comparable<Asset>, Serializable {
 	}
 
 	/**
-	 * Gets the format property
-	 *
-	 * @return The format property
-	 */
-	public StringProperty formatProperty() {
-		return format;
-	}
-
-	/**
 	 * Gets the format
 	 *
 	 * @return The format
 	 */
-	public String getFormat() {
-		return format.get();
+	public Format getFormat() {
+		return format;
 	}
 
 	/**
@@ -296,8 +287,8 @@ public class Asset implements Comparable<Asset>, Serializable {
 	 * @param format
 	 *            The new format to set
 	 */
-	public void setFormat(String format) {
-		this.format.set(format);
+	public void setFormat(Format format) {
+		this.format = format;
 	}
 
 	/**
@@ -410,5 +401,21 @@ public class Asset implements Comparable<Asset>, Serializable {
 		}
 
 		return Integer.compare(Integer.parseInt(id.get().substring(1)), (Integer.parseInt(o.id.get().substring(1))));
+	}
+
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object o) {
+		if (o == null || !(o instanceof Asset) || id.isEmpty().get()) {
+			return false;
+		}
+
+		Asset a = (Asset) o;
+
+		return id.equals(a.id);
 	}
 }

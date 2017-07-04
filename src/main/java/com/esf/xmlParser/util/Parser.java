@@ -2,7 +2,8 @@ package com.esf.xmlParser.util;
 
 import java.io.File;
 import java.io.IOException;
-import java.math.BigInteger;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -79,6 +80,10 @@ public class Parser {
 
 	private Document doc;
 
+	private List<Asset> assets;
+	private List<Format> formats;
+	private List<Effect> effects;
+
 	/**
 	 * Creates a Parser for the given file.
 	 * 
@@ -96,6 +101,12 @@ public class Parser {
 	 */
 	public Parser(String file) throws ParserConfigurationException, SAXException, IOException {
 		doc = getDocument(file);
+
+		// Get main resources first so that they may be used to link their src
+		// to other ref's.
+		formats = getFormats();
+		effects = getEffects();
+		assets = getAssets();
 	}
 
 	/**
@@ -104,45 +115,63 @@ public class Parser {
 	 * @return A List of Asset objects with the information from the document.
 	 */
 	public List<Asset> getAssets() {
+		logger.info("Getting assets...");
 
-		NodeList assets = doc.getElementsByTagName(ASSET);
-		List<Asset> list = new ArrayList<Asset>();
+		if (assets == null) {
+			NodeList assets = doc.getElementsByTagName(ASSET);
+			List<Asset> list = new ArrayList<Asset>();
 
-		for (int i = 0; i < assets.getLength(); i++) {
+			for (int i = 0; i < assets.getLength(); i++) {
 
-			Node node = assets.item(i);
+				Node node = assets.item(i);
 
-			if (node.getNodeType() == Node.ELEMENT_NODE) {
+				if (node.getNodeType() == Node.ELEMENT_NODE) {
 
-				Element element = (Element) node;
+					Element element = (Element) node;
 
-				Asset asset = new Asset();
-				asset.setId(validateString(element.getAttribute(ID)));
+					Asset asset = new Asset();
+					asset.setId(validateString(element.getAttribute(ID)));
 
-				String hasAudio = element.getAttribute(HAS_AUDIO);
-				asset.setHasAudio(hasAudio != null && hasAudio.equals("1"));
+					String hasAudio = element.getAttribute(HAS_AUDIO);
+					asset.setHasAudio(hasAudio != null && hasAudio.equals("1"));
 
-				String hasVideo = element.getAttribute(HAS_VIDEO);
-				asset.setHasVideo(hasVideo != null && hasVideo.equals("1"));
+					String hasVideo = element.getAttribute(HAS_VIDEO);
+					asset.setHasVideo(hasVideo != null && hasVideo.equals("1"));
 
-				asset.setName(validateString(element.getAttribute(NAME)));
-				asset.setUid(validateString(element.getAttribute(UID)));
-				asset.setSrc(validateString(element.getAttribute(SOURCE)));
-				asset.setFormat(validateString(element.getAttribute(FORMAT)));
-				asset.setAudioSources(validateNumber(element.getAttribute(AUDIO_SOURCES)));
-				asset.setAudioChannels(validateNumber(element.getAttribute(AUDIO_CHANNELS)));
-				asset.setAudioRate(validateNumber(element.getAttribute(AUDIO_RATE)));
+					asset.setName(validateString(element.getAttribute(NAME)));
+					asset.setUid(validateString(element.getAttribute(UID)));
+					asset.setSrc(validateString(element.getAttribute(SOURCE)));
+					asset.setAudioSources(validateNumber(element.getAttribute(AUDIO_SOURCES)));
+					asset.setAudioChannels(validateNumber(element.getAttribute(AUDIO_CHANNELS)));
+					asset.setAudioRate(validateNumber(element.getAttribute(AUDIO_RATE)));
 
-				String duration = validateString(element.getAttribute(DURATION));
-				String start = element.getAttribute(START);
-				asset.setDuration(getTime(duration));
-				asset.setStart(getTime(start));
+					String duration = validateString(element.getAttribute(DURATION));
+					String start = element.getAttribute(START);
+					asset.setDuration(getTime(duration));
+					asset.setStart(getTime(start));
 
-				list.add(asset);
+					// Find corresponding format element.
+					String formatId = validateString(element.getAttribute(FORMAT));
+					Format format = null;
+					for (Format f : formats) {
+						if (f.getId().equals(formatId)) {
+							format = f;
+							break;
+						}
+					}
+					if (format == null) {
+						format = new Format();
+					}
+					asset.setFormat(format);
+
+					list.add(asset);
+				}
 			}
-		}
 
-		return list;
+			return list;
+		} else {
+			return assets;
+		}
 	}
 
 	/**
@@ -152,14 +181,15 @@ public class Parser {
 	 *         document.
 	 */
 	public List<AssetClip> getAssetClips() {
+		logger.info("Getting asset clips...");
 
-		NodeList assets = doc.getElementsByTagName(ASSET_CLIP);
+		NodeList assetClips = doc.getElementsByTagName(ASSET_CLIP);
 
 		List<AssetClip> list = new ArrayList<AssetClip>();
 
-		for (int i = 0; i < assets.getLength(); i++) {
+		for (int i = 0; i < assetClips.getLength(); i++) {
 
-			Node node = assets.item(i);
+			Node node = assetClips.item(i);
 
 			if (node.getNodeType() == Node.ELEMENT_NODE) {
 
@@ -167,7 +197,6 @@ public class Parser {
 
 				AssetClip assetClip = new AssetClip();
 
-				assetClip.setRef(validateString(element.getAttribute(REFERENCE)));
 				assetClip.setName(validateString(element.getAttribute(NAME)));
 				assetClip.setLane(validateNumber(element.getAttribute(LANE)));
 				assetClip.setRole(validateString(element.getAttribute(AUDIO_ROLE)));
@@ -180,6 +209,17 @@ public class Parser {
 				assetClip.setDuration(getTime(duration));
 				assetClip.setOffset(getTime(offset));
 				assetClip.setStart(getTime(start));
+
+				// Find corresponding asset element's sourcc file.
+				String ref = validateString(element.getAttribute(REFERENCE));
+				String src = null;
+				for (Asset a : assets) {
+					if (a.getId().equals(ref)) {
+						src = a.getSrc();
+						break;
+					}
+				}
+				assetClip.setRef(src);
 
 				list.add(assetClip);
 			}
@@ -226,6 +266,7 @@ public class Parser {
 	 * @return A List of Video objects with the information from the document.
 	 */
 	public List<Video> getVideos() {
+		logger.info("Getting videos...");
 
 		NodeList videos = doc.getElementsByTagName(VIDEO);
 		List<Video> list = new ArrayList<Video>();
@@ -264,6 +305,7 @@ public class Parser {
 	 * @return A List of Audio objects with the information from the document.
 	 */
 	public List<Audio> getAudios() {
+		logger.info("Getting audios...");
 
 		NodeList audios = doc.getElementsByTagName(AUDIO);
 		List<Audio> list = new ArrayList<Audio>();
@@ -305,33 +347,38 @@ public class Parser {
 	 * @return A List of Audio objects with the information from the document.
 	 */
 	public List<Format> getFormats() {
+		logger.info("Getting formats...");
 
-		NodeList formats = doc.getElementsByTagName(FORMAT);
-		List<Format> list = new ArrayList<Format>();
+		if (formats == null) {
+			NodeList formats = doc.getElementsByTagName(FORMAT);
+			List<Format> list = new ArrayList<Format>();
 
-		for (int i = 0; i < formats.getLength(); i++) {
+			for (int i = 0; i < formats.getLength(); i++) {
 
-			Node node = formats.item(i);
+				Node node = formats.item(i);
 
-			if (node.getNodeType() == Node.ELEMENT_NODE) {
+				if (node.getNodeType() == Node.ELEMENT_NODE) {
 
-				Element element = (Element) node;
+					Element element = (Element) node;
 
-				Format format = new Format();
+					Format format = new Format();
 
-				format.setId(validateString(element.getAttribute(ID)));
-				format.setName(validateString(element.getAttribute(NAME)));
-				format.setWidth(validateNumber(element.getAttribute(WIDTH)));
-				format.setHeight(validateNumber(element.getAttribute(HEIGHT)));
-				
-				String frameDuration = validateString(element.getAttribute(FRAME_DURATION));
-				format.setFrameDuration(getFrameRate(frameDuration));
+					format.setId(validateString(element.getAttribute(ID)));
+					format.setName(validateString(element.getAttribute(NAME)));
+					format.setWidth(validateNumber(element.getAttribute(WIDTH)));
+					format.setHeight(validateNumber(element.getAttribute(HEIGHT)));
 
-				list.add(format);
+					String frameDuration = validateString(element.getAttribute(FRAME_DURATION));
+					format.setFrameDuration(getFrameRate(frameDuration));
+
+					list.add(format);
+				}
 			}
-		}
 
-		return list;
+			return list;
+		} else {
+			return formats;
+		}
 	}
 
 	/**
@@ -340,34 +387,39 @@ public class Parser {
 	 * @return A List of Audio objects with the information from the document.
 	 */
 	public List<Effect> getEffects() {
+		logger.info("Getting effects...");
 
-		NodeList effects = doc.getElementsByTagName(EFFECT);
-		List<Effect> list = new ArrayList<Effect>();
+		if (effects == null) {
+			NodeList effects = doc.getElementsByTagName(EFFECT);
+			List<Effect> list = new ArrayList<Effect>();
 
-		for (int i = 0; i < effects.getLength(); i++) {
+			for (int i = 0; i < effects.getLength(); i++) {
 
-			Node node = effects.item(i);
+				Node node = effects.item(i);
 
-			if (node.getNodeType() == Node.ELEMENT_NODE) {
+				if (node.getNodeType() == Node.ELEMENT_NODE) {
 
-				Element element = (Element) node;
+					Element element = (Element) node;
 
-				Effect effect = new Effect();
+					Effect effect = new Effect();
 
-				effect.setId(validateString(element.getAttribute(ID)));
-				effect.setName(validateString(element.getAttribute(NAME)));
-				effect.setUid(validateString(element.getAttribute(UID)));
-				effect.setSrc(validateString(element.getAttribute(SOURCE)));
+					effect.setId(validateString(element.getAttribute(ID)));
+					effect.setName(validateString(element.getAttribute(NAME)));
+					effect.setUid(validateString(element.getAttribute(UID)));
+					effect.setSrc(validateString(element.getAttribute(SOURCE)));
 
-				list.add(effect);
+					list.add(effect);
+				}
 			}
-		}
 
-		return list;
+			return list;
+		} else {
+			return effects;
+		}
 	}
 
 	private String getTime(String s) {
-		logger.info("Original time: " + s);
+		// logger.info("Original time: " + s);
 		String time = "0";
 
 		if (s != null && !s.isEmpty()) {
@@ -380,10 +432,10 @@ public class Parser {
 				String num = s.substring(0, division);
 				String denom = s.substring(division + 1, length - 1);
 
-				BigInteger numerator = new BigInteger(num);
-				BigInteger denominator = new BigInteger(denom);
+				BigDecimal numerator = new BigDecimal(num);
+				BigDecimal denominator = new BigDecimal(denom);
 
-				time = numerator.divide(denominator).toString();
+				time = numerator.divide(denominator, 2, RoundingMode.HALF_UP).toString();
 			}
 		}
 
@@ -391,12 +443,12 @@ public class Parser {
 			time += "s";
 		}
 
-		logger.info("New time: " + time);
+		// logger.info("New time: " + time);
 		return time;
 	}
-	
+
 	private String getFrameRate(String s) {
-		logger.info("Original time: " + s);
+		// logger.info("Original frame duration: " + s);
 		String time = "0";
 
 		if (s != null && !s.isEmpty()) {
@@ -409,18 +461,18 @@ public class Parser {
 				String num = s.substring(0, division);
 				String denom = s.substring(division + 1, length - 1);
 
-				BigInteger numerator = new BigInteger(num);
-				BigInteger denominator = new BigInteger(denom);
+				BigDecimal numerator = new BigDecimal(num);
+				BigDecimal denominator = new BigDecimal(denom);
 
-				time = denominator.divide(numerator).toString();
+				time = denominator.divide(numerator, 2, RoundingMode.HALF_UP).toString();
 			}
 		}
 
-		if (!time.endsWith("s")) {
-			time += "s";
+		if (!time.endsWith("fps")) {
+			time += " fps";
 		}
 
-		logger.info("New time: " + time);
+		// logger.info("New frame rate: " + time);
 		return time;
 	}
 

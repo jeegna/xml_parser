@@ -56,7 +56,7 @@ public class MainController {
 	@FXML
 	private MenuItem menuItemAbout;
 
-	// Sidebar buttons
+	// Tabs
 	@FXML
 	private Tab tabVideos;
 	@FXML
@@ -98,6 +98,8 @@ public class MainController {
 	@FXML
 	private void initialize() {
 		logger.info("Start Application");
+
+		createTables();
 	}
 
 	public void getFirstFile() {
@@ -151,27 +153,21 @@ public class MainController {
 		close();
 	}
 
-	private void populateTables() {
-		populateVideosTable(FXCollections.observableList(videos));
-		populateAudiosTable(FXCollections.observableList(audios));
-		populateAssetsTable(FXCollections.observableList(assets));
-		populateAssetClipsTable(FXCollections.observableList(assetClips));
-		populateFormatsTable(FXCollections.observableList(formats));
-		populateEffectsTable(FXCollections.observableList(effects));
+	private void createTables() {
+		createAssetsTable();
+		createAssetClipsTable();
+		createVideosTable();
+		createAudiosTable();
+		createFormatsTable();
+		createEffectsTable();
 	}
 
-	/**
-	 * Populates the asset table with dynamically created columns
-	 *
-	 * @param list
-	 *            The list of @{code Asset} objects to populate the table with
-	 */
-	private void populateAssetsTable(ObservableList<Asset> list) {
+	private void createAssetsTable() {
 		TableView<Asset> table = tableAssets;
 
 		resetTable(table);
 
-		// Create columns
+		// Create columns.
 		TableColumn<Asset, String> columnId = new TableColumn<>(resources.getString("colId"));
 		TableColumn<Asset, String> columnDuration = new TableColumn<>(resources.getString("colDuration"));
 		TableColumn<Asset, Boolean> columnHasVideo = new TableColumn<>(resources.getString("colHasVideo"));
@@ -179,10 +175,13 @@ public class MainController {
 		TableColumn<Asset, String> columnName = new TableColumn<>(resources.getString("colName"));
 		TableColumn<Asset, String> columnSrc = new TableColumn<>(resources.getString("colSrc"));
 		TableColumn<Asset, String> columnStart = new TableColumn<>(resources.getString("colStart"));
-		TableColumn<Asset, String> columnFormat = new TableColumn<>(resources.getString("colFormat"));
+		TableColumn<Asset, String> columnFormatName= new TableColumn<>(resources.getString("colFormatName"));
+		TableColumn<Asset, Number> columnWidth = new TableColumn<>(resources.getString("colWidth"));
+		TableColumn<Asset, Number> columnHeight= new TableColumn<>(resources.getString("colHeight"));
+		TableColumn<Asset, String> columnFrameDuration = new TableColumn<>(resources.getString("colFrameRate"));
 		TableColumn<Asset, String> columnUID = new TableColumn<>(resources.getString("colUID"));
 
-		// Set cell values
+		// Set cell values.
 		columnId.setCellValueFactory(cellData -> cellData.getValue().idProperty());
 		columnDuration.setCellValueFactory(cellData -> cellData.getValue().durationProperty());
 		columnHasVideo.setCellValueFactory(cellData -> cellData.getValue().hasVideoProperty());
@@ -190,34 +189,35 @@ public class MainController {
 		columnName.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
 		columnSrc.setCellValueFactory(cellData -> cellData.getValue().srcProperty());
 		columnStart.setCellValueFactory(cellData -> cellData.getValue().startProperty());
-		columnFormat.setCellValueFactory(cellData -> cellData.getValue().formatProperty());
+
+		columnFormatName.setCellValueFactory(cellData -> cellData.getValue().getFormat().nameProperty());
+		columnWidth.setCellValueFactory(cellData -> cellData.getValue().getFormat().widthProperty());
+		columnHeight.setCellValueFactory(cellData -> cellData.getValue().getFormat().heightProperty());
+		columnFrameDuration.setCellValueFactory(cellData -> cellData.getValue().getFormat().frameDurationProperty());
+
 		columnUID.setCellValueFactory(cellData -> cellData.getValue().uidProperty());
 
-		table.getColumns().add(columnId);
-		table.getColumns().add(columnDuration);
-		table.getColumns().add(columnHasVideo);
-		table.getColumns().add(columnHasAudio);
-		table.getColumns().add(columnName);
-		table.getColumns().add(columnSrc);
-		table.getColumns().add(columnStart);
-		table.getColumns().add(columnFormat);
-		table.getColumns().add(columnUID);
+		// Override default id column sorting.
+		columnId.setComparator(
+				(id1, id2) -> Integer.compare(Integer.parseInt(id1.substring(1)), Integer.parseInt(id2.substring(1))));
 
-		if (list != null && list.size() > 0) {
-			table.setItems(list);
-		}
+		ObservableList<TableColumn<Asset, ?>> columns = table.getColumns();
+		columns.add(columnId);
+		columns.add(columnDuration);
+		columns.add(columnHasVideo);
+		columns.add(columnHasAudio);
+		columns.add(columnName);
+		columns.add(columnSrc);
+		columns.add(columnStart);
+		columns.add(columnFormatName);
+		columns.add(columnWidth);
+		columns.add(columnHeight);
+		columns.add(columnFrameDuration);
+		columns.add(columnUID);
 	}
 
-	/**
-	 * Populates the asset table with dynamically created columns
-	 *
-	 * @param list
-	 *            The list of @{code Asset} objects to populate the table with
-	 */
-	private void populateAssetClipsTable(ObservableList<AssetClip> list) {
+	private void createAssetClipsTable() {
 		TableView<AssetClip> table = tableAssetClips;
-
-		resetTable(table);
 
 		// Create columns
 		TableColumn<AssetClip, String> columnRef = new TableColumn<>(resources.getString("colRef"));
@@ -241,70 +241,20 @@ public class MainController {
 		columnFormat.setCellValueFactory(cellData -> cellData.getValue().formatProperty());
 		columnTcFormat.setCellValueFactory(cellData -> cellData.getValue().tcFormatProperty());
 
-		table.getColumns().add(columnRef);
-		table.getColumns().add(columnName);
-		table.getColumns().add(columnLane);
-		table.getColumns().add(columnOffset);
-		table.getColumns().add(columnDuration);
-		table.getColumns().add(columnStart);
-		table.getColumns().add(columnRole);
-		table.getColumns().add(columnFormat);
-		table.getColumns().add(columnTcFormat);
-
-		if (list != null && list.size() > 0) {
-			table.setItems(list);
-		}
+		ObservableList<TableColumn<AssetClip, ?>> columns = table.getColumns();
+		columns.add(columnRef);
+		columns.add(columnName);
+		columns.add(columnLane);
+		columns.add(columnOffset);
+		columns.add(columnDuration);
+		columns.add(columnStart);
+		columns.add(columnRole);
+		columns.add(columnFormat);
+		columns.add(columnTcFormat);
 	}
 
-	/**
-	 * Populates the asset table with dynamically created columns
-	 *
-	 * @param list
-	 *            The list of @{code Asset} objects to populate the table with
-	 */
-	private void populateVideosTable(ObservableList<Video> list) {
-		TableView<Video> table = tableVideos;
-
-		resetTable(table);
-
-		// Create columns
-		TableColumn<Video, String> columnName = new TableColumn<>(resources.getString("colName"));
-		TableColumn<Video, Number> columnLane = new TableColumn<>(resources.getString("colLane"));
-		TableColumn<Video, String> columnStart = new TableColumn<>(resources.getString("colStart"));
-		TableColumn<Video, String> columnDuration = new TableColumn<>(resources.getString("colDuration"));
-		TableColumn<Video, String> columnOffset = new TableColumn<>(resources.getString("colOffset"));
-		TableColumn<Video, String> columnSrc = new TableColumn<>(resources.getString("colRef"));
-
-		// Set cell values
-		columnName.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
-		columnLane.setCellValueFactory(cellData -> cellData.getValue().laneProperty());
-		columnStart.setCellValueFactory(cellData -> cellData.getValue().startProperty());
-		columnDuration.setCellValueFactory(cellData -> cellData.getValue().durationProperty());
-		columnOffset.setCellValueFactory(cellData -> cellData.getValue().offsetProperty());
-		columnSrc.setCellValueFactory(cellData -> cellData.getValue().refProperty());
-
-		table.getColumns().add(columnName);
-		table.getColumns().add(columnLane);
-		table.getColumns().add(columnStart);
-		table.getColumns().add(columnDuration);
-		table.getColumns().add(columnOffset);
-		table.getColumns().add(columnSrc);
-
-		if (list != null && list.size() > 0) {
-			table.setItems(list);
-		}
-	}
-
-	/**
-	 * Populates the asset table with dynamically created columns
-	 *
-	 * @param list
-	 *            The list of @{code Asset} objects to populate the table with
-	 */
-	private void populateAudiosTable(ObservableList<Audio> list) {
+	private void createAudiosTable() {
 		TableView<Audio> table = tableAudios;
-
-		resetTable(table);
 
 		// Create columns
 		TableColumn<Audio, String> columnRole = new TableColumn<>(resources.getString("colRole"));
@@ -326,30 +276,47 @@ public class MainController {
 		columnSrcChannel.setCellValueFactory(cellData -> cellData.getValue().srcChProperty());
 		columnSrcID.setCellValueFactory(cellData -> cellData.getValue().idProperty());
 
-		table.getColumns().add(columnRole);
-		table.getColumns().add(columnLane);
-		table.getColumns().add(columnStart);
-		table.getColumns().add(columnDuration);
-		table.getColumns().add(columnOffset);
-		table.getColumns().add(columnSrc);
-		table.getColumns().add(columnSrcChannel);
-		table.getColumns().add(columnSrcID);
-
-		if (list != null && list.size() > 0) {
-			table.setItems(list);
-		}
+		ObservableList<TableColumn<Audio, ?>> columns = table.getColumns();
+		columns.add(columnRole);
+		columns.add(columnLane);
+		columns.add(columnStart);
+		columns.add(columnDuration);
+		columns.add(columnOffset);
+		columns.add(columnSrc);
+		columns.add(columnSrcChannel);
+		columns.add(columnSrcID);
 	}
 
-	/**
-	 * Populates the asset table with dynamically created columns
-	 *
-	 * @param list
-	 *            The list of @{code Asset} objects to populate the table with
-	 */
-	private void populateFormatsTable(ObservableList<Format> list) {
-		TableView<Format> table = tableFormats;
+	private void createVideosTable() {
+		TableView<Video> table = tableVideos;
 
-		resetTable(table);
+		// Create columns
+		TableColumn<Video, String> columnName = new TableColumn<>(resources.getString("colName"));
+		TableColumn<Video, Number> columnLane = new TableColumn<>(resources.getString("colLane"));
+		TableColumn<Video, String> columnStart = new TableColumn<>(resources.getString("colStart"));
+		TableColumn<Video, String> columnDuration = new TableColumn<>(resources.getString("colDuration"));
+		TableColumn<Video, String> columnOffset = new TableColumn<>(resources.getString("colOffset"));
+		TableColumn<Video, String> columnSrc = new TableColumn<>(resources.getString("colRef"));
+
+		// Set cell values
+		columnName.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
+		columnLane.setCellValueFactory(cellData -> cellData.getValue().laneProperty());
+		columnStart.setCellValueFactory(cellData -> cellData.getValue().startProperty());
+		columnDuration.setCellValueFactory(cellData -> cellData.getValue().durationProperty());
+		columnOffset.setCellValueFactory(cellData -> cellData.getValue().offsetProperty());
+		columnSrc.setCellValueFactory(cellData -> cellData.getValue().refProperty());
+
+		ObservableList<TableColumn<Video, ?>> columns = table.getColumns();
+		columns.add(columnName);
+		columns.add(columnLane);
+		columns.add(columnStart);
+		columns.add(columnDuration);
+		columns.add(columnOffset);
+		columns.add(columnSrc);
+	}
+
+	private void createFormatsTable() {
+		TableView<Format> table = tableFormats;
 
 		// Create columns
 		TableColumn<Format, String> columnId = new TableColumn<>(resources.getString("colId"));
@@ -365,11 +332,119 @@ public class MainController {
 		columnHeight.setCellValueFactory(cellData -> cellData.getValue().heightProperty());
 		columnFrameDuration.setCellValueFactory(cellData -> cellData.getValue().frameDurationProperty());
 
-		table.getColumns().add(columnId);
-		table.getColumns().add(columnName);
-		table.getColumns().add(columnWidth);
-		table.getColumns().add(columnHeight);
-		table.getColumns().add(columnFrameDuration);
+		ObservableList<TableColumn<Format, ?>> columns = table.getColumns();
+		columns.add(columnId);
+		columns.add(columnName);
+		columns.add(columnWidth);
+		columns.add(columnHeight);
+		columns.add(columnFrameDuration);
+	}
+
+	private void createEffectsTable() {
+		TableView<Effect> table = tableEffects;
+
+		// Create columns
+		TableColumn<Effect, String> columnId = new TableColumn<>(resources.getString("colId"));
+		TableColumn<Effect, String> columnName = new TableColumn<>(resources.getString("colName"));
+		TableColumn<Effect, String> columnSrc = new TableColumn<>(resources.getString("colSrc"));
+		TableColumn<Effect, String> columnUid = new TableColumn<>(resources.getString("colUID"));
+
+		// Set cell values
+		columnId.setCellValueFactory(cellData -> cellData.getValue().idProperty());
+		columnName.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
+		columnSrc.setCellValueFactory(cellData -> cellData.getValue().srcProperty());
+		columnUid.setCellValueFactory(cellData -> cellData.getValue().uidProperty());
+
+		ObservableList<TableColumn<Effect, ?>> columns = table.getColumns();
+		columns.add(columnId);
+		columns.add(columnName);
+		columns.add(columnSrc);
+		columns.add(columnUid);
+	}
+
+	private void populateTables() {
+		populateVideosTable(FXCollections.observableList(videos));
+		populateAudiosTable(FXCollections.observableList(audios));
+		populateAssetsTable(FXCollections.observableList(assets));
+		populateAssetClipsTable(FXCollections.observableList(assetClips));
+		populateFormatsTable(FXCollections.observableList(formats));
+		populateEffectsTable(FXCollections.observableList(effects));
+	}
+
+	/**
+	 * Populates the asset table with dynamically created columns
+	 *
+	 * @param list
+	 *            The list of @{code Asset} objects to populate the table with
+	 */
+	private void populateAssetsTable(ObservableList<Asset> list) {
+		TableView<Asset> table = tableAssets;
+
+		clearTable(table);
+
+		if (list != null && list.size() > 0) {
+			table.setItems(list);
+		}
+	}
+
+	/**
+	 * Populates the asset table with dynamically created columns
+	 *
+	 * @param list
+	 *            The list of @{code Asset} objects to populate the table with
+	 */
+	private void populateAssetClipsTable(ObservableList<AssetClip> list) {
+		TableView<AssetClip> table = tableAssetClips;
+
+		clearTable(table);
+
+		if (list != null && list.size() > 0) {
+			table.setItems(list);
+		}
+	}
+
+	/**
+	 * Populates the asset table with dynamically created columns
+	 *
+	 * @param list
+	 *            The list of @{code Asset} objects to populate the table with
+	 */
+	private void populateVideosTable(ObservableList<Video> list) {
+		TableView<Video> table = tableVideos;
+
+		clearTable(table);
+
+		if (list != null && list.size() > 0) {
+			table.setItems(list);
+		}
+	}
+
+	/**
+	 * Populates the asset table with dynamically created columns
+	 *
+	 * @param list
+	 *            The list of @{code Asset} objects to populate the table with
+	 */
+	private void populateAudiosTable(ObservableList<Audio> list) {
+		TableView<Audio> table = tableAudios;
+
+		clearTable(table);
+
+		if (list != null && list.size() > 0) {
+			table.setItems(list);
+		}
+	}
+
+	/**
+	 * Populates the asset table with dynamically created columns
+	 *
+	 * @param list
+	 *            The list of @{code Asset} objects to populate the table with
+	 */
+	private void populateFormatsTable(ObservableList<Format> list) {
+		TableView<Format> table = tableFormats;
+
+		clearTable(table);
 
 		if (list != null && list.size() > 0) {
 			table.setItems(list);
@@ -385,24 +460,7 @@ public class MainController {
 	private void populateEffectsTable(ObservableList<Effect> list) {
 		TableView<Effect> table = tableEffects;
 
-		resetTable(table);
-
-		// Create columns
-		TableColumn<Effect, String> columnId = new TableColumn<>(resources.getString("colId"));
-		TableColumn<Effect, String> columnName = new TableColumn<>(resources.getString("colName"));
-		TableColumn<Effect, String> columnSrc = new TableColumn<>(resources.getString("colSrc"));
-		TableColumn<Effect, String> columnUid = new TableColumn<>(resources.getString("colUID"));
-
-		// Set cell values
-		columnId.setCellValueFactory(cellData -> cellData.getValue().idProperty());
-		columnName.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
-		columnSrc.setCellValueFactory(cellData -> cellData.getValue().srcProperty());
-		columnUid.setCellValueFactory(cellData -> cellData.getValue().uidProperty());
-
-		table.getColumns().add(columnId);
-		table.getColumns().add(columnName);
-		table.getColumns().add(columnSrc);
-		table.getColumns().add(columnUid);
+		clearTable(table);
 
 		if (list != null && list.size() > 0) {
 			table.setItems(list);
@@ -439,15 +497,17 @@ public class MainController {
 	}
 
 	private <T> void resetTable(TableView<T> table) {
+		// Remove all columns from table
+		table.getColumns().clear();
 
+		clearTable(table);
+	}
+
+	private <T> void clearTable(TableView<T> table) {
 		// Clear all previously displayed items.
 		table.getItems().clear();
-
 		// Set row height.
 		table.setFixedCellSize(30);
-
-		// Remove columns.
-		table.getColumns().clear();
 	}
 
 	private void setFile(File file) {
@@ -462,7 +522,7 @@ public class MainController {
 				logger.log(Level.SEVERE, e.getMessage());
 				// TODO Show an error dialog box
 			}
-			
+
 			// Set file name in title bar
 			((Stage) menubar.getScene().getWindow()).setTitle(resources.getString("appName") + " - " + filePath);
 		}

@@ -7,7 +7,14 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
-public class Format implements Serializable {
+/**
+ * Represents a Format tag in FCPXML
+ *
+ * @author Jeegna Patel
+ * @version 2017/07/04
+ * @since 1.8
+ */
+public class Format implements Comparable<Format>, Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -35,15 +42,19 @@ public class Format implements Serializable {
 	}
 
 	/**
-	 * @return the id
+	 * Gets the id
+	 * 
+	 * @return The id
 	 */
 	public String getId() {
 		return id.get();
 	}
 
 	/**
+	 * Sets the id
+	 * 
 	 * @param id
-	 *            the id to set
+	 *            The new id to set
 	 */
 	public void setId(String id) {
 		this.id.set(id);
@@ -59,15 +70,19 @@ public class Format implements Serializable {
 	}
 
 	/**
-	 * @return the name
+	 * Gets the name
+	 * 
+	 * @return The name
 	 */
 	public String getName() {
 		return name.get();
 	}
 
 	/**
+	 * Sets the name
+	 * 
 	 * @param name
-	 *            the name to set
+	 *            The new name to set
 	 */
 	public void setName(String name) {
 		this.name.set(name);
@@ -83,15 +98,19 @@ public class Format implements Serializable {
 	}
 
 	/**
-	 * @return the width
+	 * Gets the width
+	 * 
+	 * @return The width
 	 */
 	public Integer getWidth() {
 		return width.get();
 	}
 
 	/**
+	 * Sets the width
+	 * 
 	 * @param width
-	 *            the width to set
+	 *            The new width to set
 	 */
 	public void setWidth(Integer width) {
 		this.width.set(width);
@@ -107,15 +126,19 @@ public class Format implements Serializable {
 	}
 
 	/**
-	 * @return the height
+	 * Gets the height
+	 * 
+	 * @return The height
 	 */
 	public Integer getHeight() {
 		return height.get();
 	}
 
 	/**
+	 * Sets the height
+	 * 
 	 * @param height
-	 *            The height to set
+	 *            The new height to set
 	 */
 	public void setHeight(Integer height) {
 		this.height.set(height);
@@ -131,6 +154,8 @@ public class Format implements Serializable {
 	}
 
 	/**
+	 * Gets the frame duration
+	 * 
 	 * @return The frame duration
 	 */
 	public String getFrameDuration() {
@@ -138,10 +163,53 @@ public class Format implements Serializable {
 	}
 
 	/**
+	 * Sets the frame duration
+	 * 
 	 * @param frameDuration
-	 *            The frame duration to set
+	 *            The new frame duration to set
 	 */
 	public void setFrameDuration(String frameDuration) {
 		this.frameDuration.set(frameDuration);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see java.lang.Object#toString(java.lang.Object)
+	 */
+	@Override
+	public String toString() {
+		return String.format("Format[id=%s, name=%s, width=%s, height=%s, frameDuration=%s]", id, name, width, height,
+				frameDuration);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see java.lang.Comparable#compareTo(java.lang.Object)
+	 */
+	@Override
+	public int compareTo(Format o) {
+		if (o == null) {
+			return 1;
+		}
+
+		return Integer.compare(Integer.parseInt(id.get().substring(1)), (Integer.parseInt(o.id.get().substring(1))));
+	}
+
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object o) {
+		if (o == null || !(o instanceof Format) || id.isEmpty().get()) {
+			return false;
+		}
+
+		Format f = (Format) o;
+
+		return id.equals(f.id);
 	}
 }

@@ -33,8 +33,8 @@ public class Main extends Application {
 	public void start(Stage primaryStage) throws IOException {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Main.fxml"));
 
-		ResourceBundle bundle = ResourceBundle.getBundle("strings", new Locale("en"));
-		loader.setResources(bundle);
+		ResourceBundle resources = ResourceBundle.getBundle("strings", new Locale("en"));
+		loader.setResources(resources);
 
 		BorderPane root = (BorderPane) loader.load();
 		Scene scene = new Scene(root);
@@ -44,11 +44,21 @@ public class Main extends Application {
 		addEventHandlers(primaryStage, loader);
 
 		primaryStage.setScene(scene);
-		primaryStage.setTitle(bundle.getString("appName"));
+		primaryStage.setTitle(resources.getString("appName"));
 
 		primaryStage.show();
 	}
 
+	/**
+	 * Add event handlers to the application. The event handlers are an onClose
+	 * handler which will log a message, and an onShowing handler which will
+	 * initiate the file choosing dialog box.
+	 * 
+	 * @param stage
+	 *            The stage of the application.
+	 * @param loader
+	 *            The fxml loader.
+	 */
 	private void addEventHandlers(Stage stage, FXMLLoader loader) {
 		// Say "Bye!" on exit because that's adorable
 		stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
@@ -70,7 +80,7 @@ public class Main extends Application {
 				 * The Platform.runLater is required, otherwise the main
 				 * application will not appear in the background, and only the
 				 * file chooser window will be open. If the runLater was not
-				 * there. the user would have to close the file chooser window
+				 * there, the user would have to close the file chooser window
 				 * in order for the main application to appear.
 				 */
 				Platform.runLater(new Runnable() {
