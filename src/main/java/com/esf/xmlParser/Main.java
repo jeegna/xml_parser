@@ -76,7 +76,7 @@ public class Main extends Application {
 				Platform.runLater(new Runnable() {
 					@Override
 					public void run() {
-						controller.getFile();
+						controller.getFirstFile();
 					}
 				});
 			}

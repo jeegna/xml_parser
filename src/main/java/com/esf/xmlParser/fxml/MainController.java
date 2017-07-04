@@ -14,20 +14,23 @@ import org.xml.sax.SAXException;
 import com.esf.xmlParser.entities.Asset;
 import com.esf.xmlParser.entities.AssetClip;
 import com.esf.xmlParser.entities.Audio;
+import com.esf.xmlParser.entities.Effect;
+import com.esf.xmlParser.entities.Format;
 import com.esf.xmlParser.entities.Video;
 import com.esf.xmlParser.util.Parser;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.Tab;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
+import javafx.stage.Stage;
 
 /**
  * @author Jeegna Patel
@@ -55,13 +58,17 @@ public class MainController {
 
 	// Sidebar buttons
 	@FXML
-	private Button buttonGetVideos;
+	private Tab tabVideos;
 	@FXML
-	private Button buttonGetAudios;
+	private Tab tabAudios;
 	@FXML
-	private Button buttonGetAssets;
+	private Tab tabAssets;
 	@FXML
-	private Button buttonGetAssetClips;
+	private Tab tabAssetClips;
+	@FXML
+	private Tab tabFormats;
+	@FXML
+	private Tab tabEffects;
 
 	// Tables
 	@FXML
@@ -72,19 +79,50 @@ public class MainController {
 	private TableView<Video> tableVideos;
 	@FXML
 	private TableView<Audio> tableAudios;
+	@FXML
+	private TableView<Format> tableFormats;
+	@FXML
+	private TableView<Effect> tableEffects;
 
 	private final Logger logger = Logger.getLogger(this.getClass().getName());
 	private Parser parser;
 	private String filePath;
+
+	private List<Video> videos;
+	private List<Audio> audios;
+	private List<Asset> assets;
+	private List<AssetClip> assetClips;
+	private List<Format> formats;
+	private List<Effect> effects;
 
 	@FXML
 	private void initialize() {
 		logger.info("Start Application");
 	}
 
-	public void getFile() {
+	public void getFirstFile() {
+		getFile();
+	}
+
+	private void getFile() {
 		File file = getFileFromFileChooser();
 		setFile(file);
+		loadFile();
+	}
+
+	private void loadFile() {
+		logger.info("Loading file...");
+		if (parser != null) {
+			videos = parser.getVideos();
+			audios = parser.getAudios();
+			assets = parser.getAssets();
+			assetClips = parser.getAssetClips();
+			formats = parser.getFormats();
+			effects = parser.getEffects();
+
+			// Populate tables with file contents.
+			populateTables();
+		}
 	}
 
 	/**
@@ -100,8 +138,7 @@ public class MainController {
 
 	@FXML
 	private void menuItemChooseFile() {
-		File file = getFileFromFileChooser();
-		setFile(file);
+		getFile();
 	}
 
 	@FXML
@@ -114,40 +151,13 @@ public class MainController {
 		close();
 	}
 
-	@FXML
-	private void buttonGetVideosClick() {
-		if (parser != null) {
-			List<Video> items = parser.getVideos();
-			ObservableList<Video> list = FXCollections.observableList(items);
-			populateVideoTable(list);
-		}
-	}
-
-	@FXML
-	private void buttonGetAudiosClick() {
-		if (parser != null) {
-			List<Audio> items = parser.getAudios();
-			ObservableList<Audio> list = FXCollections.observableList(items);
-			populateAudioTable(list);
-		}
-	}
-
-	@FXML
-	private void buttonGetAssetsClick() {
-		if (parser != null) {
-			List<Asset> items = parser.getAssets();
-			ObservableList<Asset> list = FXCollections.observableList(items);
-			populateAssetTable(list);
-		}
-	}
-
-	@FXML
-	private void buttonGetAssetClipsClick() {
-		if (parser != null) {
-			List<AssetClip> items = parser.getAssetClips();
-			ObservableList<AssetClip> list = FXCollections.observableList(items);
-			populateAssetClipTable(list);
-		}
+	private void populateTables() {
+		populateVideosTable(FXCollections.observableList(videos));
+		populateAudiosTable(FXCollections.observableList(audios));
+		populateAssetsTable(FXCollections.observableList(assets));
+		populateAssetClipsTable(FXCollections.observableList(assetClips));
+		populateFormatsTable(FXCollections.observableList(formats));
+		populateEffectsTable(FXCollections.observableList(effects));
 	}
 
 	/**
@@ -156,9 +166,10 @@ public class MainController {
 	 * @param list
 	 *            The list of @{code Asset} objects to populate the table with
 	 */
-	private void populateAssetTable(ObservableList<Asset> list) {
-		hideTables();
-		tableAssets.setVisible(true);
+	private void populateAssetsTable(ObservableList<Asset> list) {
+		TableView<Asset> table = tableAssets;
+
+		resetTable(table);
 
 		// Create columns
 		TableColumn<Asset, String> columnId = new TableColumn<>(resources.getString("colId"));
@@ -182,18 +193,18 @@ public class MainController {
 		columnFormat.setCellValueFactory(cellData -> cellData.getValue().formatProperty());
 		columnUID.setCellValueFactory(cellData -> cellData.getValue().uidProperty());
 
-		tableAssets.getColumns().add(columnId);
-		tableAssets.getColumns().add(columnDuration);
-		tableAssets.getColumns().add(columnHasVideo);
-		tableAssets.getColumns().add(columnHasAudio);
-		tableAssets.getColumns().add(columnName);
-		tableAssets.getColumns().add(columnSrc);
-		tableAssets.getColumns().add(columnStart);
-		tableAssets.getColumns().add(columnFormat);
-		tableAssets.getColumns().add(columnUID);
+		table.getColumns().add(columnId);
+		table.getColumns().add(columnDuration);
+		table.getColumns().add(columnHasVideo);
+		table.getColumns().add(columnHasAudio);
+		table.getColumns().add(columnName);
+		table.getColumns().add(columnSrc);
+		table.getColumns().add(columnStart);
+		table.getColumns().add(columnFormat);
+		table.getColumns().add(columnUID);
 
 		if (list != null && list.size() > 0) {
-			tableAssets.setItems(list);
+			table.setItems(list);
 		}
 	}
 
@@ -203,9 +214,10 @@ public class MainController {
 	 * @param list
 	 *            The list of @{code Asset} objects to populate the table with
 	 */
-	private void populateAssetClipTable(ObservableList<AssetClip> list) {
-		hideTables();
-		tableAssetClips.setVisible(true);
+	private void populateAssetClipsTable(ObservableList<AssetClip> list) {
+		TableView<AssetClip> table = tableAssetClips;
+
+		resetTable(table);
 
 		// Create columns
 		TableColumn<AssetClip, String> columnRef = new TableColumn<>(resources.getString("colRef"));
@@ -229,18 +241,18 @@ public class MainController {
 		columnFormat.setCellValueFactory(cellData -> cellData.getValue().formatProperty());
 		columnTcFormat.setCellValueFactory(cellData -> cellData.getValue().tcFormatProperty());
 
-		tableAssetClips.getColumns().add(columnRef);
-		tableAssetClips.getColumns().add(columnName);
-		tableAssetClips.getColumns().add(columnLane);
-		tableAssetClips.getColumns().add(columnOffset);
-		tableAssetClips.getColumns().add(columnDuration);
-		tableAssetClips.getColumns().add(columnStart);
-		tableAssetClips.getColumns().add(columnRole);
-		tableAssetClips.getColumns().add(columnFormat);
-		tableAssetClips.getColumns().add(columnTcFormat);
+		table.getColumns().add(columnRef);
+		table.getColumns().add(columnName);
+		table.getColumns().add(columnLane);
+		table.getColumns().add(columnOffset);
+		table.getColumns().add(columnDuration);
+		table.getColumns().add(columnStart);
+		table.getColumns().add(columnRole);
+		table.getColumns().add(columnFormat);
+		table.getColumns().add(columnTcFormat);
 
 		if (list != null && list.size() > 0) {
-			tableAssetClips.setItems(list);
+			table.setItems(list);
 		}
 	}
 
@@ -250,9 +262,10 @@ public class MainController {
 	 * @param list
 	 *            The list of @{code Asset} objects to populate the table with
 	 */
-	private void populateVideoTable(ObservableList<Video> list) {
-		hideTables();
-		tableVideos.setVisible(true);
+	private void populateVideosTable(ObservableList<Video> list) {
+		TableView<Video> table = tableVideos;
+
+		resetTable(table);
 
 		// Create columns
 		TableColumn<Video, String> columnName = new TableColumn<>(resources.getString("colName"));
@@ -270,15 +283,15 @@ public class MainController {
 		columnOffset.setCellValueFactory(cellData -> cellData.getValue().offsetProperty());
 		columnSrc.setCellValueFactory(cellData -> cellData.getValue().refProperty());
 
-		tableVideos.getColumns().add(columnName);
-		tableVideos.getColumns().add(columnLane);
-		tableVideos.getColumns().add(columnStart);
-		tableVideos.getColumns().add(columnDuration);
-		tableVideos.getColumns().add(columnOffset);
-		tableVideos.getColumns().add(columnSrc);
+		table.getColumns().add(columnName);
+		table.getColumns().add(columnLane);
+		table.getColumns().add(columnStart);
+		table.getColumns().add(columnDuration);
+		table.getColumns().add(columnOffset);
+		table.getColumns().add(columnSrc);
 
 		if (list != null && list.size() > 0) {
-			tableVideos.setItems(list);
+			table.setItems(list);
 		}
 	}
 
@@ -288,9 +301,10 @@ public class MainController {
 	 * @param list
 	 *            The list of @{code Asset} objects to populate the table with
 	 */
-	private void populateAudioTable(ObservableList<Audio> list) {
-		hideTables();
-		tableAudios.setVisible(true);
+	private void populateAudiosTable(ObservableList<Audio> list) {
+		TableView<Audio> table = tableAudios;
+
+		resetTable(table);
 
 		// Create columns
 		TableColumn<Audio, String> columnRole = new TableColumn<>(resources.getString("colRole"));
@@ -312,17 +326,86 @@ public class MainController {
 		columnSrcChannel.setCellValueFactory(cellData -> cellData.getValue().srcChProperty());
 		columnSrcID.setCellValueFactory(cellData -> cellData.getValue().idProperty());
 
-		tableAudios.getColumns().add(columnRole);
-		tableAudios.getColumns().add(columnLane);
-		tableAudios.getColumns().add(columnStart);
-		tableAudios.getColumns().add(columnDuration);
-		tableAudios.getColumns().add(columnOffset);
-		tableAudios.getColumns().add(columnSrc);
-		tableAudios.getColumns().add(columnSrcChannel);
-		tableAudios.getColumns().add(columnSrcID);
+		table.getColumns().add(columnRole);
+		table.getColumns().add(columnLane);
+		table.getColumns().add(columnStart);
+		table.getColumns().add(columnDuration);
+		table.getColumns().add(columnOffset);
+		table.getColumns().add(columnSrc);
+		table.getColumns().add(columnSrcChannel);
+		table.getColumns().add(columnSrcID);
 
 		if (list != null && list.size() > 0) {
-			tableAudios.setItems(list);
+			table.setItems(list);
+		}
+	}
+
+	/**
+	 * Populates the asset table with dynamically created columns
+	 *
+	 * @param list
+	 *            The list of @{code Asset} objects to populate the table with
+	 */
+	private void populateFormatsTable(ObservableList<Format> list) {
+		TableView<Format> table = tableFormats;
+
+		resetTable(table);
+
+		// Create columns
+		TableColumn<Format, String> columnId = new TableColumn<>(resources.getString("colId"));
+		TableColumn<Format, String> columnName = new TableColumn<>(resources.getString("colName"));
+		TableColumn<Format, Number> columnWidth = new TableColumn<>(resources.getString("colWidth"));
+		TableColumn<Format, Number> columnHeight = new TableColumn<>(resources.getString("colHeight"));
+		TableColumn<Format, String> columnFrameDuration = new TableColumn<>(resources.getString("colFrameRate"));
+
+		// Set cell values
+		columnId.setCellValueFactory(cellData -> cellData.getValue().idProperty());
+		columnName.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
+		columnWidth.setCellValueFactory(cellData -> cellData.getValue().widthProperty());
+		columnHeight.setCellValueFactory(cellData -> cellData.getValue().heightProperty());
+		columnFrameDuration.setCellValueFactory(cellData -> cellData.getValue().frameDurationProperty());
+
+		table.getColumns().add(columnId);
+		table.getColumns().add(columnName);
+		table.getColumns().add(columnWidth);
+		table.getColumns().add(columnHeight);
+		table.getColumns().add(columnFrameDuration);
+
+		if (list != null && list.size() > 0) {
+			table.setItems(list);
+		}
+	}
+
+	/**
+	 * Populates the asset table with dynamically created columns
+	 *
+	 * @param list
+	 *            The list of @{code Asset} objects to populate the table with
+	 */
+	private void populateEffectsTable(ObservableList<Effect> list) {
+		TableView<Effect> table = tableEffects;
+
+		resetTable(table);
+
+		// Create columns
+		TableColumn<Effect, String> columnId = new TableColumn<>(resources.getString("colId"));
+		TableColumn<Effect, String> columnName = new TableColumn<>(resources.getString("colName"));
+		TableColumn<Effect, String> columnSrc = new TableColumn<>(resources.getString("colSrc"));
+		TableColumn<Effect, String> columnUid = new TableColumn<>(resources.getString("colUID"));
+
+		// Set cell values
+		columnId.setCellValueFactory(cellData -> cellData.getValue().idProperty());
+		columnName.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
+		columnSrc.setCellValueFactory(cellData -> cellData.getValue().srcProperty());
+		columnUid.setCellValueFactory(cellData -> cellData.getValue().uidProperty());
+
+		table.getColumns().add(columnId);
+		table.getColumns().add(columnName);
+		table.getColumns().add(columnSrc);
+		table.getColumns().add(columnUid);
+
+		if (list != null && list.size() > 0) {
+			table.setItems(list);
 		}
 	}
 
@@ -348,7 +431,6 @@ public class MainController {
 		fileChooser.setSelectedExtensionFilter(filter);
 
 		// Set initial directory to user's home folder.
-		// TODO Test this on Mac (priority) and Windows (not important)
 		String home = System.getProperty("user.home");
 		File file = new File(home);
 		fileChooser.setInitialDirectory(file);
@@ -356,29 +438,16 @@ public class MainController {
 		return fileChooser.showOpenDialog(borderPane.getScene().getWindow());
 	}
 
-	private void hideTables() {
-		tableVideos.setVisible(false);
-		tableAudios.setVisible(false);
-		tableAssets.setVisible(false);
-		tableAssetClips.setVisible(false);
+	private <T> void resetTable(TableView<T> table) {
 
-		// Clear all previously displayed items
-		tableVideos.getItems().clear();
-		tableAudios.getItems().clear();
-		tableAssets.getItems().clear();
-		tableAssetClips.getItems().clear();
+		// Clear all previously displayed items.
+		table.getItems().clear();
 
-		// Set row height
-		tableVideos.setFixedCellSize(30);
-		tableAudios.setFixedCellSize(30);
-		tableAssets.setFixedCellSize(30);
-		tableAssetClips.setFixedCellSize(30);
-		
-		// Remove columns
-		tableVideos.getColumns().clear();
-		tableAudios.getColumns().clear();
-		tableAssets.getColumns().clear();
-		tableAssetClips.getColumns().clear();
+		// Set row height.
+		table.setFixedCellSize(30);
+
+		// Remove columns.
+		table.getColumns().clear();
 	}
 
 	private void setFile(File file) {
@@ -391,7 +460,11 @@ public class MainController {
 				createParser(filePath);
 			} catch (ParserConfigurationException | SAXException | IOException e) {
 				logger.log(Level.SEVERE, e.getMessage());
+				// TODO Show an error dialog box
 			}
+			
+			// Set file name in title bar
+			((Stage) menubar.getScene().getWindow()).setTitle(resources.getString("appName") + " - " + filePath);
 		}
 	}
 }

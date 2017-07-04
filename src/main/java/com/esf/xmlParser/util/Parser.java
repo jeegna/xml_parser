@@ -20,6 +20,8 @@ import org.xml.sax.SAXException;
 import com.esf.xmlParser.entities.Asset;
 import com.esf.xmlParser.entities.AssetClip;
 import com.esf.xmlParser.entities.Audio;
+import com.esf.xmlParser.entities.Effect;
+import com.esf.xmlParser.entities.Format;
 import com.esf.xmlParser.entities.Video;
 
 /**
@@ -31,33 +33,49 @@ public class Parser {
 
 	private final Logger logger = Logger.getLogger(this.getClass().getName());
 
-	private static final String ASSET = "asset";
-	private static final String VIDEO = "video";
-
+	// Attributes for resources (asset, format, effect)
 	private static final String ID = "id";
 	private static final String UID = "uid";
 	private static final String NAME = "name";
-	private static final String START = "start";
+
+	// Common attributes
+	private static final String SOURCE = "src";
 	private static final String LANE = "lane";
 	private static final String DURATION = "duration";
-	private static final String SOURCE = "src";
 	private static final String OFFSET = "offset";
 	private static final String REFERENCE = "ref";
-	private static final String FORMAT = "format";
+	private static final String START = "start";
+	private static final String ROLE = "role";
+
+	// Attributes unique to asset tag
+	private static final String ASSET = "asset";
 	private static final String HAS_AUDIO = "hasAudio";
 	private static final String HAS_VIDEO = "hasVideo";
 	private static final String AUDIO_SOURCES = "audioSources";
 	private static final String AUDIO_CHANNELS = "audioChannels";
 	private static final String AUDIO_RATE = "audioRate";
 
+	// Attributes unique to video tag
+	private static final String VIDEO = "video";
+
+	// Attributes unique to audio tag
 	private static final String AUDIO = "audio";
 	private static final String SRC_CH = "srcCh";
 	private static final String SRC_ID = "srcID";
-	private static final String ROLE = "role";
 
+	// Attributes unique to asset-clip
 	private static final String ASSET_CLIP = "asset-clip";
 	private static final String AUDIO_ROLE = "audioRole";
 	private static final String TC_FORMAT = "tcFormat";
+
+	// Attributes unique to format
+	private static final String FORMAT = "format";
+	private static final String WIDTH = "width";
+	private static final String HEIGHT = "height";
+	private static final String FRAME_DURATION = "frameDuration";
+
+	// Attributes unique to effect
+	private static final String EFFECT = "effect";
 
 	private Document doc;
 
@@ -114,7 +132,7 @@ public class Parser {
 				asset.setAudioSources(validateNumber(element.getAttribute(AUDIO_SOURCES)));
 				asset.setAudioChannels(validateNumber(element.getAttribute(AUDIO_CHANNELS)));
 				asset.setAudioRate(validateNumber(element.getAttribute(AUDIO_RATE)));
-				
+
 				String duration = validateString(element.getAttribute(DURATION));
 				String start = element.getAttribute(START);
 				asset.setDuration(getTime(duration));
@@ -281,6 +299,73 @@ public class Parser {
 		return list;
 	}
 
+	/**
+	 * Gets all information of &lt;audio&gt; tags from the document.
+	 * 
+	 * @return A List of Audio objects with the information from the document.
+	 */
+	public List<Format> getFormats() {
+
+		NodeList formats = doc.getElementsByTagName(FORMAT);
+		List<Format> list = new ArrayList<Format>();
+
+		for (int i = 0; i < formats.getLength(); i++) {
+
+			Node node = formats.item(i);
+
+			if (node.getNodeType() == Node.ELEMENT_NODE) {
+
+				Element element = (Element) node;
+
+				Format format = new Format();
+
+				format.setId(validateString(element.getAttribute(ID)));
+				format.setName(validateString(element.getAttribute(NAME)));
+				format.setWidth(validateNumber(element.getAttribute(WIDTH)));
+				format.setHeight(validateNumber(element.getAttribute(HEIGHT)));
+				
+				String frameDuration = validateString(element.getAttribute(FRAME_DURATION));
+				format.setFrameDuration(getFrameRate(frameDuration));
+
+				list.add(format);
+			}
+		}
+
+		return list;
+	}
+
+	/**
+	 * Gets all information of &lt;audio&gt; tags from the document.
+	 * 
+	 * @return A List of Audio objects with the information from the document.
+	 */
+	public List<Effect> getEffects() {
+
+		NodeList effects = doc.getElementsByTagName(EFFECT);
+		List<Effect> list = new ArrayList<Effect>();
+
+		for (int i = 0; i < effects.getLength(); i++) {
+
+			Node node = effects.item(i);
+
+			if (node.getNodeType() == Node.ELEMENT_NODE) {
+
+				Element element = (Element) node;
+
+				Effect effect = new Effect();
+
+				effect.setId(validateString(element.getAttribute(ID)));
+				effect.setName(validateString(element.getAttribute(NAME)));
+				effect.setUid(validateString(element.getAttribute(UID)));
+				effect.setSrc(validateString(element.getAttribute(SOURCE)));
+
+				list.add(effect);
+			}
+		}
+
+		return list;
+	}
+
 	private String getTime(String s) {
 		logger.info("Original time: " + s);
 		String time = "0";
@@ -299,6 +384,35 @@ public class Parser {
 				BigInteger denominator = new BigInteger(denom);
 
 				time = numerator.divide(denominator).toString();
+			}
+		}
+
+		if (!time.endsWith("s")) {
+			time += "s";
+		}
+
+		logger.info("New time: " + time);
+		return time;
+	}
+	
+	private String getFrameRate(String s) {
+		logger.info("Original time: " + s);
+		String time = "0";
+
+		if (s != null && !s.isEmpty()) {
+			time = s;
+			int division = s.indexOf('/');
+
+			if (division != -1) {
+				int length = s.length();
+
+				String num = s.substring(0, division);
+				String denom = s.substring(division + 1, length - 1);
+
+				BigInteger numerator = new BigInteger(num);
+				BigInteger denominator = new BigInteger(denom);
+
+				time = denominator.divide(numerator).toString();
 			}
 		}
 
