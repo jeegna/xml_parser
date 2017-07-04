@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -497,12 +498,12 @@ public class Parser {
 				BigDecimal numerator = new BigDecimal(num);
 				BigDecimal denominator = new BigDecimal(denom);
 
-				time = numerator.divide(denominator, 2, RoundingMode.HALF_UP).toString();
-			}
-		}
+				BigDecimal quotient = numerator.divide(denominator, 2, RoundingMode.HALF_UP);
 
-		if (!time.endsWith("s")) {
-			time += "s";
+				time = convertToTimeStamp(quotient);
+
+				logger.info("time: " + time);
+			}
 		}
 
 		// logger.info("New time: " + time);
@@ -536,6 +537,35 @@ public class Parser {
 
 		// logger.info("New frame rate: " + time);
 		return time;
+	}
+
+	private String convertToTimeStamp(BigDecimal num) {
+
+		String timeStamp = "";
+
+		int numberOfHours = (num.intValue() % 86400) / 3600;
+		int numberOfMinutes = ((num.intValue() % 86400) % 3600) / 60;
+		int numberOfSeconds = ((num.intValue() % 86400) % 3600) % 60;
+
+		if (numberOfHours < 10) {
+			timeStamp += "0" + numberOfHours + ":";
+		} else {
+			timeStamp += numberOfHours + ":";
+		}
+
+		if (numberOfMinutes < 10) {
+			timeStamp += "0" + numberOfMinutes + ":";
+		} else {
+			timeStamp += numberOfMinutes + ":";
+		}
+
+		if (numberOfSeconds < 10) {
+			timeStamp += "0" + numberOfSeconds;
+		} else {
+			timeStamp += numberOfSeconds;
+		}
+
+		return timeStamp;
 	}
 
 	private int validateNumber(String n) {

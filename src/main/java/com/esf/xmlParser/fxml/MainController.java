@@ -524,7 +524,7 @@ public class MainController {
 			}
 
 			// Set file name in title bar
-			((Stage) menubar.getScene().getWindow()).setTitle(resources.getString("appName") + " - " + filePath);
+			((Stage) borderPane.getScene().getWindow()).setTitle(resources.getString("appName") + " - " + filePath);
 		}
 	}
 }
