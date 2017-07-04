@@ -21,6 +21,7 @@ import org.xml.sax.SAXException;
 import com.esf.xmlParser.entities.Asset;
 import com.esf.xmlParser.entities.AssetClip;
 import com.esf.xmlParser.entities.Audio;
+import com.esf.xmlParser.entities.Clip;
 import com.esf.xmlParser.entities.Effect;
 import com.esf.xmlParser.entities.Format;
 import com.esf.xmlParser.entities.Video;
@@ -77,6 +78,9 @@ public class Parser {
 
 	// Attributes unique to effect
 	private static final String EFFECT = "effect";
+
+	// Attributes unique to clip
+	private static final String CLIP = "clip";
 
 	private Document doc;
 
@@ -283,7 +287,6 @@ public class Parser {
 
 				video.setName(validateString(element.getAttribute(NAME)));
 				video.setLane(validateNumber(element.getAttribute(LANE)));
-				video.setRef(validateString(element.getAttribute(REFERENCE)));
 
 				String duration = validateString(element.getAttribute(DURATION));
 				String start = validateString(element.getAttribute(START));
@@ -291,6 +294,17 @@ public class Parser {
 				video.setDuration(getTime(duration));
 				video.setStart(getTime(start));
 				video.setOffset(getTime(offset));
+
+				// Find corresponding asset element's sourcc file.
+				String ref = validateString(element.getAttribute(REFERENCE));
+				String src = null;
+				for (Asset a : assets) {
+					if (a.getId().equals(ref)) {
+						src = a.getSrc();
+						break;
+					}
+				}
+				video.setRef(src);
 
 				list.add(video);
 			}
@@ -320,7 +334,6 @@ public class Parser {
 
 				Audio audio = new Audio();
 
-				audio.setRef(validateString(element.getAttribute(REFERENCE)));
 				audio.setLane(validateNumber(element.getAttribute(LANE)));
 				audio.setRole(validateString(element.getAttribute(ROLE)));
 				audio.setOffset(validateString(element.getAttribute(OFFSET)));
@@ -334,6 +347,17 @@ public class Parser {
 				audio.setStart(getTime(start));
 				audio.setOffset(getTime(offset));
 
+				// Find corresponding asset element's sourcc file.
+				String ref = validateString(element.getAttribute(REFERENCE));
+				String src = null;
+				for (Asset a : assets) {
+					if (a.getId().equals(ref)) {
+						src = a.getSrc();
+						break;
+					}
+				}
+				audio.setRef(src);
+
 				list.add(audio);
 			}
 		}
@@ -342,9 +366,9 @@ public class Parser {
 	}
 
 	/**
-	 * Gets all information of &lt;audio&gt; tags from the document.
+	 * Gets all information of &lt;format&gt; tags from the document.
 	 * 
-	 * @return A List of Audio objects with the information from the document.
+	 * @return A List of Format objects with the information from the document.
 	 */
 	public List<Format> getFormats() {
 		logger.info("Getting formats...");
@@ -382,9 +406,9 @@ public class Parser {
 	}
 
 	/**
-	 * Gets all information of &lt;audio&gt; tags from the document.
+	 * Gets all information of &lt;effect&gt; tags from the document.
 	 * 
-	 * @return A List of Audio objects with the information from the document.
+	 * @return A List of Effect objects with the information from the document.
 	 */
 	public List<Effect> getEffects() {
 		logger.info("Getting effects...");
@@ -416,6 +440,44 @@ public class Parser {
 		} else {
 			return effects;
 		}
+	}
+
+	/**
+	 * Gets all information of &lt;clip&gt; tags from the document.
+	 * 
+	 * @return A List of Clip objects with the information from the document.
+	 */
+	public List<Clip> getClips() {
+		logger.info("Getting clips...");
+
+		NodeList clips = doc.getElementsByTagName(CLIP);
+		List<Clip> list = new ArrayList<Clip>();
+
+		for (int i = 0; i < clips.getLength(); i++) {
+
+			Node node = clips.item(i);
+
+			if (node.getNodeType() == Node.ELEMENT_NODE) {
+
+				Element element = (Element) node;
+
+				Clip clip = new Clip();
+
+				clip.setName(validateString(element.getAttribute(NAME)));
+				clip.setTcFormat(validateString(element.getAttribute(TC_FORMAT)));
+
+				String duration = validateString(element.getAttribute(DURATION));
+				String start = validateString(element.getAttribute(START));
+				String offset = validateString(element.getAttribute(OFFSET));
+				clip.setDuration(getTime(duration));
+				clip.setStart(getTime(start));
+				clip.setOffset(getTime(offset));
+
+				list.add(clip);
+			}
+		}
+
+		return list;
 	}
 
 	private String getTime(String s) {
