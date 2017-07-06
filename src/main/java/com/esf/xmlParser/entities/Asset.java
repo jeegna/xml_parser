@@ -42,7 +42,7 @@ public class Asset implements Comparable<Asset>, Serializable {
 		uid = new SimpleStringProperty();
 		src = new SimpleStringProperty();
 		start = new SimpleStringProperty();
-		format = null;
+		format = new Format();
 		audioSources = new SimpleIntegerProperty();
 		audioChannels = new SimpleIntegerProperty();
 		audioRate = new SimpleIntegerProperty();
@@ -273,19 +273,19 @@ public class Asset implements Comparable<Asset>, Serializable {
 	}
 
 	/**
-	 * Gets the format
+	 * Gets the Format
 	 *
-	 * @return The format
+	 * @return The Format
 	 */
 	public Format getFormat() {
 		return format;
 	}
 
 	/**
-	 * Sets the format
+	 * Sets the Format
 	 *
 	 * @param format
-	 *            The new format to set
+	 *            The new Format to set
 	 */
 	public void setFormat(Format format) {
 		this.format = format;

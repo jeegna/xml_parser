@@ -18,54 +18,75 @@ public class AssetClip implements Comparable<AssetClip>, Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private StringProperty ref;
+	private IntegerProperty id;
+	private Asset asset;
 	private StringProperty name;
 	private IntegerProperty lane;
 	private StringProperty offset;
 	private StringProperty duration;
 	private StringProperty start;
 	private StringProperty role;
-	private StringProperty format;
+	private Format format;
 	private StringProperty tcFormat;
 
 	public AssetClip() {
-		ref = new SimpleStringProperty();
+		id = new SimpleIntegerProperty();
+		asset = new Asset();
 		name = new SimpleStringProperty();
 		lane = new SimpleIntegerProperty();
 		offset = new SimpleStringProperty();
 		duration = new SimpleStringProperty();
 		start = new SimpleStringProperty();
 		role = new SimpleStringProperty();
-		format = new SimpleStringProperty();
+		format = new Format();
 		tcFormat = new SimpleStringProperty();
 	}
 
 	/**
-	 * Gets the ref property
+	 * Gets the id property
 	 *
-	 * @return The ref property
+	 * @return The id property
 	 */
-	public StringProperty refProperty() {
-		return ref;
+	public IntegerProperty idProperty() {
+		return id;
 	}
 
 	/**
-	 * Gets the ref
+	 * Gets the id
 	 *
-	 * @return The ref
+	 * @return The id
 	 */
-	public String getRef() {
-		return ref.get();
+	public int getId() {
+		return id.get();
 	}
 
 	/**
-	 * Sets the ref
+	 * Sets the id
 	 *
-	 * @param ref
-	 *            The new ref to set
+	 * @param id
+	 *            The new id to set
 	 */
-	public void setRef(String ref) {
-		this.ref.set(ref);
+	public void setId(int id) {
+		this.id.set(id);
+	}
+
+	/**
+	 * Gets the Asset
+	 *
+	 * @return The Asset
+	 */
+	public Asset getAsset() {
+		return asset;
+	}
+
+	/**
+	 * Sets the Aseet
+	 *
+	 * @param asset
+	 *            The new Asset to set
+	 */
+	public void setAsset(Asset asset) {
+		this.asset = asset;
 	}
 
 	/**
@@ -237,31 +258,22 @@ public class AssetClip implements Comparable<AssetClip>, Serializable {
 	}
 
 	/**
-	 * Gets the format property
+	 * Gets the Format
 	 *
-	 * @return The format property
+	 * @return The Format
 	 */
-	public StringProperty formatProperty() {
+	public Format getFormat() {
 		return format;
 	}
 
 	/**
-	 * Gets the format
-	 *
-	 * @return The format
-	 */
-	public String getFormat() {
-		return format.get();
-	}
-
-	/**
-	 * Sets the format
+	 * Sets the Format
 	 *
 	 * @param format
-	 *            The new format to set
+	 *            The new Format to set
 	 */
-	public void setFormat(String format) {
-		this.format.set(format);
+	public void setFormat(Format format) {
+		this.format = format;
 	}
 
 	/**
@@ -300,8 +312,8 @@ public class AssetClip implements Comparable<AssetClip>, Serializable {
 	@Override
 	public String toString() {
 		return String.format(
-				"Video[ref=%s, name=%s, lane=%s, duration=%s, start=%s, role=%s, offset=%s, format=%s, tcFormat=%s]",
-				ref, name, lane, duration, start, role, offset, format, tcFormat);
+				"AssetClip[asset=%s, name=%s, lane=%s, duration=%s, start=%s, role=%s, offset=%s, format=%s, tcFormat=%s]",
+				asset, name, lane, duration, start, role, offset, format, tcFormat);
 	}
 
 	/*
@@ -315,6 +327,6 @@ public class AssetClip implements Comparable<AssetClip>, Serializable {
 			return 1;
 		}
 
-		return Integer.compare(Integer.parseInt(ref.get().substring(1)), (Integer.parseInt(o.ref.get().substring(1))));
+		return Integer.compare(Integer.parseInt(asset.getId().substring(1)), (Integer.parseInt(o.asset.getId().substring(1))));
 	}
 }

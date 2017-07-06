@@ -175,9 +175,9 @@ public class MainController {
 		TableColumn<Asset, String> columnName = new TableColumn<>(resources.getString("colName"));
 		TableColumn<Asset, String> columnSrc = new TableColumn<>(resources.getString("colSrc"));
 		TableColumn<Asset, String> columnStart = new TableColumn<>(resources.getString("colStart"));
-		TableColumn<Asset, String> columnFormatName= new TableColumn<>(resources.getString("colFormatName"));
+		TableColumn<Asset, String> columnFormatName = new TableColumn<>(resources.getString("colFormatName"));
 		TableColumn<Asset, Number> columnWidth = new TableColumn<>(resources.getString("colWidth"));
-		TableColumn<Asset, Number> columnHeight= new TableColumn<>(resources.getString("colHeight"));
+		TableColumn<Asset, Number> columnHeight = new TableColumn<>(resources.getString("colHeight"));
 		TableColumn<Asset, String> columnFrameDuration = new TableColumn<>(resources.getString("colFrameRate"));
 		TableColumn<Asset, String> columnUID = new TableColumn<>(resources.getString("colUID"));
 
@@ -227,18 +227,26 @@ public class MainController {
 		TableColumn<AssetClip, String> columnDuration = new TableColumn<>(resources.getString("colDuration"));
 		TableColumn<AssetClip, String> columnStart = new TableColumn<>(resources.getString("colStart"));
 		TableColumn<AssetClip, String> columnRole = new TableColumn<>(resources.getString("colRole"));
-		TableColumn<AssetClip, String> columnFormat = new TableColumn<>(resources.getString("colFormat"));
+		TableColumn<AssetClip, String> columnFormatName = new TableColumn<>(resources.getString("colFormatName"));
+		TableColumn<AssetClip, Number> columnWidth = new TableColumn<>(resources.getString("colWidth"));
+		TableColumn<AssetClip, Number> columnHeight = new TableColumn<>(resources.getString("colHeight"));
+		TableColumn<AssetClip, String> columnFrameDuration = new TableColumn<>(resources.getString("colFrameRate"));
 		TableColumn<AssetClip, String> columnTcFormat = new TableColumn<>(resources.getString("colTcFormat"));
 
 		// Set cell values
-		columnRef.setCellValueFactory(cellData -> cellData.getValue().refProperty());
+		columnRef.setCellValueFactory(cellData -> cellData.getValue().getAsset().srcProperty());
 		columnName.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
 		columnLane.setCellValueFactory(cellData -> cellData.getValue().laneProperty());
 		columnOffset.setCellValueFactory(cellData -> cellData.getValue().offsetProperty());
 		columnDuration.setCellValueFactory(cellData -> cellData.getValue().durationProperty());
 		columnStart.setCellValueFactory(cellData -> cellData.getValue().startProperty());
 		columnRole.setCellValueFactory(cellData -> cellData.getValue().roleProperty());
-		columnFormat.setCellValueFactory(cellData -> cellData.getValue().formatProperty());
+
+		columnFormatName.setCellValueFactory(cellData -> cellData.getValue().getFormat().nameProperty());
+		columnWidth.setCellValueFactory(cellData -> cellData.getValue().getFormat().widthProperty());
+		columnHeight.setCellValueFactory(cellData -> cellData.getValue().getFormat().heightProperty());
+		columnFrameDuration.setCellValueFactory(cellData -> cellData.getValue().getFormat().frameDurationProperty());
+
 		columnTcFormat.setCellValueFactory(cellData -> cellData.getValue().tcFormatProperty());
 
 		ObservableList<TableColumn<AssetClip, ?>> columns = table.getColumns();
@@ -249,7 +257,10 @@ public class MainController {
 		columns.add(columnDuration);
 		columns.add(columnStart);
 		columns.add(columnRole);
-		columns.add(columnFormat);
+		columns.add(columnFormatName);
+		columns.add(columnWidth);
+		columns.add(columnHeight);
+		columns.add(columnFrameDuration);
 		columns.add(columnTcFormat);
 	}
 
@@ -272,9 +283,9 @@ public class MainController {
 		columnStart.setCellValueFactory(cellData -> cellData.getValue().startProperty());
 		columnDuration.setCellValueFactory(cellData -> cellData.getValue().durationProperty());
 		columnOffset.setCellValueFactory(cellData -> cellData.getValue().offsetProperty());
-		columnSrc.setCellValueFactory(cellData -> cellData.getValue().refProperty());
+		columnSrc.setCellValueFactory(cellData -> cellData.getValue().getAsset().srcProperty());
 		columnSrcChannel.setCellValueFactory(cellData -> cellData.getValue().srcChProperty());
-		columnSrcID.setCellValueFactory(cellData -> cellData.getValue().idProperty());
+		columnSrcID.setCellValueFactory(cellData -> cellData.getValue().srcIdProperty());
 
 		ObservableList<TableColumn<Audio, ?>> columns = table.getColumns();
 		columns.add(columnRole);
@@ -304,7 +315,7 @@ public class MainController {
 		columnStart.setCellValueFactory(cellData -> cellData.getValue().startProperty());
 		columnDuration.setCellValueFactory(cellData -> cellData.getValue().durationProperty());
 		columnOffset.setCellValueFactory(cellData -> cellData.getValue().offsetProperty());
-		columnSrc.setCellValueFactory(cellData -> cellData.getValue().refProperty());
+		columnSrc.setCellValueFactory(cellData -> cellData.getValue().getAsset().srcProperty());
 
 		ObservableList<TableColumn<Video, ?>> columns = table.getColumns();
 		columns.add(columnName);

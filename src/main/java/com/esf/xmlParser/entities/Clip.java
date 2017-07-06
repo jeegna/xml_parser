@@ -2,6 +2,8 @@ package com.esf.xmlParser.entities;
 
 import java.io.Serializable;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -9,6 +11,7 @@ public class Clip implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	private IntegerProperty id;
 	private StringProperty name;
 	private StringProperty offset;
 	private StringProperty duration;
@@ -16,11 +19,40 @@ public class Clip implements Serializable {
 	private StringProperty tcFormat;
 
 	public Clip() {
+		id = new SimpleIntegerProperty();
 		name = new SimpleStringProperty();
 		offset = new SimpleStringProperty();
 		duration = new SimpleStringProperty();
 		start = new SimpleStringProperty();
 		tcFormat = new SimpleStringProperty();
+	}
+
+	/**
+	 * Gets the id property
+	 *
+	 * @return The id property
+	 */
+	public IntegerProperty idProperty() {
+		return id;
+	}
+
+	/**
+	 * Gets the id
+	 *
+	 * @return The id
+	 */
+	public int getId() {
+		return id.get();
+	}
+
+	/**
+	 * Sets the id
+	 *
+	 * @param id
+	 *            The new id to set
+	 */
+	public void setId(int id) {
+		this.id.set(id);
 	}
 
 	/**

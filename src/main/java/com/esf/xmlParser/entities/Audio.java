@@ -18,7 +18,8 @@ public class Audio implements Comparable<Audio>, Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private StringProperty ref;
+	private IntegerProperty id;
+	private Asset asset;
 	private IntegerProperty lane;
 	private StringProperty role;
 	private StringProperty offset;
@@ -28,7 +29,8 @@ public class Audio implements Comparable<Audio>, Serializable {
 	private IntegerProperty srcID;
 
 	public Audio() {
-		ref = new SimpleStringProperty();
+		id = new SimpleIntegerProperty();
+		asset = new Asset();
 		lane = new SimpleIntegerProperty();
 		role = new SimpleStringProperty();
 		offset = new SimpleStringProperty();
@@ -36,6 +38,34 @@ public class Audio implements Comparable<Audio>, Serializable {
 		start = new SimpleStringProperty();
 		srcCh = new SimpleStringProperty();
 		srcID = new SimpleIntegerProperty();
+	}
+
+	/**
+	 * Gets the id property
+	 *
+	 * @return The id property
+	 */
+	public IntegerProperty idProperty() {
+		return id;
+	}
+
+	/**
+	 * Gets the id
+	 *
+	 * @return The id
+	 */
+	public int getId() {
+		return id.get();
+	}
+
+	/**
+	 * Sets the id
+	 *
+	 * @param id
+	 *            The new id to set
+	 */
+	public void setId(int id) {
+		this.id.set(id);
 	}
 
 	/**
@@ -151,31 +181,22 @@ public class Audio implements Comparable<Audio>, Serializable {
 	}
 
 	/**
-	 * Gets the ref property
+	 * Gets the asset
 	 *
-	 * @return The ref property
+	 * @return The asset
 	 */
-	public StringProperty refProperty() {
-		return ref;
+	public Asset getAsset() {
+		return asset;
 	}
 
 	/**
-	 * Gets the ref
+	 * Sets the asset
 	 *
-	 * @return The ref
+	 * @param asset
+	 *            The new asset to set
 	 */
-	public String getRef() {
-		return ref.get();
-	}
-
-	/**
-	 * Sets the ref
-	 *
-	 * @param ref
-	 *            The new ref to set
-	 */
-	public void setRef(String ref) {
-		this.ref.set(ref);
+	public void setAsset(Asset asset) {
+		this.asset = asset;
 	}
 
 	/**
@@ -211,7 +232,7 @@ public class Audio implements Comparable<Audio>, Serializable {
 	 *
 	 * @return The srcID property
 	 */
-	public IntegerProperty idProperty() {
+	public IntegerProperty srcIdProperty() {
 		return srcID;
 	}
 
@@ -220,7 +241,7 @@ public class Audio implements Comparable<Audio>, Serializable {
 	 *
 	 * @return The srcID
 	 */
-	public int getSrcID() {
+	public int getSrcId() {
 		return srcID.get();
 	}
 
@@ -230,7 +251,7 @@ public class Audio implements Comparable<Audio>, Serializable {
 	 * @param srcID
 	 *            The new srcID to set
 	 */
-	public void setSrcID(int srcID) {
+	public void setSrcId(int srcID) {
 		this.srcID.set(srcID);
 	}
 
@@ -270,7 +291,7 @@ public class Audio implements Comparable<Audio>, Serializable {
 	@Override
 	public String toString() {
 		return String.format("Video[ref=%s, lane=%s, duration=%s, start=%s, role=%s, offset=%s, srcCh=%s, srcId=%s]",
-				ref, lane, duration, start, role, offset, srcCh, srcID);
+				asset, lane, duration, start, role, offset, srcCh, srcID);
 	}
 
 	/*
@@ -284,6 +305,6 @@ public class Audio implements Comparable<Audio>, Serializable {
 			return 1;
 		}
 
-		return Integer.compare(Integer.parseInt(ref.get().substring(1)), (Integer.parseInt(o.ref.get().substring(1))));
+		return Integer.compare(Integer.parseInt(asset.getId().substring(1)), (Integer.parseInt(o.asset.getId().substring(1))));
 	}
 }

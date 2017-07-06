@@ -18,20 +18,50 @@ public class Video implements Comparable<Video>, Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	private IntegerProperty id;
 	private StringProperty name;
 	private IntegerProperty lane;
 	private StringProperty offset;
-	private StringProperty ref;
+	private Asset asset;
 	private StringProperty duration;
 	private StringProperty start;
 
 	public Video() {
+		id = new SimpleIntegerProperty();
 		name = new SimpleStringProperty();
 		lane = new SimpleIntegerProperty();
 		offset = new SimpleStringProperty();
-		ref = new SimpleStringProperty();
+		asset = new Asset();
 		duration = new SimpleStringProperty();
 		start = new SimpleStringProperty();
+	}
+
+	/**
+	 * Gets the id property
+	 *
+	 * @return The id property
+	 */
+	public IntegerProperty idProperty() {
+		return id;
+	}
+
+	/**
+	 * Gets the id
+	 *
+	 * @return The id
+	 */
+	public int getId() {
+		return id.get();
+	}
+
+	/**
+	 * Sets the id
+	 *
+	 * @param id
+	 *            The new id to set
+	 */
+	public void setId(int id) {
+		this.id.set(id);
 	}
 
 	/**
@@ -175,31 +205,22 @@ public class Video implements Comparable<Video>, Serializable {
 	}
 
 	/**
-	 * Gets the ref property
+	 * Gets the Asset
 	 *
-	 * @return The ref property
+	 * @return The Asset
 	 */
-	public StringProperty refProperty() {
-		return ref;
+	public Asset getAsset() {
+		return asset;
 	}
 
 	/**
-	 * Gets the ref
+	 * Sets the Asset
 	 *
-	 * @return The ref
+	 * @param asset
+	 *            The new Asset to set
 	 */
-	public String getRef() {
-		return ref.get();
-	}
-
-	/**
-	 * Sets the ref
-	 *
-	 * @param ref
-	 *            The new ref to set
-	 */
-	public void setRef(String ref) {
-		this.ref.set(ref);
+	public void setAsset(Asset asset) {
+		this.asset = asset;
 	}
 
 	/*
@@ -209,7 +230,7 @@ public class Video implements Comparable<Video>, Serializable {
 	 */
 	@Override
 	public String toString() {
-		return String.format("Video[ref=%s, duration=%s, name=%s, start=%s, lane=%s, offset=%s]", ref, duration, name,
+		return String.format("Video[ref=%s, duration=%s, name=%s, start=%s, lane=%s, offset=%s]", asset, duration, name,
 				start, lane, offset);
 	}
 
@@ -224,6 +245,6 @@ public class Video implements Comparable<Video>, Serializable {
 			return 1;
 		}
 
-		return Integer.compare(Integer.parseInt(ref.get().substring(1)), (Integer.parseInt(o.ref.get().substring(1))));
+		return Integer.compare(Integer.parseInt(asset.getId().substring(1)), (Integer.parseInt(o.asset.getId().substring(1))));
 	}
 }

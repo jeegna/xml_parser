@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.time.LocalTime;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -19,6 +19,14 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import com.esf.xmlParser.database.AssetClipController;
+import com.esf.xmlParser.database.AssetController;
+import com.esf.xmlParser.database.AudioController;
+import com.esf.xmlParser.database.ClipController;
+import com.esf.xmlParser.database.DatabaseConnector;
+import com.esf.xmlParser.database.EffectController;
+import com.esf.xmlParser.database.FormatController;
+import com.esf.xmlParser.database.VideoController;
 import com.esf.xmlParser.entities.Asset;
 import com.esf.xmlParser.entities.AssetClip;
 import com.esf.xmlParser.entities.Audio;
@@ -105,6 +113,7 @@ public class Parser {
 	 *             configuration requested.
 	 */
 	public Parser(String file) throws ParserConfigurationException, SAXException, IOException {
+		String fileName = getFileName(file);
 		doc = getDocument(file);
 
 		// Get main resources first so that they may be used to link their src
@@ -112,6 +121,60 @@ public class Parser {
 		formats = getFormats();
 		effects = getEffects();
 		assets = getAssets();
+		
+		createDatabase(fileName);
+	}
+	
+	private void createDatabase(String fileName) {
+		List<Format> formats = getFormats();
+		List<Effect> effects = getEffects();
+		List<Asset> assets = getAssets();
+		List<AssetClip> assetClips = getAssetClips();
+		List<Audio> audios = getAudios();
+		List<Video> videos = getVideos();
+		List<Clip> clips = getClips();
+		
+		DatabaseConnector db = new DatabaseConnector(fileName);
+		AssetClipController assetClipController = new AssetClipController(fileName);
+		AssetController assetController = new AssetController(fileName);
+		AudioController audioController = new AudioController(fileName);
+		ClipController clipController = new ClipController(fileName);
+		EffectController effectController = new EffectController(fileName);
+		FormatController formatController = new FormatController(fileName);
+		VideoController videoController = new VideoController(fileName);
+		
+		try {
+			db.createDatabaseTables();
+			formatController.addFormats(formats);
+			effectController.addEffects(effects);
+			assetController.addAssets(assets);
+			assetClipController.addAssetClips(assetClips);
+			audioController.addAudios(audios);
+			videoController.addVideos(videos);
+			clipController.addClips(clips);
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+
+	private String getFileName(String path) {
+		int begin = path.lastIndexOf('/');
+		int end;
+
+		if (begin != -1) {
+			path = path.substring(begin + 1);
+			end = path.lastIndexOf('.');
+		} else {
+			end = path.lastIndexOf('.');
+		}
+		if (end != -1) {
+			path = path.substring(0, end);
+		}
+
+		logger.info("File name: " + path);
+		return path;
 	}
 
 	/**
@@ -205,7 +268,6 @@ public class Parser {
 				assetClip.setName(validateString(element.getAttribute(NAME)));
 				assetClip.setLane(validateNumber(element.getAttribute(LANE)));
 				assetClip.setRole(validateString(element.getAttribute(AUDIO_ROLE)));
-				assetClip.setFormat(validateString(element.getAttribute(FORMAT)));
 				assetClip.setTcFormat(validateString(element.getAttribute(TC_FORMAT)));
 
 				String duration = validateString(element.getAttribute(DURATION));
@@ -215,16 +277,27 @@ public class Parser {
 				assetClip.setOffset(getTime(offset));
 				assetClip.setStart(getTime(start));
 
-				// Find corresponding asset element's sourcc file.
+				// Find corresponding asset element's source file.
 				String ref = validateString(element.getAttribute(REFERENCE));
-				String src = null;
+				Asset asset = new Asset();
 				for (Asset a : assets) {
 					if (a.getId().equals(ref)) {
-						src = a.getSrc();
+						asset = a;
 						break;
 					}
 				}
-				assetClip.setRef(src);
+				assetClip.setAsset(asset);
+
+				// Find corresponding format element.
+				String formatId = validateString(element.getAttribute(FORMAT));
+				Format format = new Format();
+				for (Format f : formats) {
+					if (f.getId().equals(formatId)) {
+						format = f;
+						break;
+					}
+				}
+				assetClip.setFormat(format);
 
 				list.add(assetClip);
 			}
@@ -296,16 +369,16 @@ public class Parser {
 				video.setStart(getTime(start));
 				video.setOffset(getTime(offset));
 
-				// Find corresponding asset element's sourcc file.
+				// Find corresponding asset element.
 				String ref = validateString(element.getAttribute(REFERENCE));
-				String src = null;
+				Asset asset = new Asset();
 				for (Asset a : assets) {
 					if (a.getId().equals(ref)) {
-						src = a.getSrc();
+						asset = a;
 						break;
 					}
 				}
-				video.setRef(src);
+				video.setAsset(asset);
 
 				list.add(video);
 			}
@@ -339,7 +412,7 @@ public class Parser {
 				audio.setRole(validateString(element.getAttribute(ROLE)));
 				audio.setOffset(validateString(element.getAttribute(OFFSET)));
 				audio.setSrcCh(validateString(element.getAttribute(SRC_CH)));
-				audio.setSrcID(validateNumber(element.getAttribute(SRC_ID)));
+				audio.setSrcId(validateNumber(element.getAttribute(SRC_ID)));
 
 				String duration = validateString(element.getAttribute(DURATION));
 				String start = validateString(element.getAttribute(START));
@@ -350,14 +423,14 @@ public class Parser {
 
 				// Find corresponding asset element's sourcc file.
 				String ref = validateString(element.getAttribute(REFERENCE));
-				String src = null;
+				Asset asset = new Asset();
 				for (Asset a : assets) {
 					if (a.getId().equals(ref)) {
-						src = a.getSrc();
+						asset = a;
 						break;
 					}
 				}
-				audio.setRef(src);
+				audio.setAsset(asset);
 
 				list.add(audio);
 			}
@@ -502,7 +575,7 @@ public class Parser {
 
 				time = convertToTimeStamp(quotient);
 
-				logger.info("time: " + time);
+				// logger.info("time: " + time);
 			}
 		}
 
