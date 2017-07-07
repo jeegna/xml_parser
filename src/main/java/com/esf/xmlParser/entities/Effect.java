@@ -147,7 +147,7 @@ public class Effect implements Comparable<Effect>, Serializable {
 	 */
 	@Override
 	public String toString() {
-		return String.format("Video[id=%s, name=%s, uid=%s, src=%s]", id, name, uid, src);
+		return String.format("Video[id=%s, name=%s, uid=%s, src=%s]", id.get(), name.get(), uid.get(), src.get());
 	}
 
 	/*

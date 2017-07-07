@@ -230,8 +230,8 @@ public class Video implements Comparable<Video>, Serializable {
 	 */
 	@Override
 	public String toString() {
-		return String.format("Video[ref=%s, duration=%s, name=%s, start=%s, lane=%s, offset=%s]", asset, duration, name,
-				start, lane, offset);
+		return String.format("Video[ref=%s, duration=%s, name=%s, start=%s, lane=%s, offset=%s]", asset, duration.get(),
+				name.get(), start.get(), lane.get(), offset.get());
 	}
 
 	/*
@@ -245,6 +245,7 @@ public class Video implements Comparable<Video>, Serializable {
 			return 1;
 		}
 
-		return Integer.compare(Integer.parseInt(asset.getId().substring(1)), (Integer.parseInt(o.asset.getId().substring(1))));
+		return Integer.compare(Integer.parseInt(asset.getId().substring(1)),
+				(Integer.parseInt(o.asset.getId().substring(1))));
 	}
 }

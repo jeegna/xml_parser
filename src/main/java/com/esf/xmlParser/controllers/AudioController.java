@@ -7,12 +7,15 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 import com.esf.xmlParser.database.DatabaseController;
 import com.esf.xmlParser.entities.Asset;
 import com.esf.xmlParser.entities.Audio;
 
 public class AudioController {
+
+	private final Logger logger = Logger.getLogger(this.getClass().getName());
 
 	private DatabaseController db;
 
@@ -21,10 +24,12 @@ public class AudioController {
 	}
 
 	public void addAudios(List<Audio> audios) throws SQLException, ClassNotFoundException {
+		logger.info("Adding Audios...");
 		Connection conn = db.getConnection();
 
 		PreparedStatement ps = conn.prepareStatement("INSERT INTO AUDIOS VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);");
 		for (Audio audio : audios) {
+			logger.info("Adding " + audio);
 			ps.setInt(1, audio.getId());
 			ps.setString(2, audio.getAsset().getId());
 			ps.setInt(3, audio.getLane());
@@ -41,20 +46,24 @@ public class AudioController {
 		ps.executeBatch();
 		conn.setAutoCommit(true);
 
+		ps.close();
 		conn.close();
 	}
 
 	public List<Audio> getAudios() throws SQLException, ClassNotFoundException {
+		logger.info("Getting all Audios from database...");
+
 		List<Audio> audios = new ArrayList<Audio>();
 
 		Connection conn = db.getConnection();
-		Statement stat = conn.createStatement();
+		Statement stmt = conn.createStatement();
 
-		ResultSet rs = stat.executeQuery("SELECT * FROM AUDIOS INNER JOIN ASSETS ON AUDIOS.assetId=ASSETS.id;");
+		ResultSet rs = stmt.executeQuery("SELECT * FROM AUDIOS INNER JOIN ASSETS ON AUDIOS.assetId=ASSETS.id;");
 		while (rs.next()) {
 			audios.add(createAudio(rs));
 		}
 
+		stmt.close();
 		rs.close();
 		conn.close();
 
@@ -62,11 +71,13 @@ public class AudioController {
 	}
 
 	public Audio getAudio(String id) throws SQLException, ClassNotFoundException {
+		logger.info("Getting Audio with id " + id);
+
 		Audio audio = null;
 
 		Connection conn = db.getConnection();
-		PreparedStatement ps = conn
-				.prepareStatement("SELECT * FROM AUDIOS INNER JOIN ASSETS ON AUDIOS.assetId = ASSETS.id WHERE AUDIOS.id=?;");
+		PreparedStatement ps = conn.prepareStatement(
+				"SELECT * FROM AUDIOS INNER JOIN ASSETS ON AUDIOS.assetId = ASSETS.id WHERE AUDIOS.id=?;");
 		ps.setString(1, id);
 
 		ResultSet rs = ps.executeQuery();
@@ -74,13 +85,17 @@ public class AudioController {
 			audio = createAudio(rs);
 		}
 
+		ps.close();
 		rs.close();
 		conn.close();
 
+		logger.info("Found " + audio);
 		return audio;
 	}
 
 	private Audio createAudio(ResultSet rs) throws SQLException {
+		logger.info("Creating Audio...");
+
 		Audio audio = new Audio();
 
 		audio.setId(rs.getInt("id"));
@@ -96,6 +111,7 @@ public class AudioController {
 		Asset asset = new Asset();
 		audio.setAsset(asset);
 
+		logger.info("Created " + audio);
 		return audio;
 	}
 }

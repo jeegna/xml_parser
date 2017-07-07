@@ -202,7 +202,7 @@ public class Clip implements Serializable {
 	 */
 	@Override
 	public String toString() {
-		return String.format("Clip[name=%s, offset=%s, duration=%s, start=%s, tcFormat=%s]", name, offset, duration,
-				start, tcFormat);
+		return String.format("Clip[name=%s, offset=%s, duration=%s, start=%s, tcFormat=%s]", name.get(), offset.get(),
+				duration.get(), start.get(), tcFormat.get());
 	}
 }

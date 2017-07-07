@@ -7,11 +7,14 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 import com.esf.xmlParser.database.DatabaseController;
 import com.esf.xmlParser.entities.Clip;
 
 public class ClipController {
+
+	private final Logger logger = Logger.getLogger(this.getClass().getName());
 
 	private DatabaseController db;
 
@@ -20,10 +23,12 @@ public class ClipController {
 	}
 
 	public void addClips(List<Clip> clips) throws SQLException, ClassNotFoundException {
+		logger.info("Adding Clips...");
 		Connection conn = db.getConnection();
 
 		PreparedStatement ps = conn.prepareStatement("INSERT INTO CLIPS VALUES (?, ?, ?, ?, ?, ?);");
 		for (Clip clip : clips) {
+			logger.info("Adding " + clip);
 			ps.setInt(1, clip.getId());
 			ps.setString(2, clip.getName());
 			ps.setString(3, clip.getOffset());
@@ -37,20 +42,24 @@ public class ClipController {
 		ps.executeBatch();
 		conn.setAutoCommit(true);
 
+		ps.close();
 		conn.close();
 	}
 
 	public List<Clip> getClips() throws SQLException, ClassNotFoundException {
+		logger.info("Getting all Clips from database...");
+
 		List<Clip> clips = new ArrayList<Clip>();
 
 		Connection conn = db.getConnection();
-		Statement stat = conn.createStatement();
+		Statement stmt = conn.createStatement();
 
-		ResultSet rs = stat.executeQuery("SELECT * FROM CLIPS;");
+		ResultSet rs = stmt.executeQuery("SELECT * FROM CLIPS;");
 		while (rs.next()) {
 			clips.add(createClip(rs));
 		}
 
+		stmt.close();
 		rs.close();
 		conn.close();
 
@@ -58,6 +67,8 @@ public class ClipController {
 	}
 
 	public Clip getClip(String id) throws SQLException, ClassNotFoundException {
+		logger.info("Getting Clip with id " + id);
+
 		Clip clip = null;
 
 		Connection conn = db.getConnection();
@@ -69,13 +80,17 @@ public class ClipController {
 			clip = createClip(rs);
 		}
 
+		ps.close();
 		rs.close();
 		conn.close();
 
+		logger.info("Found " + clip);
 		return clip;
 	}
-	
+
 	private Clip createClip(ResultSet rs) throws SQLException {
+		logger.info("Creating Clip...");
+
 		Clip clip = new Clip();
 
 		clip.setId(rs.getInt("id"));
@@ -85,6 +100,7 @@ public class ClipController {
 		clip.setStart(rs.getString("start"));
 		clip.setTcFormat(rs.getString("tcFormat"));
 
+		logger.info("Created " + clip);
 		return clip;
 	}
 }

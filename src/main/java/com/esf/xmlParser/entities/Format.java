@@ -179,8 +179,8 @@ public class Format implements Comparable<Format>, Serializable {
 	 */
 	@Override
 	public String toString() {
-		return String.format("Format[id=%s, name=%s, width=%s, height=%s, frameDuration=%s]", id, name, width, height,
-				frameDuration);
+		return String.format("Format[id=%s, name=%s, width=%s, height=%s, frameDuration=%s]", id.get(), name.get(),
+				width.get(), height.get(), frameDuration.get());
 	}
 
 	/*

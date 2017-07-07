@@ -7,12 +7,15 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 import com.esf.xmlParser.database.DatabaseController;
 import com.esf.xmlParser.entities.Asset;
 import com.esf.xmlParser.entities.Format;
 
 public class AssetController {
+
+	private final Logger logger = Logger.getLogger(this.getClass().getName());
 
 	private DatabaseController db;
 
@@ -21,10 +24,12 @@ public class AssetController {
 	}
 
 	public void addAssets(List<Asset> assets) throws SQLException, ClassNotFoundException {
+		logger.info("Adding Assets...");
 		Connection conn = db.getConnection();
 
 		PreparedStatement ps = conn.prepareStatement("INSERT INTO ASSETS VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);");
 		for (Asset asset : assets) {
+			logger.info("Adding " + asset);
 			ps.setString(1, asset.getId());
 			ps.setString(2, asset.getDuration());
 			ps.setBoolean(3, asset.hasVideo());
@@ -44,20 +49,24 @@ public class AssetController {
 		ps.executeBatch();
 		conn.setAutoCommit(true);
 
+		ps.close();
 		conn.close();
 	}
 
 	public List<Asset> getAssets() throws SQLException, ClassNotFoundException {
+		logger.info("Getting all Assets from database...");
+
 		List<Asset> assets = new ArrayList<Asset>();
 
 		Connection conn = db.getConnection();
-		Statement stat = conn.createStatement();
+		Statement stmt = conn.createStatement();
 
-		ResultSet rs = stat.executeQuery("SELECT * FROM ASSETS INNER JOIN FORMAT ON ASSETS.formatId = FORMATS.id;");
+		ResultSet rs = stmt.executeQuery("SELECT * FROM ASSETS INNER JOIN FORMAT ON ASSETS.formatId = FORMATS.id;");
 		while (rs.next()) {
 			assets.add(createAsset(rs));
 		}
 
+		stmt.close();
 		rs.close();
 		conn.close();
 
@@ -65,10 +74,13 @@ public class AssetController {
 	}
 
 	public Asset getAsset(String id) throws SQLException, ClassNotFoundException {
+		logger.info("Getting Asset with id " + id);
+
 		Asset asset = null;
 
 		Connection conn = db.getConnection();
-		PreparedStatement ps = conn.prepareStatement("SELECT * FROM ASSETS INNER JOIN FORMAT ON ASSETS.formatId = FORMATS.id WHERE ASSETS.id=?;");
+		PreparedStatement ps = conn.prepareStatement(
+				"SELECT * FROM ASSETS INNER JOIN FORMAT ON ASSETS.formatId = FORMATS.id WHERE ASSETS.id=?;");
 		ps.setString(1, id);
 
 		ResultSet rs = ps.executeQuery();
@@ -76,13 +88,17 @@ public class AssetController {
 			asset = createAsset(rs);
 		}
 
+		ps.close();
 		rs.close();
 		conn.close();
 
+		logger.info("Found " + asset);
 		return asset;
 	}
-	
+
 	private Asset createAsset(ResultSet rs) throws SQLException {
+		logger.info("Creating Asset...");
+
 		Asset asset = new Asset();
 
 		asset.setId(rs.getString("id"));
@@ -100,7 +116,8 @@ public class AssetController {
 		// TODO Get format
 		Format format = new Format();
 		asset.setFormat(format);
-		
+
+		logger.info("Created " + asset);
 		return asset;
 	}
 }

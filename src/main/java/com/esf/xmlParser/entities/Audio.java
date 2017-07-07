@@ -291,7 +291,7 @@ public class Audio implements Comparable<Audio>, Serializable {
 	@Override
 	public String toString() {
 		return String.format("Video[ref=%s, lane=%s, duration=%s, start=%s, role=%s, offset=%s, srcCh=%s, srcId=%s]",
-				asset, lane, duration, start, role, offset, srcCh, srcID);
+				asset, lane.get(), duration.get(), start.get(), role.get(), offset.get(), srcCh.get(), srcID.get());
 	}
 
 	/*
@@ -305,6 +305,7 @@ public class Audio implements Comparable<Audio>, Serializable {
 			return 1;
 		}
 
-		return Integer.compare(Integer.parseInt(asset.getId().substring(1)), (Integer.parseInt(o.asset.getId().substring(1))));
+		return Integer.compare(Integer.parseInt(asset.getId().substring(1)),
+				(Integer.parseInt(o.asset.getId().substring(1))));
 	}
 }

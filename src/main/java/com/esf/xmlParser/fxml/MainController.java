@@ -38,6 +38,8 @@ import javafx.stage.Stage;
  */
 public class MainController {
 
+	private final Logger logger = Logger.getLogger(this.getClass().getName());
+
 	@FXML
 	private ResourceBundle resources;
 
@@ -54,8 +56,6 @@ public class MainController {
 	private MenuItem menuItemChooseFile;
 	@FXML
 	private MenuItem menuItemAbout;
-
-	private final Logger logger = Logger.getLogger(this.getClass().getName());
 
 	private String filePath;
 	private String fileName;

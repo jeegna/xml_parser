@@ -313,7 +313,8 @@ public class AssetClip implements Comparable<AssetClip>, Serializable {
 	public String toString() {
 		return String.format(
 				"AssetClip[asset=%s, name=%s, lane=%s, duration=%s, start=%s, role=%s, offset=%s, format=%s, tcFormat=%s]",
-				asset, name, lane, duration, start, role, offset, format, tcFormat);
+				asset, name.get(), lane.get(), duration.get(), start.get(), role.get(), offset.get(), format,
+				tcFormat.get());
 	}
 
 	/*
@@ -327,6 +328,7 @@ public class AssetClip implements Comparable<AssetClip>, Serializable {
 			return 1;
 		}
 
-		return Integer.compare(Integer.parseInt(asset.getId().substring(1)), (Integer.parseInt(o.asset.getId().substring(1))));
+		return Integer.compare(Integer.parseInt(asset.getId().substring(1)),
+				(Integer.parseInt(o.asset.getId().substring(1))));
 	}
 }

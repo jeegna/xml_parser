@@ -7,12 +7,15 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 import com.esf.xmlParser.entities.Video;
 import com.esf.xmlParser.database.DatabaseController;
 import com.esf.xmlParser.entities.Asset;
 
 public class VideoController {
+
+	private final Logger logger = Logger.getLogger(this.getClass().getName());
 
 	private DatabaseController db;
 
@@ -21,10 +24,12 @@ public class VideoController {
 	}
 
 	public void addVideos(List<Video> videos) throws SQLException, ClassNotFoundException {
+		logger.info("Adding Videos...");
 		Connection conn = db.getConnection();
 
 		PreparedStatement ps = conn.prepareStatement("INSERT INTO VIDEOS VALUES (?, ?, ?, ?, ?, ?, ?);");
 		for (Video video : videos) {
+			logger.info("Adding " + video);
 			ps.setInt(1, video.getId());
 			ps.setString(2, video.getName());
 			ps.setInt(3, video.getLane());
@@ -39,20 +44,24 @@ public class VideoController {
 		ps.executeBatch();
 		conn.setAutoCommit(true);
 
+		ps.close();
 		conn.close();
 	}
 
 	public List<Video> getVideos() throws SQLException, ClassNotFoundException {
+		logger.info("Getting all Videos from database...");
+
 		List<Video> videos = new ArrayList<Video>();
 
 		Connection conn = db.getConnection();
-		Statement stat = conn.createStatement();
+		Statement stmt = conn.createStatement();
 
-		ResultSet rs = stat.executeQuery("SELECT * FROM VIDEOS INNER JOIN ASSETS ON ASSETS.id = VIDEOS.id;");
+		ResultSet rs = stmt.executeQuery("SELECT * FROM VIDEOS INNER JOIN ASSETS ON ASSETS.id = VIDEOS.id;");
 		while (rs.next()) {
 			videos.add(createVideo(rs));
 		}
 
+		stmt.close();
 		rs.close();
 		conn.close();
 
@@ -60,6 +69,8 @@ public class VideoController {
 	}
 
 	public Video getVideo(String id) throws SQLException, ClassNotFoundException {
+		logger.info("Getting Video with id " + id);
+
 		Video video = null;
 
 		Connection conn = db.getConnection();
@@ -72,13 +83,17 @@ public class VideoController {
 			video = createVideo(rs);
 		}
 
+		ps.close();
 		rs.close();
 		conn.close();
 
+		logger.info("Found: " + video);
 		return video;
 	}
 
 	private Video createVideo(ResultSet rs) throws SQLException {
+		logger.info("Creating Video...");
+
 		Video video = new Video();
 
 		video.setId(rs.getInt("id"));
@@ -91,6 +106,7 @@ public class VideoController {
 		Asset asset = new Asset();
 		video.setAsset(asset);
 
+		logger.info("Created " + video);
 		return video;
 	}
 }

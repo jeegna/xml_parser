@@ -7,11 +7,14 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 import com.esf.xmlParser.database.DatabaseController;
 import com.esf.xmlParser.entities.Format;
 
 public class FormatController {
+
+	private final Logger logger = Logger.getLogger(this.getClass().getName());
 
 	private DatabaseController db;
 
@@ -20,10 +23,12 @@ public class FormatController {
 	}
 
 	public void addFormats(List<Format> formats) throws SQLException, ClassNotFoundException {
+		logger.info("Adding Formats...");
 		Connection conn = db.getConnection();
 
 		PreparedStatement ps = conn.prepareStatement("INSERT INTO FORMATS VALUES (?, ?, ?, ?, ?);");
 		for (Format format : formats) {
+			logger.info("Adding " + format);
 			ps.setString(1, format.getId());
 			ps.setString(2, format.getName());
 			ps.setInt(3, format.getWidth());
@@ -36,20 +41,24 @@ public class FormatController {
 		ps.executeBatch();
 		conn.setAutoCommit(true);
 
+		ps.close();
 		conn.close();
 	}
 
 	public List<Format> getFormats() throws SQLException, ClassNotFoundException {
+		logger.info("Getting all Formats from database...");
+
 		List<Format> formats = new ArrayList<Format>();
 
 		Connection conn = db.getConnection();
-		Statement stat = conn.createStatement();
+		Statement stmt = conn.createStatement();
 
-		ResultSet rs = stat.executeQuery("SELECT * FROM FORMATS;");
+		ResultSet rs = stmt.executeQuery("SELECT * FROM FORMATS;");
 		while (rs.next()) {
 			formats.add(createFormat(rs));
 		}
 
+		stmt.close();
 		rs.close();
 		conn.close();
 
@@ -57,6 +66,8 @@ public class FormatController {
 	}
 
 	public Format getFormat(String id) throws SQLException, ClassNotFoundException {
+		logger.info("Getting Format with id " + id);
+
 		Format format = null;
 
 		Connection conn = db.getConnection();
@@ -68,13 +79,17 @@ public class FormatController {
 			format = createFormat(rs);
 		}
 
+		ps.close();
 		rs.close();
 		conn.close();
 
+		logger.info("Found " + format);
 		return format;
 	}
-	
+
 	private Format createFormat(ResultSet rs) throws SQLException {
+		logger.info("Creating Format...");
+
 		Format format = new Format();
 
 		format.setId(rs.getString("id"));
@@ -83,6 +98,7 @@ public class FormatController {
 		format.setHeight(rs.getInt("height"));
 		format.setFrameDuration(rs.getString("frameDuration"));
 
+		logger.info("Created " + format);
 		return format;
 	}
 }

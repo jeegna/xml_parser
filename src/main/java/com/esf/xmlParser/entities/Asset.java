@@ -384,8 +384,8 @@ public class Asset implements Comparable<Asset>, Serializable {
 	public String toString() {
 		return String.format(
 				"Asset[id=%s, duration=%s, hasVideo=%s, hasAudio=%s, name=%s, uid=%s, src=%s, start=%s, format=%s, audioSources=%s, audioChannels=%s, audioRate=%s]",
-				id, duration, hasVideo, hasAudio, name, uid, src, start, format, audioSources, audioChannels,
-				audioRate);
+				id.get(), duration.get(), hasVideo.get(), hasAudio.get(), name.get(), uid.get(), src.get(), start.get(),
+				format, audioSources.get(), audioChannels.get(), audioRate.get());
 	}
 
 	/*

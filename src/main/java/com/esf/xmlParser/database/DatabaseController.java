@@ -81,13 +81,69 @@ public class DatabaseController {
 
 		createDatabaseTables();
 
-		formatController.addFormats(formats);
-		effectController.addEffects(effects);
+		addFormats(formats);
+		addEffects(effects);
+		addAssets(assets);
+		addAssetClips(assetClips);
+		addAudios(audios);
+		addVideos(videos);
+		addClips(clips);
+	}
+
+	public void addAssets(List<Asset> assets) throws ClassNotFoundException, SQLException {
 		assetController.addAssets(assets);
+	}
+
+	public void addAssetClips(List<AssetClip> assetClips) throws ClassNotFoundException, SQLException {
 		assetClipController.addAssetClips(assetClips);
+	}
+
+	public void addAudios(List<Audio> audios) throws ClassNotFoundException, SQLException {
 		audioController.addAudios(audios);
-		videoController.addVideos(videos);
+	}
+
+	public void addClips(List<Clip> clips) throws ClassNotFoundException, SQLException {
 		clipController.addClips(clips);
+	}
+
+	public void addEffects(List<Effect> effects) throws ClassNotFoundException, SQLException {
+		effectController.addEffects(effects);
+	}
+
+	public void addFormats(List<Format> formats) throws ClassNotFoundException, SQLException {
+		formatController.addFormats(formats);
+	}
+
+	public void addVideos(List<Video> videos) throws ClassNotFoundException, SQLException {
+		videoController.addVideos(videos);
+	}
+
+	public List<Asset> getAssets() throws ClassNotFoundException, SQLException {
+		return assetController.getAssets();
+	}
+
+	public List<AssetClip> getAssetClips() throws ClassNotFoundException, SQLException {
+		return assetClipController.getAssetClips();
+	}
+
+	public List<Audio> getAudios() throws ClassNotFoundException, SQLException {
+		return audioController.getAudios();
+	}
+
+	public List<Clip> getClips() throws ClassNotFoundException, SQLException {
+		return clipController.getClips();
+	}
+
+	public List<Effect> getEffects() throws ClassNotFoundException, SQLException {
+		return effectController.getEffects();
+	}
+
+	public List<Format> getFormats() throws ClassNotFoundException, SQLException {
+		return formatController.getFormats();
+	}
+
+	public List<Video> getVideos() throws ClassNotFoundException, SQLException {
+		return videoController.getVideos();
 	}
 
 	private void createDatabaseTables() throws SQLException, ClassNotFoundException {
@@ -191,33 +247,5 @@ public class DatabaseController {
 
 		stmt.close();
 		conn.close();
-	}
-
-	public List<Asset> getAssets() throws ClassNotFoundException, SQLException {
-		return assetController.getAssets();
-	}
-
-	public List<AssetClip> getAssetClips() throws ClassNotFoundException, SQLException {
-		return assetClipController.getAssetClips();
-	}
-
-	public List<Audio> getAudios() throws ClassNotFoundException, SQLException {
-		return audioController.getAudios();
-	}
-
-	public List<Clip> getClips() throws ClassNotFoundException, SQLException {
-		return clipController.getClips();
-	}
-
-	public List<Effect> getEffects() throws ClassNotFoundException, SQLException {
-		return effectController.getEffects();
-	}
-
-	public List<Format> getFormats() throws ClassNotFoundException, SQLException {
-		return formatController.getFormats();
-	}
-
-	public List<Video> getVideos() throws ClassNotFoundException, SQLException {
-		return videoController.getVideos();
 	}
 }
