@@ -1,4 +1,4 @@
-package com.esf.xmlParser.database;
+package com.esf.xmlParser.controllers;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.esf.xmlParser.database.DatabaseConnector;
 import com.esf.xmlParser.entities.Asset;
 import com.esf.xmlParser.entities.Audio;
 

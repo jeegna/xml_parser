@@ -1,4 +1,4 @@
-package com.esf.xmlParser.util;
+package com.esf.xmlParser.parser;
 
 import java.io.File;
 import java.io.IOException;
@@ -19,14 +19,6 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import com.esf.xmlParser.database.AssetClipController;
-import com.esf.xmlParser.database.AssetController;
-import com.esf.xmlParser.database.AudioController;
-import com.esf.xmlParser.database.ClipController;
-import com.esf.xmlParser.database.DatabaseConnector;
-import com.esf.xmlParser.database.EffectController;
-import com.esf.xmlParser.database.FormatController;
-import com.esf.xmlParser.database.VideoController;
 import com.esf.xmlParser.entities.Asset;
 import com.esf.xmlParser.entities.AssetClip;
 import com.esf.xmlParser.entities.Audio;
@@ -93,10 +85,6 @@ public class Parser {
 
 	private Document doc;
 
-	private List<Asset> assets;
-	private List<Format> formats;
-	private List<Effect> effects;
-
 	/**
 	 * Creates a Parser for the given file.
 	 * 
@@ -111,70 +99,12 @@ public class Parser {
 	 * @throws ParserConfigurationException
 	 *             If a DocumentBuilder cannot be created which satisfies the
 	 *             configuration requested.
+	 * @throws SQLException
+	 * @throws ClassNotFoundException
 	 */
-	public Parser(String file) throws ParserConfigurationException, SAXException, IOException {
-		String fileName = getFileName(file);
+	public Parser(String file)
+			throws ParserConfigurationException, SAXException, IOException, ClassNotFoundException, SQLException {
 		doc = getDocument(file);
-
-		// Get main resources first so that they may be used to link their src
-		// to other ref's.
-		formats = getFormats();
-		effects = getEffects();
-		assets = getAssets();
-		
-		createDatabase(fileName);
-	}
-	
-	private void createDatabase(String fileName) {
-		List<Format> formats = getFormats();
-		List<Effect> effects = getEffects();
-		List<Asset> assets = getAssets();
-		List<AssetClip> assetClips = getAssetClips();
-		List<Audio> audios = getAudios();
-		List<Video> videos = getVideos();
-		List<Clip> clips = getClips();
-		
-		DatabaseConnector db = new DatabaseConnector(fileName);
-		AssetClipController assetClipController = new AssetClipController(fileName);
-		AssetController assetController = new AssetController(fileName);
-		AudioController audioController = new AudioController(fileName);
-		ClipController clipController = new ClipController(fileName);
-		EffectController effectController = new EffectController(fileName);
-		FormatController formatController = new FormatController(fileName);
-		VideoController videoController = new VideoController(fileName);
-		
-		try {
-			db.createDatabaseTables();
-			formatController.addFormats(formats);
-			effectController.addEffects(effects);
-			assetController.addAssets(assets);
-			assetClipController.addAssetClips(assetClips);
-			audioController.addAudios(audios);
-			videoController.addVideos(videos);
-			clipController.addClips(clips);
-		} catch (ClassNotFoundException | SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-	}
-
-	private String getFileName(String path) {
-		int begin = path.lastIndexOf('/');
-		int end;
-
-		if (begin != -1) {
-			path = path.substring(begin + 1);
-			end = path.lastIndexOf('.');
-		} else {
-			end = path.lastIndexOf('.');
-		}
-		if (end != -1) {
-			path = path.substring(0, end);
-		}
-
-		logger.info("File name: " + path);
-		return path;
 	}
 
 	/**
@@ -185,61 +115,49 @@ public class Parser {
 	public List<Asset> getAssets() {
 		logger.info("Getting assets...");
 
-		if (assets == null) {
-			NodeList assets = doc.getElementsByTagName(ASSET);
-			List<Asset> list = new ArrayList<Asset>();
+		NodeList assets = doc.getElementsByTagName(ASSET);
+		List<Asset> list = new ArrayList<Asset>();
 
-			for (int i = 0; i < assets.getLength(); i++) {
+		for (int i = 0; i < assets.getLength(); i++) {
 
-				Node node = assets.item(i);
+			Node node = assets.item(i);
 
-				if (node.getNodeType() == Node.ELEMENT_NODE) {
+			if (node.getNodeType() == Node.ELEMENT_NODE) {
 
-					Element element = (Element) node;
+				Element element = (Element) node;
 
-					Asset asset = new Asset();
-					asset.setId(validateString(element.getAttribute(ID)));
+				Asset asset = new Asset();
+				asset.setId(validateString(element.getAttribute(ID)));
 
-					String hasAudio = element.getAttribute(HAS_AUDIO);
-					asset.setHasAudio(hasAudio != null && hasAudio.equals("1"));
+				String hasAudio = element.getAttribute(HAS_AUDIO);
+				asset.setHasAudio(hasAudio != null && hasAudio.equals("1"));
 
-					String hasVideo = element.getAttribute(HAS_VIDEO);
-					asset.setHasVideo(hasVideo != null && hasVideo.equals("1"));
+				String hasVideo = element.getAttribute(HAS_VIDEO);
+				asset.setHasVideo(hasVideo != null && hasVideo.equals("1"));
 
-					asset.setName(validateString(element.getAttribute(NAME)));
-					asset.setUid(validateString(element.getAttribute(UID)));
-					asset.setSrc(validateString(element.getAttribute(SOURCE)));
-					asset.setAudioSources(validateNumber(element.getAttribute(AUDIO_SOURCES)));
-					asset.setAudioChannels(validateNumber(element.getAttribute(AUDIO_CHANNELS)));
-					asset.setAudioRate(validateNumber(element.getAttribute(AUDIO_RATE)));
+				asset.setName(validateString(element.getAttribute(NAME)));
+				asset.setUid(validateString(element.getAttribute(UID)));
+				asset.setSrc(validateString(element.getAttribute(SOURCE)));
+				asset.setAudioSources(validateNumber(element.getAttribute(AUDIO_SOURCES)));
+				asset.setAudioChannels(validateNumber(element.getAttribute(AUDIO_CHANNELS)));
+				asset.setAudioRate(validateNumber(element.getAttribute(AUDIO_RATE)));
 
-					String duration = validateString(element.getAttribute(DURATION));
-					String start = element.getAttribute(START);
-					asset.setDuration(getTime(duration));
-					asset.setStart(getTime(start));
+				String duration = validateString(element.getAttribute(DURATION));
+				String start = element.getAttribute(START);
+				asset.setDuration(getTime(duration));
+				asset.setStart(getTime(start));
 
-					// Find corresponding format element.
-					String formatId = validateString(element.getAttribute(FORMAT));
-					Format format = null;
-					for (Format f : formats) {
-						if (f.getId().equals(formatId)) {
-							format = f;
-							break;
-						}
-					}
-					if (format == null) {
-						format = new Format();
-					}
-					asset.setFormat(format);
+				// Find corresponding format element.
+				String formatId = validateString(element.getAttribute(FORMAT));
+				Format format = new Format();
+				format.setId(formatId);
+				asset.setFormat(format);
 
-					list.add(asset);
-				}
+				list.add(asset);
 			}
-
-			return list;
-		} else {
-			return assets;
 		}
+
+		return list;
 	}
 
 	/**
@@ -280,23 +198,13 @@ public class Parser {
 				// Find corresponding asset element's source file.
 				String ref = validateString(element.getAttribute(REFERENCE));
 				Asset asset = new Asset();
-				for (Asset a : assets) {
-					if (a.getId().equals(ref)) {
-						asset = a;
-						break;
-					}
-				}
+				asset.setId(ref);
 				assetClip.setAsset(asset);
 
 				// Find corresponding format element.
 				String formatId = validateString(element.getAttribute(FORMAT));
 				Format format = new Format();
-				for (Format f : formats) {
-					if (f.getId().equals(formatId)) {
-						format = f;
-						break;
-					}
-				}
+				format.setId(formatId);
 				assetClip.setFormat(format);
 
 				list.add(assetClip);
@@ -372,12 +280,7 @@ public class Parser {
 				// Find corresponding asset element.
 				String ref = validateString(element.getAttribute(REFERENCE));
 				Asset asset = new Asset();
-				for (Asset a : assets) {
-					if (a.getId().equals(ref)) {
-						asset = a;
-						break;
-					}
-				}
+				asset.setId(ref);
 				video.setAsset(asset);
 
 				list.add(video);
@@ -424,12 +327,7 @@ public class Parser {
 				// Find corresponding asset element's sourcc file.
 				String ref = validateString(element.getAttribute(REFERENCE));
 				Asset asset = new Asset();
-				for (Asset a : assets) {
-					if (a.getId().equals(ref)) {
-						asset = a;
-						break;
-					}
-				}
+				asset.setId(ref);
 				audio.setAsset(asset);
 
 				list.add(audio);
@@ -447,36 +345,32 @@ public class Parser {
 	public List<Format> getFormats() {
 		logger.info("Getting formats...");
 
-		if (formats == null) {
-			NodeList formats = doc.getElementsByTagName(FORMAT);
-			List<Format> list = new ArrayList<Format>();
+		NodeList formats = doc.getElementsByTagName(FORMAT);
+		List<Format> list = new ArrayList<Format>();
 
-			for (int i = 0; i < formats.getLength(); i++) {
+		for (int i = 0; i < formats.getLength(); i++) {
 
-				Node node = formats.item(i);
+			Node node = formats.item(i);
 
-				if (node.getNodeType() == Node.ELEMENT_NODE) {
+			if (node.getNodeType() == Node.ELEMENT_NODE) {
 
-					Element element = (Element) node;
+				Element element = (Element) node;
 
-					Format format = new Format();
+				Format format = new Format();
 
-					format.setId(validateString(element.getAttribute(ID)));
-					format.setName(validateString(element.getAttribute(NAME)));
-					format.setWidth(validateNumber(element.getAttribute(WIDTH)));
-					format.setHeight(validateNumber(element.getAttribute(HEIGHT)));
+				format.setId(validateString(element.getAttribute(ID)));
+				format.setName(validateString(element.getAttribute(NAME)));
+				format.setWidth(validateNumber(element.getAttribute(WIDTH)));
+				format.setHeight(validateNumber(element.getAttribute(HEIGHT)));
 
-					String frameDuration = validateString(element.getAttribute(FRAME_DURATION));
-					format.setFrameDuration(getFrameRate(frameDuration));
+				String frameDuration = validateString(element.getAttribute(FRAME_DURATION));
+				format.setFrameDuration(getFrameRate(frameDuration));
 
-					list.add(format);
-				}
+				list.add(format);
 			}
-
-			return list;
-		} else {
-			return formats;
 		}
+
+		return list;
 	}
 
 	/**
@@ -487,33 +381,29 @@ public class Parser {
 	public List<Effect> getEffects() {
 		logger.info("Getting effects...");
 
-		if (effects == null) {
-			NodeList effects = doc.getElementsByTagName(EFFECT);
-			List<Effect> list = new ArrayList<Effect>();
+		NodeList effects = doc.getElementsByTagName(EFFECT);
+		List<Effect> list = new ArrayList<Effect>();
 
-			for (int i = 0; i < effects.getLength(); i++) {
+		for (int i = 0; i < effects.getLength(); i++) {
 
-				Node node = effects.item(i);
+			Node node = effects.item(i);
 
-				if (node.getNodeType() == Node.ELEMENT_NODE) {
+			if (node.getNodeType() == Node.ELEMENT_NODE) {
 
-					Element element = (Element) node;
+				Element element = (Element) node;
 
-					Effect effect = new Effect();
+				Effect effect = new Effect();
 
-					effect.setId(validateString(element.getAttribute(ID)));
-					effect.setName(validateString(element.getAttribute(NAME)));
-					effect.setUid(validateString(element.getAttribute(UID)));
-					effect.setSrc(validateString(element.getAttribute(SOURCE)));
+				effect.setId(validateString(element.getAttribute(ID)));
+				effect.setName(validateString(element.getAttribute(NAME)));
+				effect.setUid(validateString(element.getAttribute(UID)));
+				effect.setSrc(validateString(element.getAttribute(SOURCE)));
 
-					list.add(effect);
-				}
+				list.add(effect);
 			}
-
-			return list;
-		} else {
-			return effects;
 		}
+
+		return list;
 	}
 
 	/**

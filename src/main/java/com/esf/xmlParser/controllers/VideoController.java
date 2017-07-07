@@ -1,4 +1,4 @@
-package com.esf.xmlParser.database;
+package com.esf.xmlParser.controllers;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.esf.xmlParser.entities.Video;
+import com.esf.xmlParser.database.DatabaseConnector;
 import com.esf.xmlParser.entities.Asset;
 
 public class VideoController {

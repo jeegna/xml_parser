@@ -4,6 +4,22 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
+
+import com.esf.xmlParser.controllers.AssetClipController;
+import com.esf.xmlParser.controllers.AssetController;
+import com.esf.xmlParser.controllers.AudioController;
+import com.esf.xmlParser.controllers.ClipController;
+import com.esf.xmlParser.controllers.EffectController;
+import com.esf.xmlParser.controllers.FormatController;
+import com.esf.xmlParser.controllers.VideoController;
+import com.esf.xmlParser.entities.Asset;
+import com.esf.xmlParser.entities.AssetClip;
+import com.esf.xmlParser.entities.Audio;
+import com.esf.xmlParser.entities.Clip;
+import com.esf.xmlParser.entities.Effect;
+import com.esf.xmlParser.entities.Format;
+import com.esf.xmlParser.entities.Video;
 
 public class DatabaseConnector {
 
@@ -64,5 +80,33 @@ public class DatabaseConnector {
 		
 		stmt.close();
 		conn.close();
+	}
+	
+	private void createDatabase(String fileName) throws SQLException, ClassNotFoundException {
+//		List<Format> formats = getFormats();
+//		List<Effect> effects = getEffects();
+//		List<Asset> assets = getAssets();
+//		List<AssetClip> assetClips = getAssetClips();
+//		List<Audio> audios = getAudios();
+//		List<Video> videos = getVideos();
+//		List<Clip> clips = getClips();
+//
+//		DatabaseConnector db = new DatabaseConnector(fileName);
+//		AssetClipController assetClipController = new AssetClipController(fileName);
+//		AssetController assetController = new AssetController(fileName);
+//		AudioController audioController = new AudioController(fileName);
+//		ClipController clipController = new ClipController(fileName);
+//		EffectController effectController = new EffectController(fileName);
+//		FormatController formatController = new FormatController(fileName);
+//		VideoController videoController = new VideoController(fileName);
+//
+//		db.createDatabaseTables();
+//		formatController.addFormats(formats);
+//		effectController.addEffects(effects);
+//		assetController.addAssets(assets);
+//		assetClipController.addAssetClips(assetClips);
+//		audioController.addAudios(audios);
+//		videoController.addVideos(videos);
+//		clipController.addClips(clips);
 	}
 }

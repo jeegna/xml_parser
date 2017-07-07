@@ -3,112 +3,28 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.Tab?>
-<?import javafx.scene.control.TabPane?>
-<?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 
-<BorderPane fx:id="borderPane" minHeight="500.0" minWidth="750.0"
-	xmlns="http://javafx.com/javafx/8.0.131" xmlns:fx="http://javafx.com/fxml/1"
-	fx:controller="com.esf.xmlParser.fxml.MainController">
+<BorderPane fx:id="borderPane" minHeight="500.0" minWidth="750.0" xmlns="http://javafx.com/javafx/8.0.131" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.esf.xmlParser.fxml.MainController">
 	<top>
 		<MenuBar fx:id="menubar" BorderPane.alignment="CENTER">
 			<menus>
 				<Menu mnemonicParsing="false" text="%menuItemFile">
 					<items>
-						<MenuItem fx:id="menuItemClose" mnemonicParsing="false"
-							onAction="#menuItemClose" text="%menuItemClose" />
-						<MenuItem fx:id="menuItemChooseFile" mnemonicParsing="false"
-							onAction="#menuItemChooseFile" text="%menuItemChooseFile" />
+						<MenuItem fx:id="menuItemClose" mnemonicParsing="false" onAction="#menuItemClose" text="%menuItemClose" />
+						<MenuItem fx:id="menuItemChooseFile" mnemonicParsing="false" onAction="#menuItemChooseFile" text="%menuItemChooseFile" />
 					</items>
 				</Menu>
 				<Menu mnemonicParsing="false" text="%menuItemHelp">
 					<items>
-						<MenuItem fx:id="menuItemAbout" mnemonicParsing="false"
-							onAction="#menuItemAbout" text="%menuItemAbout" />
+						<MenuItem fx:id="menuItemAbout" mnemonicParsing="false" onAction="#menuItemAbout" text="%menuItemAbout" />
 					</items>
 				</Menu>
 			</menus>
 		</MenuBar>
 	</top>
-	<center>
-		<TabPane prefHeight="200.0" prefWidth="200.0"
-			tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
-			<tabs>
-				<Tab fx:id="tabVideos" closable="false" text="%videos">
-					<content>
-						<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0"
-							prefWidth="200.0">
-							<children>
-								<TableView fx:id="tableVideos"
-									AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
-									AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-							</children>
-						</AnchorPane>
-					</content>
-				</Tab>
-				<Tab fx:id="tabAudios" closable="false" text="%audios">
-					<content>
-						<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0"
-							prefWidth="200.0">
-							<children>
-								<TableView fx:id="tableAudios"
-									AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
-									AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-							</children>
-						</AnchorPane>
-					</content>
-				</Tab>
-				<Tab fx:id="tabAssets" closable="false" text="%assets">
-					<content>
-						<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0"
-							prefWidth="200.0">
-							<children>
-								<TableView fx:id="tableAssets"
-									AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
-									AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-							</children>
-						</AnchorPane>
-					</content>
-				</Tab>
-				<Tab fx:id="tabAssetClips" closable="false" text="%assetClips">
-					<content>
-						<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0"
-							prefWidth="200.0">
-							<children>
-								<TableView fx:id="tableAssetClips"
-									AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
-									AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-							</children>
-						</AnchorPane>
-					</content>
-				</Tab>
-				<Tab fx:id="tabFormats" closable="false" text="%formats">
-					<content>
-						<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0"
-							prefWidth="200.0">
-							<children>
-								<TableView fx:id="tableFormats"
-									AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
-									AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-							</children>
-						</AnchorPane>
-					</content>
-				</Tab>
-				<Tab fx:id="tabEffects" closable="false" text="%effects">
-					<content>
-						<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0"
-							prefWidth="200.0">
-							<children>
-								<TableView fx:id="tableEffects"
-									AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
-									AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-							</children>
-						</AnchorPane>
-					</content>
-				</Tab>
-			</tabs>
-		</TabPane>
-	</center>
+   <center>
+      <AnchorPane fx:id="tableViewPane" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+   </center>
 </BorderPane>
