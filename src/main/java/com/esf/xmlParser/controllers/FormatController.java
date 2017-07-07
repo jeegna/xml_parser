@@ -8,15 +8,15 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.esf.xmlParser.database.DatabaseConnector;
+import com.esf.xmlParser.database.DatabaseController;
 import com.esf.xmlParser.entities.Format;
 
 public class FormatController {
 
-	private DatabaseConnector db;
+	private DatabaseController db;
 
-	public FormatController(String name) {
-		db = new DatabaseConnector(name);
+	public FormatController(DatabaseController db) {
+		this.db = db;
 	}
 
 	public void addFormats(List<Format> formats) throws SQLException, ClassNotFoundException {

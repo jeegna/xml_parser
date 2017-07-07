@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 import com.esf.xmlParser.entities.Asset;
 import com.esf.xmlParser.entities.AssetClip;
 import com.esf.xmlParser.entities.Audio;
+import com.esf.xmlParser.entities.Clip;
 import com.esf.xmlParser.entities.Effect;
 import com.esf.xmlParser.entities.Format;
 import com.esf.xmlParser.entities.Video;
@@ -58,18 +59,10 @@ public class TableViewController {
 
 	private final Logger logger = Logger.getLogger(this.getClass().getName());
 
-	public void createTables() {
-		logger.info("Creating all tables...");
-		createAssetsTable();
-		createAssetClipsTable();
-		createAudiosTable();
-		createEffectsTable();
-		createFormatsTable();
-		createVideosTable();
-	}
+	public void populateTables(List<Asset> assets, List<AssetClip> assetClips, List<Audio> audios, List<Clip> clips, List<Effect> effects, List<Format> formats, List<Video> videos) {
 
-	public void populateTables(List<Video> videos, List<Audio> audios, List<Asset> assets, List<AssetClip> assetClips,
-			List<Format> formats, List<Effect> effects) {
+		createTables();
+
 		logger.info("Populating all tables...");
 		populateAssetsTable(FXCollections.observableList(assets));
 		populateAssetClipsTable(FXCollections.observableList(assetClips));
@@ -77,6 +70,16 @@ public class TableViewController {
 		populateEffectsTable(FXCollections.observableList(effects));
 		populateFormatsTable(FXCollections.observableList(formats));
 		populateVideosTable(FXCollections.observableList(videos));
+	}
+
+	private void createTables() {
+		logger.info("Creating all tables...");
+		createAssetsTable();
+		createAssetClipsTable();
+		createAudiosTable();
+		createEffectsTable();
+		createFormatsTable();
+		createVideosTable();
 	}
 
 	private void createAssetsTable() {
@@ -405,7 +408,8 @@ public class TableViewController {
 	/**
 	 * Removes all data in the table, but leaves the columns.
 	 * 
-	 * @param table The table to clear.
+	 * @param table
+	 *            The table to clear.
 	 */
 	private <T> void clearTable(TableView<T> table) {
 		// Clear all previously displayed items.
@@ -415,7 +419,8 @@ public class TableViewController {
 	/**
 	 * Removes the given table's columns and data.
 	 * 
-	 * @param table The table to reset.
+	 * @param table
+	 *            The table to reset.
 	 */
 	private <T> void resetTable(TableView<T> table) {
 		// Remove all columns from table

@@ -5,17 +5,17 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
 import com.esf.xmlParser.Main;
+import com.esf.xmlParser.database.DatabaseController;
 import com.esf.xmlParser.entities.Asset;
 import com.esf.xmlParser.entities.AssetClip;
 import com.esf.xmlParser.entities.Audio;
+import com.esf.xmlParser.entities.Clip;
 import com.esf.xmlParser.entities.Effect;
 import com.esf.xmlParser.entities.Format;
 import com.esf.xmlParser.entities.Video;
@@ -26,7 +26,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TabPane;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
@@ -56,11 +55,8 @@ public class MainController {
 	@FXML
 	private MenuItem menuItemAbout;
 
-	@FXML
-	private AnchorPane tableViewPane;
-
 	private final Logger logger = Logger.getLogger(this.getClass().getName());
-	private Parser parser;
+
 	private String filePath;
 	private String fileName;
 
@@ -68,90 +64,26 @@ public class MainController {
 
 	@FXML
 	private void initialize() {
-		logger.info("Start Application");
+		logger.info("Start application");
 
 		// Initialize other fxml controllers
-		initializeTables();
+		initializeTableViewController();
 	}
 
 	/**
-	 * Initializes the tabs and tables
+	 * Allows the selection of a file by the user. Once a file has been selected
+	 * by the user, the file will be parsed and displayed in the tables.
 	 */
-	private void initializeTables() {
-		try {
-			FXMLLoader loader = new FXMLLoader();
-			loader.setResources(resources);
-
-			loader.setLocation(Main.class.getResource("/fxml/TableView.fxml"));
-			TabPane paneDisplayEmail = (TabPane) loader.load();
-
-			tableViewController = loader.getController();
-
-			// Add view to Main.fxml
-			tableViewPane.getChildren().add(paneDisplayEmail);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
-	public void getFirstFile() {
-		getFile();
-	}
-
-	private void getFile() {
+	public void selectFile() {
 		File file = getFileFromFileChooser();
 		setFile(file);
-		loadFile();
-	}
 
-	private void loadFile() {
-		logger.info("Loading file...");
-		if (parser != null) {
-			List<Video> videos = parser.getVideos();
-			List<Audio> audios = parser.getAudios();
-			List<Asset> assets = parser.getAssets();
-			List<AssetClip> assetClips = parser.getAssetClips();
-			List<Format> formats = parser.getFormats();
-			List<Effect> effects = parser.getEffects();
-
-			// Populate tables with file contents.
-			tableViewController.createTables();
-			tableViewController.populateTables(videos, audios, assets, assetClips, formats, effects);
-		}
-	}
-
-	/**
-	 * @param filePath
-	 *            The file's path.
-	 * @throws IOException
-	 * @throws SAXException
-	 * @throws ParserConfigurationException
-	 */
-	private void createParser(String filePath) throws ParserConfigurationException, SAXException, IOException {
 		try {
-			parser = new Parser(filePath);
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SQLException e) {
+			loadFile();
+		} catch (ClassNotFoundException | SQLException | ParserConfigurationException | SAXException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}
-
-	@FXML
-	private void menuItemChooseFile() {
-		getFile();
-	}
-
-	@FXML
-	private void menuItemAbout() {
-
-	}
-
-	@FXML
-	private void menuItemClose() {
-		close();
 	}
 
 	/**
@@ -170,8 +102,11 @@ public class MainController {
 	 */
 	private File getFileFromFileChooser() {
 		FileChooser fileChooser = new FileChooser();
-		ExtensionFilter filter = new ExtensionFilter(resources.getString("fileType"), "*.fcpxml");
+
 		fileChooser.setTitle(resources.getString("openFile"));
+
+		// Set file type filter to only accept .fcpxml.
+		ExtensionFilter filter = new ExtensionFilter(resources.getString("fileType"), "*.fcpxml");
 		fileChooser.getExtensionFilters().add(filter);
 		fileChooser.setSelectedExtensionFilter(filter);
 
@@ -183,19 +118,91 @@ public class MainController {
 		return fileChooser.showOpenDialog(borderPane.getScene().getWindow());
 	}
 
+	/**
+	 * Initializes the table view controller and the FXML associated with it.
+	 */
+	private void initializeTableViewController() {
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setResources(resources);
+
+			loader.setLocation(Main.class.getResource("/fxml/TableView.fxml"));
+			TabPane tabPane = (TabPane) loader.load();
+
+			tableViewController = loader.getController();
+
+			// Add view to Main.fxml
+			borderPane.setCenter(tabPane);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * Loads the file contents into a database and populates the JavaFX tables
+	 * with the data.
+	 * 
+	 * @throws ClassNotFoundException
+	 *             If the JDBC driver is not found.
+	 * @throws SQLException
+	 * @throws ParserConfigurationException
+	 *             If a DocumentBuilder cannot be created which satisfies the
+	 *             configuration requested.
+	 * @throws SAXException
+	 *             If any parse errors occur.
+	 * @throws IOException
+	 *             If any IO errors occur.
+	 */
+	private void loadFile()
+			throws ClassNotFoundException, SQLException, ParserConfigurationException, SAXException, IOException {
+		logger.info("Loading file...");
+
+		Parser parser = new Parser(filePath);
+		DatabaseController db = new DatabaseController(fileName);
+
+		List<Asset> assets = parser.getAssets();
+		List<AssetClip> assetClips = parser.getAssetClips();
+		List<Audio> audios = parser.getAudios();
+		List<Clip> clips = parser.getClips();
+		List<Effect> effects = parser.getEffects();
+		List<Format> formats = parser.getFormats();
+		List<Video> videos = parser.getVideos();
+
+		db.populateDatabase(assets, assetClips, audios, clips, effects, formats, videos);
+
+		assets = db.getAssets();
+		assetClips = db.getAssetClips();
+		audios = db.getAudios();
+		clips = db.getClips();
+		effects = db.getEffects();
+		formats = db.getFormats();
+		videos = db.getVideos();
+
+		// Populate tables with file contents.
+		tableViewController.populateTables(assets, assetClips, audios, clips, effects, formats, videos);
+	}
+
+	@FXML
+	private void menuItemAbout() {
+
+	}
+
+	@FXML
+	private void menuItemChooseFile() {
+		selectFile();
+	}
+
+	@FXML
+	private void menuItemClose() {
+		close();
+	}
+
 	private void setFile(File file) {
 		if (file != null) {
 			filePath = file.getAbsolutePath();
 			fileName = file.getName();
 
 			logger.info("Chosen file: " + filePath);
-
-			try {
-				createParser(filePath);
-			} catch (ParserConfigurationException | SAXException | IOException e) {
-				logger.log(Level.SEVERE, e.getMessage());
-				// TODO Show an error dialog box
-			}
 
 			// Set file name in title bar
 			((Stage) borderPane.getScene().getWindow()).setTitle(resources.getString("appName") + " - " + filePath);

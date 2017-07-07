@@ -8,15 +8,15 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.esf.xmlParser.database.DatabaseConnector;
+import com.esf.xmlParser.database.DatabaseController;
 import com.esf.xmlParser.entities.Clip;
 
 public class ClipController {
 
-	private DatabaseConnector db;
+	private DatabaseController db;
 
-	public ClipController(String name) {
-		db = new DatabaseConnector(name);
+	public ClipController(DatabaseController db) {
+		this.db = db;
 	}
 
 	public void addClips(List<Clip> clips) throws SQLException, ClassNotFoundException {

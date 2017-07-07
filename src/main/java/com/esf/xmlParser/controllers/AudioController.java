@@ -8,16 +8,16 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.esf.xmlParser.database.DatabaseConnector;
+import com.esf.xmlParser.database.DatabaseController;
 import com.esf.xmlParser.entities.Asset;
 import com.esf.xmlParser.entities.Audio;
 
 public class AudioController {
 
-	private DatabaseConnector db;
+	private DatabaseController db;
 
-	public AudioController(String name) {
-		db = new DatabaseConnector(name);
+	public AudioController(DatabaseController db) {
+		this.db = db;
 	}
 
 	public void addAudios(List<Audio> audios) throws SQLException, ClassNotFoundException {

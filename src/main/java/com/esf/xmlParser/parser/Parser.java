@@ -101,6 +101,7 @@ public class Parser {
 	 *             configuration requested.
 	 * @throws SQLException
 	 * @throws ClassNotFoundException
+	 *             If the JDBC driver is not found.
 	 */
 	public Parser(String file)
 			throws ParserConfigurationException, SAXException, IOException, ClassNotFoundException, SQLException {

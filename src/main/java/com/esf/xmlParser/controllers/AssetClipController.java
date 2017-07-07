@@ -8,17 +8,17 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.esf.xmlParser.database.DatabaseConnector;
+import com.esf.xmlParser.database.DatabaseController;
 import com.esf.xmlParser.entities.Asset;
 import com.esf.xmlParser.entities.AssetClip;
 import com.esf.xmlParser.entities.Format;
 
 public class AssetClipController {
 
-	private DatabaseConnector db;
+	private DatabaseController db;
 
-	public AssetClipController(String name) {
-		db = new DatabaseConnector(name);
+	public AssetClipController(DatabaseController db) {
+		this.db = db;
 	}
 
 	public void addAssetClips(List<AssetClip> assetClips) throws SQLException, ClassNotFoundException {

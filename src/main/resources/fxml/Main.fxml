@@ -24,7 +24,4 @@
 			</menus>
 		</MenuBar>
 	</top>
-   <center>
-      <AnchorPane fx:id="tableViewPane" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
-   </center>
 </BorderPane>

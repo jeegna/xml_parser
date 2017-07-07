@@ -9,15 +9,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.esf.xmlParser.entities.Video;
-import com.esf.xmlParser.database.DatabaseConnector;
+import com.esf.xmlParser.database.DatabaseController;
 import com.esf.xmlParser.entities.Asset;
 
 public class VideoController {
 
-	private DatabaseConnector db;
+	private DatabaseController db;
 
-	public VideoController(String name) {
-		db = new DatabaseConnector(name);
+	public VideoController(DatabaseController db) {
+		this.db = db;
 	}
 
 	public void addVideos(List<Video> videos) throws SQLException, ClassNotFoundException {

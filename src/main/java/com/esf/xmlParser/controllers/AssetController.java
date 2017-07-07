@@ -8,16 +8,16 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.esf.xmlParser.database.DatabaseConnector;
+import com.esf.xmlParser.database.DatabaseController;
 import com.esf.xmlParser.entities.Asset;
 import com.esf.xmlParser.entities.Format;
 
 public class AssetController {
 
-	private DatabaseConnector db;
+	private DatabaseController db;
 
-	public AssetController(String name) {
-		db = new DatabaseConnector(name);
+	public AssetController(DatabaseController db) {
+		this.db = db;
 	}
 
 	public void addAssets(List<Asset> assets) throws SQLException, ClassNotFoundException {

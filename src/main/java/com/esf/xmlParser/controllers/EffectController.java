@@ -8,15 +8,15 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.esf.xmlParser.database.DatabaseConnector;
+import com.esf.xmlParser.database.DatabaseController;
 import com.esf.xmlParser.entities.Effect;
 
 public class EffectController {
 
-	private DatabaseConnector db;
+	private DatabaseController db;
 
-	public EffectController(String name) {
-		db = new DatabaseConnector(name);
+	public EffectController(DatabaseController db) {
+		this.db = db;
 	}
 
 	public void addEffects(List<Effect> effects) throws SQLException, ClassNotFoundException {
