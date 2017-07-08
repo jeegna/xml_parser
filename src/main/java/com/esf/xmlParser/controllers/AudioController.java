@@ -27,18 +27,17 @@ public class AudioController {
 		logger.info("Adding Audios...");
 		Connection conn = db.getConnection();
 
-		PreparedStatement ps = conn.prepareStatement("INSERT INTO AUDIOS VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);");
+		PreparedStatement ps = conn.prepareStatement("INSERT INTO AUDIOS VALUES (null, ?, ?, ?, ?, ?, ?, ?, ?);");
 		for (Audio audio : audios) {
 			logger.info("Adding " + audio);
-			ps.setInt(1, audio.getId());
-			ps.setString(2, audio.getAsset().getId());
-			ps.setInt(3, audio.getLane());
-			ps.setString(4, audio.getRole());
-			ps.setString(5, audio.getOffset());
-			ps.setString(6, audio.getDuration());
-			ps.setString(7, audio.getStart());
-			ps.setString(8, audio.getSrcCh());
-			ps.setInt(9, audio.getSrcId());
+			ps.setString(1, audio.getAsset().getId());
+			ps.setInt(2, audio.getLane());
+			ps.setString(3, audio.getRole());
+			ps.setString(4, audio.getOffset());
+			ps.setString(5, audio.getDuration());
+			ps.setString(6, audio.getStart());
+			ps.setString(7, audio.getSrcCh());
+			ps.setInt(8, audio.getSrcId());
 			ps.addBatch();
 		}
 
@@ -58,7 +57,7 @@ public class AudioController {
 		Connection conn = db.getConnection();
 		Statement stmt = conn.createStatement();
 
-		ResultSet rs = stmt.executeQuery("SELECT * FROM AUDIOS INNER JOIN ASSETS ON AUDIOS.assetId=ASSETS.id;");
+		ResultSet rs = stmt.executeQuery("SELECT * FROM AUDIOS;");
 		while (rs.next()) {
 			audios.add(createAudio(rs));
 		}
@@ -77,7 +76,7 @@ public class AudioController {
 
 		Connection conn = db.getConnection();
 		PreparedStatement ps = conn.prepareStatement(
-				"SELECT * FROM AUDIOS INNER JOIN ASSETS ON AUDIOS.assetId = ASSETS.id WHERE AUDIOS.id=?;");
+				"SELECT * FROM AUDIOS WHERE AUDIOS.id=?;");
 		ps.setString(1, id);
 
 		ResultSet rs = ps.executeQuery();
@@ -93,7 +92,7 @@ public class AudioController {
 		return audio;
 	}
 
-	private Audio createAudio(ResultSet rs) throws SQLException {
+	private Audio createAudio(ResultSet rs) throws SQLException, ClassNotFoundException {
 		logger.info("Creating Audio...");
 
 		Audio audio = new Audio();
@@ -107,8 +106,8 @@ public class AudioController {
 		audio.setSrcCh(rs.getString("srcCh"));
 		audio.setSrcId(rs.getInt("srcId"));
 
-		// TODO Get format
-		Asset asset = new Asset();
+		AssetController assetController = new AssetController(db);
+		Asset asset = assetController.getAsset(rs.getString("assetId"));
 		audio.setAsset(asset);
 
 		logger.info("Created " + audio);

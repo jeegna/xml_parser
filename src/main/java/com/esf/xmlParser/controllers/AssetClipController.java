@@ -28,19 +28,18 @@ public class AssetClipController {
 		logger.info("Adding AssetClips...");
 		Connection conn = db.getConnection();
 
-		PreparedStatement ps = conn.prepareStatement("INSERT INTO ASSET_CLIPS VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);");
+		PreparedStatement ps = conn.prepareStatement("INSERT INTO ASSET_CLIPS VALUES (null, ?, ?, ?, ?, ?, ?, ?, ?, ?);");
 		for (AssetClip assetClip : assetClips) {
 			logger.info("Adding " + assetClip);
-			ps.setInt(1, assetClip.getId());
-			ps.setString(2, assetClip.getAsset().getId());
-			ps.setString(3, assetClip.getName());
-			ps.setInt(4, assetClip.getLane());
-			ps.setString(5, assetClip.getOffset());
-			ps.setString(6, assetClip.getDuration());
-			ps.setString(7, assetClip.getStart());
-			ps.setString(8, assetClip.getRole());
-			ps.setString(9, assetClip.getFormat().getId());
-			ps.setString(10, assetClip.getTcFormat());
+			ps.setString(1, assetClip.getAsset().getId());
+			ps.setString(2, assetClip.getName());
+			ps.setInt(3, assetClip.getLane());
+			ps.setString(4, assetClip.getOffset());
+			ps.setString(5, assetClip.getDuration());
+			ps.setString(6, assetClip.getStart());
+			ps.setString(7, assetClip.getRole());
+			ps.setString(8, assetClip.getFormat().getId());
+			ps.setString(9, assetClip.getTcFormat());
 			ps.addBatch();
 		}
 
@@ -60,8 +59,7 @@ public class AssetClipController {
 		Connection conn = db.getConnection();
 		Statement stmt = conn.createStatement();
 
-		ResultSet rs = stmt
-				.executeQuery("SELECT * FROM ASSET_CLIPS INNER JOIN FORMAT ON ASSET_CLIPS.formatId = FORMATS.id;");
+		ResultSet rs = stmt.executeQuery("SELECT * FROM ASSET_CLIPS;");
 		while (rs.next()) {
 			assetClips.add(createAssetClip(rs));
 		}
@@ -80,7 +78,7 @@ public class AssetClipController {
 
 		Connection conn = db.getConnection();
 		PreparedStatement ps = conn.prepareStatement(
-				"SELECT * FROM ASSET_CLIPS INNER JOIN FORMAT ON ASSET_CLIPS.formatId = FORMATS.id INNER JOIN ASSET ON ASSET_CLIPS.ref = ASSETS.id WHERE ASSET_CLIPS.ref=?;");
+				"SELECT * FROM ASSET_CLIPS WHERE ASSET_CLIPS.assetId=?;");
 		ps.setInt(1, id);
 
 		ResultSet rs = ps.executeQuery();
@@ -96,25 +94,25 @@ public class AssetClipController {
 		return assetClip;
 	}
 
-	private AssetClip createAssetClip(ResultSet rs) throws SQLException {
+	private AssetClip createAssetClip(ResultSet rs) throws SQLException, ClassNotFoundException {
 		logger.info("Creating Asset Clip...");
 
 		AssetClip assetClip = new AssetClip();
-
 		assetClip.setId(rs.getInt("id"));
-		assetClip.setName(rs.getString("nameVideo"));
+		assetClip.setName(rs.getString("name"));
 		assetClip.setLane(rs.getInt("lane"));
-		assetClip.setOffset(rs.getString("Offset"));
+		assetClip.setOffset(rs.getString("offset"));
 		assetClip.setDuration(rs.getString("duration"));
 		assetClip.setStart(rs.getString("start"));
 		assetClip.setRole(rs.getString("role"));
 		assetClip.setTcFormat(rs.getString("tcFormat"));
 
-		// TODO Get format
-		Asset asset = new Asset();
+		AssetController assetController = new AssetController(db);
+		Asset asset = assetController.getAsset(rs.getString("assetId"));
 		assetClip.setAsset(asset);
 
-		Format format = new Format();
+		FormatController formatController = new FormatController(db);
+		Format format = formatController.getFormat(rs.getString("formatId"));
 		assetClip.setFormat(format);
 
 		logger.info("Created " + assetClip);

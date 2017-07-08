@@ -26,15 +26,14 @@ public class ClipController {
 		logger.info("Adding Clips...");
 		Connection conn = db.getConnection();
 
-		PreparedStatement ps = conn.prepareStatement("INSERT INTO CLIPS VALUES (?, ?, ?, ?, ?, ?);");
+		PreparedStatement ps = conn.prepareStatement("INSERT INTO CLIPS VALUES (null, ?, ?, ?, ?, ?);");
 		for (Clip clip : clips) {
 			logger.info("Adding " + clip);
-			ps.setInt(1, clip.getId());
-			ps.setString(2, clip.getName());
-			ps.setString(3, clip.getOffset());
-			ps.setString(4, clip.getDuration());
-			ps.setString(5, clip.getStart());
-			ps.setString(6, clip.getTcFormat());
+			ps.setString(1, clip.getName());
+			ps.setString(2, clip.getOffset());
+			ps.setString(3, clip.getDuration());
+			ps.setString(4, clip.getStart());
+			ps.setString(5, clip.getTcFormat());
 			ps.addBatch();
 		}
 

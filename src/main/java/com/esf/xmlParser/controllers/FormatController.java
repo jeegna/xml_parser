@@ -71,7 +71,7 @@ public class FormatController {
 		Format format = null;
 
 		Connection conn = db.getConnection();
-		PreparedStatement ps = conn.prepareStatement("SELECT * FROM FORMATS WHERE FORMAT.id=?;");
+		PreparedStatement ps = conn.prepareStatement("SELECT * FROM FORMATS WHERE FORMATS.id=?;");
 		ps.setString(1, id);
 
 		ResultSet rs = ps.executeQuery();

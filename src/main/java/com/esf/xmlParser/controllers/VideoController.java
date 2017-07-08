@@ -27,16 +27,15 @@ public class VideoController {
 		logger.info("Adding Videos...");
 		Connection conn = db.getConnection();
 
-		PreparedStatement ps = conn.prepareStatement("INSERT INTO VIDEOS VALUES (?, ?, ?, ?, ?, ?, ?);");
+		PreparedStatement ps = conn.prepareStatement("INSERT INTO VIDEOS VALUES (null, ?, ?, ?, ?, ?, ?);");
 		for (Video video : videos) {
 			logger.info("Adding " + video);
-			ps.setInt(1, video.getId());
-			ps.setString(2, video.getName());
-			ps.setInt(3, video.getLane());
-			ps.setString(4, video.getOffset());
-			ps.setString(5, video.getAsset().getId());
-			ps.setString(6, video.getDuration());
-			ps.setString(7, video.getStart());
+			ps.setString(1, video.getName());
+			ps.setInt(2, video.getLane());
+			ps.setString(3, video.getOffset());
+			ps.setString(4, video.getAsset().getId());
+			ps.setString(5, video.getDuration());
+			ps.setString(6, video.getStart());
 			ps.addBatch();
 		}
 
@@ -56,7 +55,7 @@ public class VideoController {
 		Connection conn = db.getConnection();
 		Statement stmt = conn.createStatement();
 
-		ResultSet rs = stmt.executeQuery("SELECT * FROM VIDEOS INNER JOIN ASSETS ON ASSETS.id = VIDEOS.id;");
+		ResultSet rs = stmt.executeQuery("SELECT * FROM VIDEOS;");
 		while (rs.next()) {
 			videos.add(createVideo(rs));
 		}
@@ -74,8 +73,7 @@ public class VideoController {
 		Video video = null;
 
 		Connection conn = db.getConnection();
-		PreparedStatement ps = conn
-				.prepareStatement("SELECT * FROM VIDEOS INNER JOIN ASSETS ON ASSETS.id = VIDEOS.id WHERE VIDEOS.id=?;");
+		PreparedStatement ps = conn.prepareStatement("SELECT * FROM VIDEOS WHERE VIDEOS.id=?;");
 		ps.setString(1, id);
 
 		ResultSet rs = ps.executeQuery();
@@ -91,7 +89,7 @@ public class VideoController {
 		return video;
 	}
 
-	private Video createVideo(ResultSet rs) throws SQLException {
+	private Video createVideo(ResultSet rs) throws SQLException, ClassNotFoundException {
 		logger.info("Creating Video...");
 
 		Video video = new Video();
@@ -102,8 +100,8 @@ public class VideoController {
 		video.setOffset(rs.getString("offset"));
 		video.setStart(rs.getString("start"));
 
-		// TODO Get Asset
-		Asset asset = new Asset();
+		AssetController assetController = new AssetController(db);
+		Asset asset = assetController.getAsset(rs.getString("assetId"));
 		video.setAsset(asset);
 
 		logger.info("Created " + video);

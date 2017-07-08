@@ -61,7 +61,7 @@ public class AssetController {
 		Connection conn = db.getConnection();
 		Statement stmt = conn.createStatement();
 
-		ResultSet rs = stmt.executeQuery("SELECT * FROM ASSETS INNER JOIN FORMAT ON ASSETS.formatId = FORMATS.id;");
+		ResultSet rs = stmt.executeQuery("SELECT * FROM ASSETS;");
 		while (rs.next()) {
 			assets.add(createAsset(rs));
 		}
@@ -80,7 +80,7 @@ public class AssetController {
 
 		Connection conn = db.getConnection();
 		PreparedStatement ps = conn.prepareStatement(
-				"SELECT * FROM ASSETS INNER JOIN FORMAT ON ASSETS.formatId = FORMATS.id WHERE ASSETS.id=?;");
+				"SELECT * FROM ASSETS WHERE ASSETS.id=?;");
 		ps.setString(1, id);
 
 		ResultSet rs = ps.executeQuery();
@@ -96,7 +96,7 @@ public class AssetController {
 		return asset;
 	}
 
-	private Asset createAsset(ResultSet rs) throws SQLException {
+	private Asset createAsset(ResultSet rs) throws SQLException, ClassNotFoundException {
 		logger.info("Creating Asset...");
 
 		Asset asset = new Asset();
@@ -113,8 +113,8 @@ public class AssetController {
 		asset.setAudioChannels(rs.getInt("audioChannels"));
 		asset.setAudioRate(rs.getInt("audioRate"));
 
-		// TODO Get format
-		Format format = new Format();
+		FormatController formatController = new FormatController(db);
+		Format format = formatController.getFormat(rs.getString("formatId"));
 		asset.setFormat(format);
 
 		logger.info("Created " + asset);

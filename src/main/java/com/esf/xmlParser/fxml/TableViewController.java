@@ -110,15 +110,13 @@ public class TableViewController {
 		columnName.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
 		columnSrc.setCellValueFactory(cellData -> cellData.getValue().srcProperty());
 		columnStart.setCellValueFactory(cellData -> cellData.getValue().startProperty());
-
 		columnFormatName.setCellValueFactory(cellData -> cellData.getValue().getFormat().nameProperty());
 		columnWidth.setCellValueFactory(cellData -> cellData.getValue().getFormat().widthProperty());
 		columnHeight.setCellValueFactory(cellData -> cellData.getValue().getFormat().heightProperty());
 		columnFrameDuration.setCellValueFactory(cellData -> cellData.getValue().getFormat().frameDurationProperty());
-
 		columnUID.setCellValueFactory(cellData -> cellData.getValue().uidProperty());
 
-		// Override default id column sorting.
+		// Override default id column sorting. TODO
 		columnId.setComparator(
 				(id1, id2) -> Integer.compare(Integer.parseInt(id1.substring(1)), Integer.parseInt(id2.substring(1))));
 

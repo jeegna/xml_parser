@@ -194,7 +194,7 @@ public class DatabaseController {
 		);
 		stmt.executeUpdate(
 				"CREATE TABLE ASSET_CLIPS (" +
-					"id INTEGER PRIMARY KEY," +
+					"id INTEGER PRIMARY KEY AUTOINCREMENT," +
 					"assetId TEXT," +
 					"name TEXT," +
 					"lane INTEGER," +
@@ -210,7 +210,7 @@ public class DatabaseController {
 		);
 		stmt.executeUpdate(
 				"CREATE TABLE AUDIOS (" +
-					"id INTEGER PRIMARY KEY," +
+					"id INTEGER PRIMARY KEY AUTOINCREMENT," +
 					"assetId TEXT," +
 					"lane INTEGER," +
 					"role TEXT," +
@@ -224,7 +224,7 @@ public class DatabaseController {
 		);
 		stmt.executeUpdate(
 				"CREATE TABLE CLIPS (" +
-					"id INTEGER PRIMARY KEY," +
+					"id INTEGER PRIMARY KEY AUTOINCREMENT," +
 					"name TEXT," +
 					"offset TEXT," +
 					"duration TEXT," +
@@ -234,7 +234,7 @@ public class DatabaseController {
 		);
 		stmt.executeUpdate(
 				"CREATE TABLE VIDEOS (" +
-					"id INTEGER PRIMARY KEY," +
+					"id INTEGER PRIMARY KEY AUTOINCREMENT," +
 					"name TEXT," +
 					"lane INTEGER," +
 					"offset TEXT," +
