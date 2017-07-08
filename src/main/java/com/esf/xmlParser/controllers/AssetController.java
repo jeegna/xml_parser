@@ -79,8 +79,7 @@ public class AssetController {
 		Asset asset = null;
 
 		Connection conn = db.getConnection();
-		PreparedStatement ps = conn.prepareStatement(
-				"SELECT * FROM ASSETS WHERE ASSETS.id=?;");
+		PreparedStatement ps = conn.prepareStatement("SELECT * FROM ASSETS WHERE ASSETS.id=?;");
 		ps.setString(1, id);
 
 		ResultSet rs = ps.executeQuery();
@@ -100,7 +99,6 @@ public class AssetController {
 		logger.info("Creating Asset...");
 
 		Asset asset = new Asset();
-
 		asset.setId(rs.getString("id"));
 		asset.setDuration(rs.getString("duration"));
 		asset.setHasVideo(rs.getBoolean("hasVideo"));

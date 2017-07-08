@@ -85,6 +85,9 @@ public class Format implements Comparable<Format>, Serializable {
 	 *            The new name to set
 	 */
 	public void setName(String name) {
+		if (name == null) {
+			name = "";
+		}
 		this.name.set(name);
 	}
 
@@ -102,7 +105,7 @@ public class Format implements Comparable<Format>, Serializable {
 	 * 
 	 * @return The width
 	 */
-	public Integer getWidth() {
+	public int getWidth() {
 		return width.get();
 	}
 
@@ -112,7 +115,7 @@ public class Format implements Comparable<Format>, Serializable {
 	 * @param width
 	 *            The new width to set
 	 */
-	public void setWidth(Integer width) {
+	public void setWidth(int width) {
 		this.width.set(width);
 	}
 
@@ -130,7 +133,7 @@ public class Format implements Comparable<Format>, Serializable {
 	 * 
 	 * @return The height
 	 */
-	public Integer getHeight() {
+	public int getHeight() {
 		return height.get();
 	}
 
@@ -140,7 +143,7 @@ public class Format implements Comparable<Format>, Serializable {
 	 * @param height
 	 *            The new height to set
 	 */
-	public void setHeight(Integer height) {
+	public void setHeight(int height) {
 		this.height.set(height);
 	}
 
@@ -169,6 +172,9 @@ public class Format implements Comparable<Format>, Serializable {
 	 *            The new frame duration to set
 	 */
 	public void setFrameDuration(String frameDuration) {
+		if (frameDuration == null) {
+			frameDuration = "0fps";
+		}
 		this.frameDuration.set(frameDuration);
 	}
 

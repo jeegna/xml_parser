@@ -160,50 +160,50 @@ public class DatabaseController {
 
 		stmt.executeUpdate(
 				"CREATE TABLE FORMATS (" +
-					"id TEXT PRIMARY KEY ," +
-					"name TEXT," +
-					"width INTEGER," +
-					"height INTEGER," +
-					"frameDuration TEXT" +
+					"id TEXT PRIMARY KEY," +
+					"name TEXT DEFAULT ''," +
+					"width INTEGER DEFAULT 0," +
+					"height INTEGER DEFAULT 0," +
+					"frameDuration TEXT DEFAULT ''" +
 				");"
 		);
 		stmt.executeUpdate(
 				"CREATE TABLE ASSETS (" +
 					"id TEXT PRIMARY KEY," +
-					"duration TEXT," +
-					"hasVideo  INTEGER CHECK (hasVideo IN (0,1))," + 
+					"duration TEXT DEFAULT ''," +
+					"hasVideo INTEGER CHECK (hasVideo IN (0,1))," + 
 					"hasAudio INTEGER CHECK (hasVideo IN (0,1))," +
-					"name TEXT," +
-					"uid TEXT NOT NULL," +
-					"src TEXT," +
-					"start TEXT," +
-					"formatId TEXT," +
-					"audioSources TEXT," +
-					"audioChannels TEXT," +
-					"audioRate TEXT," +
+					"name TEXT DEFAULT ''," +
+					"uid TEXT DEFAULT ''," +
+					"src TEXT DEFAULT ''," +
+					"start TEXT DEFAULT '0s'," +
+					"formatId TEXT DEFAULT ''," +
+					"audioSources TEXT DEFAULT ''," +
+					"audioChannels TEXT DEFAULT ''," +
+					"audioRate TEXT DEFAULT ''," +
 					"FOREIGN KEY(formatId) REFERENCES FORMATS(id)" +
 				");"
 		);
 		stmt.executeUpdate(
 				"CREATE TABLE EFFECTS (" +
 					"id TEXT PRIMARY KEY," + 
-					"name TEXT," +
-					"uid TEXT NOT NULL," +
-					"src TEXT" +
+					"name TEXT DEFAULT ''," +
+					"uid TEXT DEFAULT ''," +
+					"src TEXT DEFAULT ''" +
 				");"
 		);
 		stmt.executeUpdate(
 				"CREATE TABLE ASSET_CLIPS (" +
 					"id INTEGER PRIMARY KEY AUTOINCREMENT," +
-					"assetId TEXT," +
-					"name TEXT," +
-					"lane INTEGER," +
-					"offset TEXT," +
-					"duration TEXT," +
-					"start TEXT," +
-					"role TEXT," +
-					"formatId TEXT," +
-					"tcFormat TEXT," +
+					"assetId TEXT DEFAULT ''," +
+					"name TEXT DEFAULT ''," +
+					"lane INTEGER DEFAULT 0," +
+					"offset TEXT  DEFAULT '0s'," +
+					"duration TEXT DEFAULT '0s'," +
+					"start TEXT DEFAULT '0s'," +
+					"role TEXT DEFAULT ''," +
+					"formatId TEXT DEFAULT ''," +
+					"tcFormat TEXT DEFAULT ''," +
 					"FOREIGN KEY(assetId) REFERENCES ASSETS(id)," +
 					"FOREIGN KEY(formatId) REFERENCES FORMATS(id)" +
 				");"
@@ -211,36 +211,36 @@ public class DatabaseController {
 		stmt.executeUpdate(
 				"CREATE TABLE AUDIOS (" +
 					"id INTEGER PRIMARY KEY AUTOINCREMENT," +
-					"assetId TEXT," +
-					"lane INTEGER," +
-					"role TEXT," +
-					"offset TEXT," +
-					"duration TEXT," +
-					"start TEXT," +
-					"srcCh TEXT," +
-					"srcId INTEGER," +
+					"assetId TEXT DEFAULT ''," +
+					"lane INTEGER DEFAULT 0," +
+					"role TEXT DEFAULT ''," +
+					"offset TEXT DEFAULT '0s'," +
+					"duration TEXT DEFAULT '0s'," +
+					"start TEXT DEFAULT '0s'," +
+					"srcCh TEXT DEFAULT ''," +
+					"srcId INTEGER DEFAULT -1," +
 					"FOREIGN KEY(assetId) REFERENCES ASSETS(id)" +
 				");"
 		);
 		stmt.executeUpdate(
 				"CREATE TABLE CLIPS (" +
 					"id INTEGER PRIMARY KEY AUTOINCREMENT," +
-					"name TEXT," +
-					"offset TEXT," +
-					"duration TEXT," +
-					"start TEXT," +
-					"tcFormat TEXT" +
+					"name TEXT DEFAULT ''," +
+					"offset TEXT DEFAULT '0s'," +
+					"duration TEXT DEFAULT '0s'," +
+					"start TEXT DEFAULT '0s'," +
+					"tcFormat TEXT DEFAULT ''" +
 				");"
 		);
 		stmt.executeUpdate(
 				"CREATE TABLE VIDEOS (" +
 					"id INTEGER PRIMARY KEY AUTOINCREMENT," +
-					"name TEXT," +
-					"lane INTEGER," +
-					"offset TEXT," +
-					"assetId TEXT," +
-					"duration TEXT," +
-					"start TEXT," +
+					"name TEXT DEFAULT ''," +
+					"lane INTEGER DEFAULT 0," +
+					"offset TEXT DEFAULT '0s'," +
+					"assetId TEXT DEFAULT ''," +
+					"duration TEXT DEFAULT '0s'," +
+					"start TEXT DEFAULT '0s'," +
 					"FOREIGN KEY(assetId) REFERENCES ASSETS(id)" +
 				");"
 		);

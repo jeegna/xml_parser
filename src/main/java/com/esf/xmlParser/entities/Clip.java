@@ -80,6 +80,9 @@ public class Clip implements Serializable {
 	 *            The new duration to set
 	 */
 	public void setDuration(String duration) {
+		if (duration == null) {
+			duration = "0s";
+		}
 		this.duration.set(duration);
 	}
 
@@ -108,6 +111,9 @@ public class Clip implements Serializable {
 	 *            The new name to set
 	 */
 	public void setName(String name) {
+		if (name == null) {
+			name = "";
+		}
 		this.name.set(name);
 	}
 
@@ -136,6 +142,9 @@ public class Clip implements Serializable {
 	 *            The new start to set
 	 */
 	public void setStart(String start) {
+		if (start == null) {
+			start = "0s";
+		}
 		this.start.set(start);
 	}
 
@@ -164,6 +173,9 @@ public class Clip implements Serializable {
 	 *            The new offset to set
 	 */
 	public void setOffset(String offset) {
+		if (offset == null) {
+			offset = "0s";
+		}
 		this.offset.set(offset);
 	}
 
@@ -192,6 +204,9 @@ public class Clip implements Serializable {
 	 *            The new tcFormat to set
 	 */
 	public void setTcFormat(String tcFormat) {
+		if (tcFormat == null) {
+			tcFormat = "";
+		}
 		this.tcFormat.set(tcFormat);
 	}
 

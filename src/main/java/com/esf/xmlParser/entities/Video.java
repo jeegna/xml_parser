@@ -89,6 +89,9 @@ public class Video implements Comparable<Video>, Serializable {
 	 *            The new duration to set
 	 */
 	public void setDuration(String duration) {
+		if (duration == null) {
+			duration = "0s";
+		}
 		this.duration.set(duration);
 	}
 
@@ -117,6 +120,9 @@ public class Video implements Comparable<Video>, Serializable {
 	 *            The new name to set
 	 */
 	public void setName(String name) {
+		if (name == null) {
+			name = "";
+		}
 		this.name.set(name);
 	}
 
@@ -145,6 +151,9 @@ public class Video implements Comparable<Video>, Serializable {
 	 *            The new start to set
 	 */
 	public void setStart(String start) {
+		if (start == null) {
+			start = "0s";
+		}
 		this.start.set(start);
 	}
 
@@ -201,6 +210,9 @@ public class Video implements Comparable<Video>, Serializable {
 	 *            The new offset to set
 	 */
 	public void setOffset(String offset) {
+		if (offset == null) {
+			offset = "0s";
+		}
 		this.offset.set(offset);
 	}
 
@@ -220,6 +232,9 @@ public class Video implements Comparable<Video>, Serializable {
 	 *            The new Asset to set
 	 */
 	public void setAsset(Asset asset) {
+		if (asset == null) {
+			asset = new Asset();
+		}
 		this.asset = asset;
 	}
 

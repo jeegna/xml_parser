@@ -101,6 +101,9 @@ public class Asset implements Comparable<Asset>, Serializable {
 	 *            The new duration to set
 	 */
 	public void setDuration(String duration) {
+		if (duration == null) {
+			duration = "0s";
+		}
 		this.duration.set(duration);
 	}
 
@@ -185,6 +188,9 @@ public class Asset implements Comparable<Asset>, Serializable {
 	 *            The new name to set
 	 */
 	public void setName(String name) {
+		if (name == null) {
+			name = "";
+		}
 		this.name.set(name);
 	}
 
@@ -213,6 +219,9 @@ public class Asset implements Comparable<Asset>, Serializable {
 	 *            The new uid to set
 	 */
 	public void setUid(String uid) {
+		if (uid == null) {
+			uid = "";
+		}
 		this.uid.set(uid);
 	}
 
@@ -241,6 +250,9 @@ public class Asset implements Comparable<Asset>, Serializable {
 	 *            The new src to set
 	 */
 	public void setSrc(String src) {
+		if (src == null) {
+			src = "";
+		}
 		this.src.set(src);
 	}
 
@@ -269,6 +281,9 @@ public class Asset implements Comparable<Asset>, Serializable {
 	 *            The new start to set
 	 */
 	public void setStart(String start) {
+		if (start == null) {
+			start = "0s";
+		}
 		this.start.set(start);
 	}
 
@@ -288,6 +303,9 @@ public class Asset implements Comparable<Asset>, Serializable {
 	 *            The new Format to set
 	 */
 	public void setFormat(Format format) {
+		if (format == null) {
+			format = new Format();
+		}
 		this.format = format;
 	}
 

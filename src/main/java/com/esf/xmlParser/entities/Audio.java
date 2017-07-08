@@ -93,6 +93,9 @@ public class Audio implements Comparable<Audio>, Serializable {
 	 *            The new duration to set
 	 */
 	public void setDuration(String duration) {
+		if (duration == null) {
+			duration = "0s";
+		}
 		this.duration.set(duration);
 	}
 
@@ -121,6 +124,9 @@ public class Audio implements Comparable<Audio>, Serializable {
 	 *            The new start to set
 	 */
 	public void setStart(String start) {
+		if (start == null) {
+			start = "0s";
+		}
 		this.start.set(start);
 	}
 
@@ -149,6 +155,9 @@ public class Audio implements Comparable<Audio>, Serializable {
 	 *            The new role to set
 	 */
 	public void setRole(String role) {
+		if (role == null) {
+			role = "";
+		}
 		this.role.set(role);
 	}
 
@@ -177,6 +186,9 @@ public class Audio implements Comparable<Audio>, Serializable {
 	 *            The new offset to set
 	 */
 	public void setOffset(String offset) {
+		if (offset == null) {
+			offset = "0s";
+		}
 		this.offset.set(offset);
 	}
 
@@ -196,6 +208,9 @@ public class Audio implements Comparable<Audio>, Serializable {
 	 *            The new asset to set
 	 */
 	public void setAsset(Asset asset) {
+		if (asset == null) {
+			asset = new Asset();
+		}
 		this.asset = asset;
 	}
 
@@ -224,6 +239,9 @@ public class Audio implements Comparable<Audio>, Serializable {
 	 *            The new srcCh to set
 	 */
 	public void setSrcCh(String srcCh) {
+		if (srcCh == null) {
+			srcCh = "";
+		}
 		this.srcCh.set(srcCh);
 	}
 

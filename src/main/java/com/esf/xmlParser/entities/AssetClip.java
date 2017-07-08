@@ -86,6 +86,9 @@ public class AssetClip implements Comparable<AssetClip>, Serializable {
 	 *            The new Asset to set
 	 */
 	public void setAsset(Asset asset) {
+		if (asset == null) {
+			asset = new Asset();
+		}
 		this.asset = asset;
 	}
 
@@ -114,6 +117,9 @@ public class AssetClip implements Comparable<AssetClip>, Serializable {
 	 *            The new name to set
 	 */
 	public void setName(String name) {
+		if (name == null) {
+			name = "";
+		}
 		this.name.set(name);
 	}
 
@@ -170,6 +176,9 @@ public class AssetClip implements Comparable<AssetClip>, Serializable {
 	 *            The new offset to set
 	 */
 	public void setOffset(String offset) {
+		if (offset == null) {
+			offset = "0s";
+		}
 		this.offset.set(offset);
 	}
 
@@ -198,6 +207,9 @@ public class AssetClip implements Comparable<AssetClip>, Serializable {
 	 *            The new duration to set
 	 */
 	public void setDuration(String duration) {
+		if (duration == null) {
+			duration = "0s";
+		}
 		this.duration.set(duration);
 	}
 
@@ -226,6 +238,9 @@ public class AssetClip implements Comparable<AssetClip>, Serializable {
 	 *            The new start to set
 	 */
 	public void setStart(String start) {
+		if (start == null) {
+			start = "0s";
+		}
 		this.start.set(start);
 	}
 
@@ -254,6 +269,9 @@ public class AssetClip implements Comparable<AssetClip>, Serializable {
 	 *            The new role to set
 	 */
 	public void setRole(String role) {
+		if (role == null) {
+			role = "";
+		}
 		this.role.set(role);
 	}
 
@@ -273,6 +291,9 @@ public class AssetClip implements Comparable<AssetClip>, Serializable {
 	 *            The new Format to set
 	 */
 	public void setFormat(Format format) {
+		if (format == null) {
+			format = new Format();
+		}
 		this.format = format;
 	}
 
@@ -301,6 +322,9 @@ public class AssetClip implements Comparable<AssetClip>, Serializable {
 	 *            The new tcFormat to set
 	 */
 	public void setTcFormat(String tcFormat) {
+		if (tcFormat == null) {
+			tcFormat = "";
+		}
 		this.tcFormat.set(tcFormat);
 	}
 

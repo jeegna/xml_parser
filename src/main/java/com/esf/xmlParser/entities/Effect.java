@@ -81,6 +81,9 @@ public class Effect implements Comparable<Effect>, Serializable {
 	 *            The new name to set
 	 */
 	public void setName(String name) {
+		if (name == null) {
+			name = "";
+		}
 		this.name.set(name);
 	}
 
@@ -109,6 +112,9 @@ public class Effect implements Comparable<Effect>, Serializable {
 	 *            The new UID to set
 	 */
 	public void setUid(String uid) {
+		if (uid == null) {
+			uid = "";
+		}
 		this.uid.set(uid);
 	}
 
@@ -137,6 +143,9 @@ public class Effect implements Comparable<Effect>, Serializable {
 	 *            The new src to set
 	 */
 	public void setSrc(String src) {
+		if (src == null) {
+			src = "";
+		}
 		this.src.set(src);
 	}
 
