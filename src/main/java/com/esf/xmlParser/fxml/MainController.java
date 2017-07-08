@@ -27,6 +27,8 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
@@ -46,6 +48,8 @@ public class MainController {
 	// Main border pane
 	@FXML
 	private BorderPane borderPane;
+	@FXML
+	private VBox borderPaneTop;
 
 	// Menubar
 	@FXML
@@ -67,7 +71,8 @@ public class MainController {
 		logger.info("Start application");
 
 		// Initialize other fxml controllers
-		initializeTableViewController();
+		initializeTableView();
+		initializeSearchBar();
 	}
 
 	/**
@@ -121,7 +126,7 @@ public class MainController {
 	/**
 	 * Initializes the table view controller and the FXML associated with it.
 	 */
-	private void initializeTableViewController() {
+	private void initializeTableView() {
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setResources(resources);
@@ -133,6 +138,24 @@ public class MainController {
 
 			// Add view to Main.fxml
 			borderPane.setCenter(tabPane);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Initializes the search bar and the FXML associated with it.
+	 */
+	private void initializeSearchBar() {
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setResources(resources);
+
+			loader.setLocation(Main.class.getResource("/fxml/SearchBar.fxml"));
+			HBox hBox= (HBox) loader.load();
+
+			// Add view to Main.fxml
+			borderPaneTop.getChildren().add(hBox);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

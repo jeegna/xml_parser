@@ -5,9 +5,11 @@
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
 
 <BorderPane fx:id="borderPane" minHeight="500.0" minWidth="750.0" xmlns="http://javafx.com/javafx/8.0.131" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.esf.xmlParser.fxml.MainController">
 	<top>
+		<VBox fx:id="borderPaneTop">
 		<MenuBar fx:id="menubar" BorderPane.alignment="CENTER">
 			<menus>
 				<Menu mnemonicParsing="false" text="%menuItemFile">
@@ -23,5 +25,6 @@
 				</Menu>
 			</menus>
 		</MenuBar>
+		</VBox>
 	</top>
 </BorderPane>
