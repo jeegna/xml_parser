@@ -69,15 +69,14 @@ public class AudioController {
 		return audios;
 	}
 
-	public Audio getAudio(String id) throws SQLException, ClassNotFoundException {
+	public Audio getAudio(int id) throws SQLException, ClassNotFoundException {
 		logger.info("Getting Audio with id " + id);
 
 		Audio audio = null;
 
 		Connection conn = db.getConnection();
-		PreparedStatement ps = conn.prepareStatement(
-				"SELECT * FROM AUDIOS WHERE AUDIOS.id=?;");
-		ps.setString(1, id);
+		PreparedStatement ps = conn.prepareStatement("SELECT * FROM AUDIOS WHERE AUDIOS.id=?;");
+		ps.setInt(1, id);
 
 		ResultSet rs = ps.executeQuery();
 		if (rs.next()) {

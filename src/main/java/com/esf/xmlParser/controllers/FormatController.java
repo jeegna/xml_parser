@@ -65,6 +65,31 @@ public class FormatController {
 		return formats;
 	}
 
+	public List<Format> getFormats(String name) throws SQLException, ClassNotFoundException {
+		logger.info("Getting Formats with name like " + name);
+		name = "%" + name + "%";
+
+		List<Format> formats = new ArrayList<Format>();
+
+		Connection conn = db.getConnection();
+		PreparedStatement ps = conn.prepareStatement("SELECT * FROM FORMATS WHERE FORMATS.name LIKE ?;");
+		ps.setString(1, name);
+
+		ResultSet rs = ps.executeQuery();
+		while (rs.next()) {
+			Format format = createFormat(rs);
+			formats.add(format);
+
+			logger.info("Found " + format);
+		}
+
+		ps.close();
+		rs.close();
+		conn.close();
+
+		return formats;
+	}
+
 	public Format getFormat(String id) throws SQLException, ClassNotFoundException {
 		logger.info("Getting Format with id " + id);
 

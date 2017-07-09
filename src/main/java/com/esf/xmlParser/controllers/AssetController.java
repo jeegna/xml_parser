@@ -73,6 +73,31 @@ public class AssetController {
 		return assets;
 	}
 
+	public List<Asset> getAssets(String name) throws SQLException, ClassNotFoundException {
+		logger.info("Getting Assets with name like " + name);
+		name = "%" + name + "%";
+
+		List<Asset> assets = new ArrayList<Asset>();
+
+		Connection conn = db.getConnection();
+		PreparedStatement ps = conn.prepareStatement("SELECT * FROM ASSETS WHERE ASSETS.name LIKE ?;");
+		ps.setString(1, name);
+
+		ResultSet rs = ps.executeQuery();
+		while (rs.next()) {
+			Asset asset = createAsset(rs);
+			assets.add(asset);
+
+			logger.info("Found " + asset);
+		}
+
+		ps.close();
+		rs.close();
+		conn.close();
+
+		return assets;
+	}
+
 	public Asset getAsset(String id) throws SQLException, ClassNotFoundException {
 		logger.info("Getting Asset with id " + id);
 

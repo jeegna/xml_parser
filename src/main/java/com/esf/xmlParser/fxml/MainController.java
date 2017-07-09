@@ -23,11 +23,12 @@ import com.esf.xmlParser.parser.Parser;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Button;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TabPane;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
@@ -61,10 +62,17 @@ public class MainController {
 	@FXML
 	private MenuItem menuItemAbout;
 
+	// Search bar
+	@FXML
+	private TextField textFieldSearch;
+	@FXML
+	private Button buttonSearch;
+
 	private String filePath;
 	private String fileName;
 
 	private TableViewController tableViewController;
+	private DatabaseController db;
 
 	@FXML
 	private void initialize() {
@@ -72,7 +80,6 @@ public class MainController {
 
 		// Initialize other fxml controllers
 		initializeTableView();
-		initializeSearchBar();
 	}
 
 	/**
@@ -86,6 +93,42 @@ public class MainController {
 		try {
 			loadFile();
 		} catch (ClassNotFoundException | SQLException | ParserConfigurationException | SAXException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	@FXML
+	private void buttonSearchClick() {
+		String query = textFieldSearch.getText();
+		logger.info("QUERY: " + query);
+
+		try {
+			List<AssetClip> assetClips = db.getAssetClips(query);
+			for (AssetClip assetClip : assetClips) {
+				logger.info("FOUND " + assetClip);
+			}
+			List<Asset> assets = db.getAssets(query);
+			for (Asset asset : assets) {
+				logger.info("FOUND " + asset);
+			}
+			List<Clip> clips = db.getClips(query);
+			for (Clip clip : clips) {
+				logger.info("FOUND " + clip);
+			}
+			List<Effect> effects= db.getEffects(query);
+			for (Effect effect : effects) {
+				logger.info("FOUND " + effect);
+			}
+			List<Format> formats = db.getFormats(query);
+			for (Format format : formats) {
+				logger.info("FOUND " + format);
+			}
+			List<Video> videos = db.getVideos(query);
+			for (Video video : videos) {
+				logger.info("FOUND " + video);
+			}
+		} catch (ClassNotFoundException | SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -142,24 +185,6 @@ public class MainController {
 			e.printStackTrace();
 		}
 	}
-	
-	/**
-	 * Initializes the search bar and the FXML associated with it.
-	 */
-	private void initializeSearchBar() {
-		try {
-			FXMLLoader loader = new FXMLLoader();
-			loader.setResources(resources);
-
-			loader.setLocation(Main.class.getResource("/fxml/SearchBar.fxml"));
-			HBox hBox= (HBox) loader.load();
-
-			// Add view to Main.fxml
-			borderPaneTop.getChildren().add(hBox);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
 
 	/**
 	 * Loads the file contents into a database and populates the JavaFX tables
@@ -181,7 +206,7 @@ public class MainController {
 		logger.info("Loading file...");
 
 		Parser parser = new Parser(filePath);
-		DatabaseController db = new DatabaseController(fileName);
+		db = new DatabaseController(fileName);
 
 		List<Asset> assets = parser.getAssets();
 		List<AssetClip> assetClips = parser.getAssetClips();

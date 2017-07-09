@@ -66,15 +66,40 @@ public class VideoController {
 
 		return videos;
 	}
+	
+	public List<Video> getVideos(String name) throws SQLException, ClassNotFoundException {
+		logger.info("Getting Videos with name like " + name);
+		name = "%" + name + "%";
 
-	public Video getVideo(String id) throws SQLException, ClassNotFoundException {
+		List<Video> videos = new ArrayList<Video>();
+
+		Connection conn = db.getConnection();
+		PreparedStatement ps = conn.prepareStatement("SELECT * FROM VIDEOS WHERE VIDEOS.name LIKE ?;");
+		ps.setString(1, name);
+
+		ResultSet rs = ps.executeQuery();
+		while (rs.next()) {
+			Video video = createVideo(rs);
+			videos.add(video);
+			
+			logger.info("Found: " + video);
+		}
+
+		ps.close();
+		rs.close();
+		conn.close();
+
+		return videos;
+	}
+	
+	public Video getVideo(int id) throws SQLException, ClassNotFoundException {
 		logger.info("Getting Video with id " + id);
 
 		Video video = null;
 
 		Connection conn = db.getConnection();
 		PreparedStatement ps = conn.prepareStatement("SELECT * FROM VIDEOS WHERE VIDEOS.id=?;");
-		ps.setString(1, id);
+		ps.setInt(1, id);
 
 		ResultSet rs = ps.executeQuery();
 		if (rs.next()) {

@@ -28,7 +28,8 @@ public class AssetClipController {
 		logger.info("Adding AssetClips...");
 		Connection conn = db.getConnection();
 
-		PreparedStatement ps = conn.prepareStatement("INSERT INTO ASSET_CLIPS VALUES (null, ?, ?, ?, ?, ?, ?, ?, ?, ?);");
+		PreparedStatement ps = conn
+				.prepareStatement("INSERT INTO ASSET_CLIPS VALUES (null, ?, ?, ?, ?, ?, ?, ?, ?, ?);");
 		for (AssetClip assetClip : assetClips) {
 			logger.info("Adding " + assetClip);
 			ps.setString(1, assetClip.getAsset().getId());
@@ -71,14 +72,38 @@ public class AssetClipController {
 		return assetClips;
 	}
 
+	public List<AssetClip> getAssetClips(String name) throws SQLException, ClassNotFoundException {
+		logger.info("Getting Asset Clips with name like " + name);
+		name = "%" + name + "%";
+
+		List<AssetClip> assetClips = new ArrayList<AssetClip>();
+
+		Connection conn = db.getConnection();
+		PreparedStatement ps = conn.prepareStatement("SELECT * FROM ASSET_CLIPS WHERE ASSET_CLIPS.name LIKE ?;");
+		ps.setString(1, name);
+
+		ResultSet rs = ps.executeQuery();
+		while (rs.next()) {
+			AssetClip assetClip = createAssetClip(rs);
+			assetClips.add(assetClip);
+
+			logger.info("Found " + assetClip);
+		}
+
+		ps.close();
+		rs.close();
+		conn.close();
+
+		return assetClips;
+	}
+
 	public AssetClip getAssetClip(int id) throws SQLException, ClassNotFoundException {
 		logger.info("Getting Asset Clip with id " + id);
 
 		AssetClip assetClip = null;
 
 		Connection conn = db.getConnection();
-		PreparedStatement ps = conn.prepareStatement(
-				"SELECT * FROM ASSET_CLIPS WHERE ASSET_CLIPS.assetId=?;");
+		PreparedStatement ps = conn.prepareStatement("SELECT * FROM ASSET_CLIPS WHERE ASSET_CLIPS.assetId LIKE %?%;");
 		ps.setInt(1, id);
 
 		ResultSet rs = ps.executeQuery();
