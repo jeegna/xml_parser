@@ -180,12 +180,12 @@ public class Effect extends Element implements Comparable<Effect>, Serializable 
 	 */
 	@Override
 	public boolean equals(Object o) {
-		if (o == null || !(o instanceof Effect) || id.isEmpty().get()) {
+		if (o == null || !(o instanceof Effect)) {
 			return false;
 		}
 
-		Effect e = (Effect) o;
+		Effect effect = (Effect) o;
 
-		return id.equals(e.id);
+		return id.get().equals(effect.id);
 	}
 }

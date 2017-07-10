@@ -326,4 +326,19 @@ public class Audio implements Comparable<Audio>, Serializable {
 		return Integer.compare(Integer.parseInt(asset.getId().substring(1)),
 				(Integer.parseInt(o.asset.getId().substring(1))));
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object o) {
+		if (o == null || !(o instanceof Audio)) {
+			return false;
+		}
+		
+		Audio audio = (Audio) o;
+		return id.get() == audio.getId();
+	}
 }

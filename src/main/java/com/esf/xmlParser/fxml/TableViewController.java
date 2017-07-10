@@ -9,6 +9,7 @@ import com.esf.xmlParser.entities.AssetClip;
 import com.esf.xmlParser.entities.Audio;
 import com.esf.xmlParser.entities.Clip;
 import com.esf.xmlParser.entities.Effect;
+import com.esf.xmlParser.entities.Element;
 import com.esf.xmlParser.entities.Format;
 import com.esf.xmlParser.entities.Video;
 
@@ -31,17 +32,19 @@ public class TableViewController {
 
 	// Tabs
 	@FXML
-	private Tab tabVideos;
-	@FXML
-	private Tab tabAudios;
-	@FXML
 	private Tab tabAssets;
 	@FXML
 	private Tab tabAssetClips;
 	@FXML
-	private Tab tabFormats;
+	private Tab tabAudios;
+	@FXML
+	private Tab tabClips;
 	@FXML
 	private Tab tabEffects;
+	@FXML
+	private Tab tabFormats;
+	@FXML
+	private Tab tabVideos;
 
 	// Tables
 	@FXML
@@ -49,15 +52,65 @@ public class TableViewController {
 	@FXML
 	private TableView<AssetClip> tableAssetClips;
 	@FXML
-	private TableView<Video> tableVideos;
-	@FXML
 	private TableView<Audio> tableAudios;
+	@FXML
+	private TableView<Clip> tableClips;
+	@FXML
+	private TableView<Effect> tableEffects;
 	@FXML
 	private TableView<Format> tableFormats;
 	@FXML
-	private TableView<Effect> tableEffects;
+	private TableView<Video> tableVideos;
 
 	private final Logger logger = Logger.getLogger(this.getClass().getName());
+
+	public void selectItem(Element element) {
+		String name = element.getClass().getSimpleName();
+		switch (name) {
+		case "Asset":
+			tabPane.getSelectionModel().select(tabAssets);
+			Asset asset = (Asset) element;
+			tableAssets.getSelectionModel().select(asset);
+			tableAssets.scrollTo(asset);
+			break;
+		case "AssetClip":
+			tabPane.getSelectionModel().select(tabAssetClips);
+			AssetClip assetClip = (AssetClip) element;
+			tableAssetClips.getSelectionModel().select(assetClip);
+			tableAssetClips.scrollTo(assetClip);
+			break;
+		case "Audio":
+			tabPane.getSelectionModel().select(tabAudios);
+//			Audio audio = (Audio) element;
+//			tableAudios.getSelectionModel().select(audio);
+//			tableAudios.scrollTo(audio);
+			break;
+		case "Clip":
+			tabPane.getSelectionModel().select(tabClips);
+			Clip clip = (Clip) element;
+			tableClips.getSelectionModel().select(clip);
+			tableClips.scrollTo(clip);
+			break;
+		case "Effect":
+			tabPane.getSelectionModel().select(tabEffects);
+			Effect effect = (Effect) element;
+			tableEffects.getSelectionModel().select(effect);
+			tableEffects.scrollTo(effect);
+			break;
+		case "Format":
+			tabPane.getSelectionModel().select(tabFormats);
+			Format format = (Format) element;
+			tableFormats.getSelectionModel().select(format);
+			tableFormats.scrollTo(format);
+			break;
+		case "Video":
+			tabPane.getSelectionModel().select(tabVideos);
+			Video video = (Video) element;
+			tableVideos.getSelectionModel().select(video);
+			tableVideos.scrollTo(video);
+			break;
+		}
+	}
 
 	public void populateTables(List<Asset> assets, List<AssetClip> assetClips, List<Audio> audios, List<Clip> clips, List<Effect> effects, List<Format> formats, List<Video> videos) {
 

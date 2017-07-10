@@ -263,4 +263,19 @@ public class Video extends Element implements Comparable<Video>, Serializable {
 		return Integer.compare(Integer.parseInt(asset.getId().substring(1)),
 				(Integer.parseInt(o.asset.getId().substring(1))));
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null || !(obj instanceof Video)) {
+			return false;
+		}
+
+		Video video = (Video) obj;
+		return id.get() == video.getId();
+	}
 }

@@ -210,12 +210,12 @@ public class Format extends Element implements Comparable<Format>, Serializable 
 	 */
 	@Override
 	public boolean equals(Object o) {
-		if (o == null || !(o instanceof Format) || id.isEmpty().get()) {
+		if (o == null || !(o instanceof Format)) {
 			return false;
 		}
 
-		Format f = (Format) o;
+		Format format = (Format) o;
 
-		return id.equals(f.id);
+		return id.get().equals(format.id);
 	}
 }

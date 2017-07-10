@@ -108,17 +108,18 @@ public class MainController {
 	@FXML
 	private void buttonSearchClick() {
 		String query = comboBoxSearch.getValue().getName();
+		comboBoxSearch.getItems().clear();
 
 		try {
-			List<AssetClip> assetClips = db.getAssetClips(query);
 			List<Asset> assets = db.getAssets(query);
+			List<AssetClip> assetClips = db.getAssetClips(query);
 			List<Clip> clips = db.getClips(query);
 			List<Effect> effects = db.getEffects(query);
 			List<Format> formats = db.getFormats(query);
 			List<Video> videos = db.getVideos(query);
 
-			comboBoxSearch.getItems().addAll(assetClips);
 			comboBoxSearch.getItems().addAll(assets);
+			comboBoxSearch.getItems().addAll(assetClips);
 			comboBoxSearch.getItems().addAll(clips);
 			comboBoxSearch.getItems().addAll(effects);
 			comboBoxSearch.getItems().addAll(formats);
@@ -136,6 +137,12 @@ public class MainController {
 	private void close() {
 		logger.info("Bye!");
 		System.exit(0);
+	}
+
+	@FXML
+	private void comboBoxItemSelected() {
+		Element element = comboBoxSearch.getValue();
+		tableViewController.selectItem(element);
 	}
 
 	/**
@@ -201,7 +208,7 @@ public class MainController {
 				};
 			}
 		});
-		
+
 		comboBoxSearch.setConverter(new ElementConverter());
 	}
 

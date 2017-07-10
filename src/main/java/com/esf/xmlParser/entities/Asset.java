@@ -428,12 +428,12 @@ public class Asset extends Element implements Comparable<Asset>, Serializable {
 	 */
 	@Override
 	public boolean equals(Object o) {
-		if (o == null || !(o instanceof Asset) || id.isEmpty().get()) {
+		if (o == null || !(o instanceof Asset)) {
 			return false;
 		}
 
-		Asset a = (Asset) o;
+		Asset asset = (Asset) o;
 
-		return id.equals(a.id);
+		return id.get().equals(asset.id);
 	}
 }

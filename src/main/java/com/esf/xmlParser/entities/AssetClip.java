@@ -355,4 +355,20 @@ public class AssetClip extends Element implements Comparable<AssetClip>, Seriali
 		return Integer.compare(Integer.parseInt(asset.getId().substring(1)),
 				(Integer.parseInt(o.asset.getId().substring(1))));
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object o) {
+		if (o == null || !(o instanceof AssetClip)) {
+			return false;
+		}
+
+		AssetClip assetClip = (AssetClip) o;
+
+		return id.get() == assetClip.getId();
+	}
 }

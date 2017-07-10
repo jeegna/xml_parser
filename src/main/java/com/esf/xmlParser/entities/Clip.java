@@ -220,4 +220,19 @@ public class Clip extends Element implements Serializable {
 		return String.format("Clip[name=%s, offset=%s, duration=%s, start=%s, tcFormat=%s]", name.get(), offset.get(),
 				duration.get(), start.get(), tcFormat.get());
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object o) {
+		if (o == null || !(o instanceof Clip)) {
+			return false;
+		}
+
+		Clip clip = (Clip) o;
+		return id.get() == clip.getId();
+	}
 }
