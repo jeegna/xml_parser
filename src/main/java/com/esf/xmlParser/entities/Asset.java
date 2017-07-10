@@ -16,7 +16,7 @@ import javafx.beans.property.StringProperty;
  * @version 2017/04/15
  * @since 1.8
  */
-public class Asset implements Comparable<Asset>, Serializable {
+public class Asset extends Element implements Comparable<Asset>, Serializable {
 
 	private static final long serialVersionUID = 1L;
 

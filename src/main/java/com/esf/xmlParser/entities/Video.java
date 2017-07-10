@@ -14,7 +14,7 @@ import javafx.beans.property.StringProperty;
  * @version 2017/04/15
  * @since 1.8
  */
-public class Video implements Comparable<Video>, Serializable {
+public class Video extends Element implements Comparable<Video>, Serializable {
 
 	private static final long serialVersionUID = 1L;
 

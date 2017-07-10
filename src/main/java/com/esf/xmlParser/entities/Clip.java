@@ -7,7 +7,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
-public class Clip implements Serializable {
+public class Clip extends Element implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 

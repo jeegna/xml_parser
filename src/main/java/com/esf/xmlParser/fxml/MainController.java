@@ -11,12 +11,14 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 
 import com.esf.xmlParser.Main;
+import com.esf.xmlParser.converter.ElementConverter;
 import com.esf.xmlParser.database.DatabaseController;
 import com.esf.xmlParser.entities.Asset;
 import com.esf.xmlParser.entities.AssetClip;
 import com.esf.xmlParser.entities.Audio;
 import com.esf.xmlParser.entities.Clip;
 import com.esf.xmlParser.entities.Effect;
+import com.esf.xmlParser.entities.Element;
 import com.esf.xmlParser.entities.Format;
 import com.esf.xmlParser.entities.Video;
 import com.esf.xmlParser.parser.Parser;
@@ -24,15 +26,18 @@ import com.esf.xmlParser.parser.Parser;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TabPane;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 
 /**
  * @author Jeegna Patel
@@ -64,7 +69,7 @@ public class MainController {
 
 	// Search bar
 	@FXML
-	private TextField textFieldSearch;
+	private ComboBox<Element> comboBoxSearch;
 	@FXML
 	private Button buttonSearch;
 
@@ -80,6 +85,7 @@ public class MainController {
 
 		// Initialize other fxml controllers
 		initializeTableView();
+		initializeSearchBar();
 	}
 
 	/**
@@ -91,43 +97,33 @@ public class MainController {
 		setFile(file);
 
 		try {
+			// FIXME if no file is selected, then errors appear
 			loadFile();
 		} catch (ClassNotFoundException | SQLException | ParserConfigurationException | SAXException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-	
+
 	@FXML
 	private void buttonSearchClick() {
-		String query = textFieldSearch.getText();
-		logger.info("QUERY: " + query);
+		String query = comboBoxSearch.getValue().getName();
 
 		try {
 			List<AssetClip> assetClips = db.getAssetClips(query);
-			for (AssetClip assetClip : assetClips) {
-				logger.info("FOUND " + assetClip);
-			}
 			List<Asset> assets = db.getAssets(query);
-			for (Asset asset : assets) {
-				logger.info("FOUND " + asset);
-			}
 			List<Clip> clips = db.getClips(query);
-			for (Clip clip : clips) {
-				logger.info("FOUND " + clip);
-			}
-			List<Effect> effects= db.getEffects(query);
-			for (Effect effect : effects) {
-				logger.info("FOUND " + effect);
-			}
+			List<Effect> effects = db.getEffects(query);
 			List<Format> formats = db.getFormats(query);
-			for (Format format : formats) {
-				logger.info("FOUND " + format);
-			}
 			List<Video> videos = db.getVideos(query);
-			for (Video video : videos) {
-				logger.info("FOUND " + video);
-			}
+
+			comboBoxSearch.getItems().addAll(assetClips);
+			comboBoxSearch.getItems().addAll(assets);
+			comboBoxSearch.getItems().addAll(clips);
+			comboBoxSearch.getItems().addAll(effects);
+			comboBoxSearch.getItems().addAll(formats);
+			comboBoxSearch.getItems().addAll(videos);
+
 		} catch (ClassNotFoundException | SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -184,6 +180,29 @@ public class MainController {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	private void initializeSearchBar() {
+		// http://www.java2s.com/Code/Java/JavaFX/customcellfactory.htm
+		comboBoxSearch.setCellFactory(new Callback<ListView<Element>, ListCell<Element>>() {
+			@Override
+			public ListCell<Element> call(ListView<Element> list) {
+				return new ListCell<Element>() {
+					@Override
+					protected void updateItem(Element element, boolean empty) {
+						super.updateItem(element, empty);
+
+						if (element == null || empty) {
+							setText(null);
+						} else {
+							setText(element.getClass().getSimpleName() + " " + element.getName());
+						}
+					}
+				};
+			}
+		});
+		
+		comboBoxSearch.setConverter(new ElementConverter());
 	}
 
 	/**

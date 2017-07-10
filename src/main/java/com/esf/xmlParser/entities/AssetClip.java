@@ -14,7 +14,7 @@ import javafx.beans.property.StringProperty;
  * @version 2017/04/15
  * @since 1.8
  */
-public class AssetClip implements Comparable<AssetClip>, Serializable {
+public class AssetClip extends Element implements Comparable<AssetClip>, Serializable {
 
 	private static final long serialVersionUID = 1L;
 

@@ -14,7 +14,7 @@ import javafx.beans.property.StringProperty;
  * @version 2017/07/04
  * @since 1.8
  */
-public class Format implements Comparable<Format>, Serializable {
+public class Format extends Element implements Comparable<Format>, Serializable {
 
 	private static final long serialVersionUID = 1L;
 

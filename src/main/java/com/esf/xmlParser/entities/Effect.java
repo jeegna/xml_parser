@@ -12,7 +12,7 @@ import javafx.beans.property.StringProperty;
  * @version 2017/07/04
  * @since 1.8
  */
-public class Effect implements Comparable<Effect>, Serializable {
+public class Effect extends Element implements Comparable<Effect>, Serializable {
 
 	private static final long serialVersionUID = 1L;
 
