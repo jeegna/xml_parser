@@ -28,7 +28,10 @@ import com.esf.xmlParser.parser.Parser;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
@@ -68,6 +71,8 @@ public class MainController {
 	@FXML
 	private MenuItem menuItemChooseFile;
 	@FXML
+	private MenuItem menuItemSearch;
+	@FXML
 	private MenuItem menuItemAbout;
 
 	// Search bar
@@ -105,7 +110,7 @@ public class MainController {
 				loadFile();
 			} catch (ClassNotFoundException | SQLException | ParserConfigurationException | SAXException
 					| IOException e) {
-				// TODO Auto-generated catch block
+				new Alert(AlertType.ERROR, resources.getString("errorLoadFile"), ButtonType.OK).showAndWait();
 				e.printStackTrace();
 			}
 		}
@@ -135,7 +140,7 @@ public class MainController {
 				comboBoxSearch.getItems().setAll(elements);
 
 			} catch (ClassNotFoundException | SQLException e) {
-				// TODO Auto-generated catch block
+				new Alert(AlertType.ERROR, resources.getString("errorSearch"), ButtonType.OK).showAndWait();
 				e.printStackTrace();
 			}
 		}
@@ -281,6 +286,11 @@ public class MainController {
 	@FXML
 	private void menuItemClose() {
 		close();
+	}
+
+	@FXML
+	private void menuItemSearch() {
+
 	}
 
 	private void setFile(File file) {
