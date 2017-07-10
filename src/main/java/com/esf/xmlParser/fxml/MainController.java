@@ -3,9 +3,11 @@ package com.esf.xmlParser.fxml;
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Logger;
+
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
@@ -23,6 +25,7 @@ import com.esf.xmlParser.entities.Format;
 import com.esf.xmlParser.entities.Video;
 import com.esf.xmlParser.parser.Parser;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
@@ -94,40 +97,47 @@ public class MainController {
 	 */
 	public void selectFile() {
 		File file = getFileFromFileChooser();
-		setFile(file);
 
-		try {
-			// FIXME if no file is selected, then errors appear
-			loadFile();
-		} catch (ClassNotFoundException | SQLException | ParserConfigurationException | SAXException | IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if (file != null) {
+			setFile(file);
+
+			try {
+				loadFile();
+			} catch (ClassNotFoundException | SQLException | ParserConfigurationException | SAXException
+					| IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 
 	@FXML
 	private void buttonSearchClick() {
-		String query = comboBoxSearch.getValue().getName();
-		comboBoxSearch.getItems().clear();
+		if (db != null) {
+			String query = comboBoxSearch.getValue().getName();
 
-		try {
-			List<Asset> assets = db.getAssets(query);
-			List<AssetClip> assetClips = db.getAssetClips(query);
-			List<Clip> clips = db.getClips(query);
-			List<Effect> effects = db.getEffects(query);
-			List<Format> formats = db.getFormats(query);
-			List<Video> videos = db.getVideos(query);
+			try {
+				List<Asset> assets = db.getAssets(query);
+				List<AssetClip> assetClips = db.getAssetClips(query);
+				List<Clip> clips = db.getClips(query);
+				List<Effect> effects = db.getEffects(query);
+				List<Format> formats = db.getFormats(query);
+				List<Video> videos = db.getVideos(query);
 
-			comboBoxSearch.getItems().addAll(assets);
-			comboBoxSearch.getItems().addAll(assetClips);
-			comboBoxSearch.getItems().addAll(clips);
-			comboBoxSearch.getItems().addAll(effects);
-			comboBoxSearch.getItems().addAll(formats);
-			comboBoxSearch.getItems().addAll(videos);
+				List<Element> elements = new ArrayList<Element>();
+				elements.addAll(assets);
+				elements.addAll(assetClips);
+				elements.addAll(clips);
+				elements.addAll(effects);
+				elements.addAll(formats);
+				elements.addAll(videos);
 
-		} catch (ClassNotFoundException | SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+				comboBoxSearch.getItems().setAll(elements);
+
+			} catch (ClassNotFoundException | SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -140,9 +150,11 @@ public class MainController {
 	}
 
 	@FXML
-	private void comboBoxItemSelected() {
+	private void comboBoxItemSelected(ActionEvent event) {
 		Element element = comboBoxSearch.getValue();
-		tableViewController.selectItem(element);
+		if (element != null) {
+			tableViewController.selectItem(element);
+		}
 	}
 
 	/**

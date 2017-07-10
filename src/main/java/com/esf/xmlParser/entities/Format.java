@@ -216,6 +216,6 @@ public class Format extends Element implements Comparable<Format>, Serializable 
 
 		Format format = (Format) o;
 
-		return id.get().equals(format.id);
+		return id.get().equals(format.id.get());
 	}
 }

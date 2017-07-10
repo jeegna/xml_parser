@@ -434,6 +434,6 @@ public class Asset extends Element implements Comparable<Asset>, Serializable {
 
 		Asset asset = (Asset) o;
 
-		return id.get().equals(asset.id);
+		return id.get().equals(asset.id.get());
 	}
 }

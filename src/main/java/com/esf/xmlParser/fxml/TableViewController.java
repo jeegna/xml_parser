@@ -80,10 +80,10 @@ public class TableViewController {
 			tableAssetClips.scrollTo(assetClip);
 			break;
 		case "Audio":
-			tabPane.getSelectionModel().select(tabAudios);
-//			Audio audio = (Audio) element;
-//			tableAudios.getSelectionModel().select(audio);
-//			tableAudios.scrollTo(audio);
+			// tabPane.getSelectionModel().select(tabAudios);
+			// Audio audio = (Audio) element;
+			// tableAudios.getSelectionModel().select(audio);
+			// tableAudios.scrollTo(audio);
 			break;
 		case "Clip":
 			tabPane.getSelectionModel().select(tabClips);
@@ -112,7 +112,8 @@ public class TableViewController {
 		}
 	}
 
-	public void populateTables(List<Asset> assets, List<AssetClip> assetClips, List<Audio> audios, List<Clip> clips, List<Effect> effects, List<Format> formats, List<Video> videos) {
+	public void populateTables(List<Asset> assets, List<AssetClip> assetClips, List<Audio> audios, List<Clip> clips,
+			List<Effect> effects, List<Format> formats, List<Video> videos) {
 
 		createTables();
 

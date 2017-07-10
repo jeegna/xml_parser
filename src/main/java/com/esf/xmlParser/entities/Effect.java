@@ -186,6 +186,6 @@ public class Effect extends Element implements Comparable<Effect>, Serializable 
 
 		Effect effect = (Effect) o;
 
-		return id.get().equals(effect.id);
+		return id.get().equals(effect.id.get());
 	}
 }
