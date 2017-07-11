@@ -22,8 +22,6 @@
 							<items>
 								<MenuItem fx:id="menuItemChooseFile" mnemonicParsing="false"
 									onAction="#menuItemChooseFile" text="%menuItemChooseFile" />
-								<MenuItem fx:id="menuItemSearch" mnemonicParsing="false"
-									onAction="#menuItemSearch" text="%menuItemSearch" />
 								<SeparatorMenuItem mnemonicParsing="false" />
 								<MenuItem fx:id="menuItemClose" mnemonicParsing="false"
 									onAction="#menuItemClose" text="%menuItemClose" />

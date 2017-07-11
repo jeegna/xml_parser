@@ -7,196 +7,45 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import org.controlsfx.control.CheckComboBox?>
 
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1000.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.131" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.esf.xmlParser.fxml.SearchController">
-  <columnConstraints>
-    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="25.0" prefWidth="100.0" />
-    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-  </columnConstraints>
-  <rowConstraints>
-    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-      <RowConstraints minHeight="10.0" percentHeight="5.0" prefHeight="30.0" vgrow="SOMETIMES" />
-  </rowConstraints>
-   <children>
-      <CheckBox fx:id="checkBoxAsset" mnemonicParsing="false" selected="true" text="\%asset" />
-      <CheckBox fx:id="checkBoxAssetClip" mnemonicParsing="false" selected="true" text="\%assetClip" GridPane.rowIndex="1" />
-      <CheckBox fx:id="checkBoxAudio" mnemonicParsing="false" selected="true" text="\%audio" GridPane.rowIndex="2" />
-      <CheckBox fx:id="checkBoxClip" mnemonicParsing="false" selected="true" text="\%clip" GridPane.rowIndex="3" />
-      <CheckBox fx:id="checkBoxEffect" mnemonicParsing="false" selected="true" text="\%effect" GridPane.rowIndex="4" />
-      <CheckBox fx:id="checkBoxFormat" mnemonicParsing="false" selected="true" text="\%format" GridPane.rowIndex="5" />
-      <CheckBox fx:id="checkBoxVideo" mnemonicParsing="false" selected="true" text="\%video" GridPane.rowIndex="6" />
-      <GridPane GridPane.columnIndex="1">
-         <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="33.333333" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="33.333333" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="33.333333" prefWidth="100.0" />
-         </columnConstraints>
-         <rowConstraints>
-            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-         </rowConstraints>
-         <children>
-            <CheckBox fx:id="checkBoxAssetId" mnemonicParsing="false" text="%id" />
-            <CheckBox fx:id="checkBoxAssetName" mnemonicParsing="false" selected="true" text="%name" GridPane.rowIndex="1" />
-            <CheckBox fx:id="checkBoxAssetDuration" mnemonicParsing="false" text="%duration" GridPane.rowIndex="2" />
-            <CheckBox fx:id="checkBoxAssetHasVideo" mnemonicParsing="false" text="%hasVideo" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-            <CheckBox fx:id="checkBoxAssetHasAudio" mnemonicParsing="false" text="%hasAudio" GridPane.columnIndex="2" GridPane.rowIndex="3" />
-            <CheckBox fx:id="checkBoxAssetUid" mnemonicParsing="false" text="%uid" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-            <CheckBox fx:id="checkBoxAssetStart" mnemonicParsing="false" text="%start" GridPane.rowIndex="3" />
-            <CheckBox fx:id="checkBoxAssetFormatName" mnemonicParsing="false" text="%formatName" GridPane.columnIndex="1" />
-            <CheckBox fx:id="checkBoxAssetWidth" mnemonicParsing="false" text="%width" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <CheckBox fx:id="checkBoxAssetHeight" mnemonicParsing="false" text="%height" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <CheckBox fx:id="checkBoxAssetFrameRate" mnemonicParsing="false" text="%frameRate" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <CheckBox fx:id="checkBoxAssetSrc" mnemonicParsing="false" text="%src" GridPane.columnIndex="2" />
-         </children>
-      </GridPane>
-      <GridPane GridPane.columnIndex="1" GridPane.rowIndex="1">
-         <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="33.333333333" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="33.333333333" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="33.333333333" prefWidth="100.0" />
-         </columnConstraints>
-         <rowConstraints>
-            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-            <RowConstraints />
-         </rowConstraints>
-         <children>
-            <CheckBox fx:id="checkBoxAssetClipId" mnemonicParsing="false" text="%id" />
-            <CheckBox fx:id="checkBoxAssetClipName" mnemonicParsing="false" selected="true" text="%name" GridPane.rowIndex="1" />
-            <CheckBox fx:id="checkBoxAssetClipOffset" mnemonicParsing="false" text="%offset" GridPane.rowIndex="2" />
-            <CheckBox fx:id="checkBoxAssetClipDuration" mnemonicParsing="false" text="%duration" GridPane.rowIndex="3" />
-            <CheckBox fx:id="checkBoxAssetClipStart" mnemonicParsing="false" text="%start" GridPane.rowIndex="4" />
-            <CheckBox fx:id="checkBoxAssetClipFormatName" mnemonicParsing="false" text="%formatName" GridPane.columnIndex="1" />
-            <CheckBox fx:id="checkBoxAssetClipWidth" mnemonicParsing="false" text="%width" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <CheckBox fx:id="checkBoxAssetClipHeight" mnemonicParsing="false" text="%height" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <CheckBox fx:id="checkBoxAssetClipFrameRate" mnemonicParsing="false" text="%frameRate" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <CheckBox fx:id="checkBoxAssetClipSrc" mnemonicParsing="false" text="%src" GridPane.columnIndex="2" />
-            <CheckBox fx:id="checkBoxAssetClipTcFormat" mnemonicParsing="false" text="%tcFormat" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-            <CheckBox fx:id="checkBoxAssetClipLane" mnemonicParsing="false" text="%lane" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-            <CheckBox fx:id="checkBoxAssetClipRole" mnemonicParsing="false" text="%role" GridPane.columnIndex="2" GridPane.rowIndex="3" />
-         </children>
-      </GridPane>
-      <GridPane GridPane.columnIndex="1" GridPane.rowIndex="2">
-         <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="50.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="50.0" prefWidth="100.0" />
-         </columnConstraints>
-         <rowConstraints>
-            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-         </rowConstraints>
-         <children>
-            <CheckBox fx:id="checkBoxAudioId" mnemonicParsing="false" text="%id" />
-            <CheckBox fx:id="checkBoxAudioName" disable="true" mnemonicParsing="false" text="%name" GridPane.rowIndex="1" />
-            <CheckBox fx:id="checkBoxAudioStart" mnemonicParsing="false" text="%start" GridPane.rowIndex="2" />
-            <CheckBox fx:id="checkBoxAudioDuration" mnemonicParsing="false" text="%duration" GridPane.rowIndex="3" />
-            <CheckBox fx:id="checkBoxAudioOffset" mnemonicParsing="false" text="%offset" GridPane.rowIndex="4" />
-            <CheckBox fx:id="checkBoxAudioLane" mnemonicParsing="false" text="%lane" GridPane.columnIndex="1" />
-            <CheckBox fx:id="checkBoxAudioRole" mnemonicParsing="false" text="%role" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <CheckBox fx:id="checkBoxAudioSrc" mnemonicParsing="false" text="src" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <CheckBox fx:id="checkBoxAudioSrcCh" mnemonicParsing="false" text="srcCh" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <CheckBox fx:id="checkBoxAudioSrcId" mnemonicParsing="false" text="%srcId" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-         </children>
-      </GridPane>
-      <GridPane GridPane.columnIndex="1" GridPane.rowIndex="3">
-         <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="50.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="50.0" prefWidth="100.0" />
-         </columnConstraints>
-         <rowConstraints>
-            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-         </rowConstraints>
-         <children>
-            <CheckBox fx:id="checkBoxClipId" mnemonicParsing="false" text="%id" />
-            <CheckBox fx:id="checkBoxClipName" mnemonicParsing="false" selected="true" text="%name" GridPane.rowIndex="1" />
-            <CheckBox fx:id="checkBoxClipTcFormat" mnemonicParsing="false" text="%tcFormat" GridPane.rowIndex="2" />
-            <CheckBox fx:id="checkBoxClipOffset" mnemonicParsing="false" text="%offset" GridPane.columnIndex="1" />
-            <CheckBox fx:id="checkBoxClipDuration" mnemonicParsing="false" text="%duration" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <CheckBox fx:id="checkBoxClipStart" mnemonicParsing="false" text="%start" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-         </children>
-      </GridPane>
-      <GridPane GridPane.columnIndex="1" GridPane.rowIndex="4">
-         <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="50.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="50.0" prefWidth="100.0" />
-         </columnConstraints>
-         <rowConstraints>
-            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-         </rowConstraints>
-         <children>
-            <CheckBox fx:id="checkBoxEffectId" mnemonicParsing="false" text="%id" />
-            <CheckBox fx:id="checkBoxEffectName" mnemonicParsing="false" selected="true" text="%name" GridPane.rowIndex="1" />
-            <CheckBox fx:id="checkBoxEffectSrc" mnemonicParsing="false" text="%src" GridPane.columnIndex="1" />
-            <CheckBox fx:id="checkBoxEffectUid" mnemonicParsing="false" text="%uid" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-         </children>
-      </GridPane>
-      <GridPane GridPane.columnIndex="1" GridPane.rowIndex="5">
-         <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="50.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="50.0" prefWidth="100.0" />
-         </columnConstraints>
-         <rowConstraints>
-            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-         </rowConstraints>
-         <children>
-            <CheckBox fx:id="checkBoxFormatId" mnemonicParsing="false" text="%id" />
-            <CheckBox fx:id="checkBoxFormatName" mnemonicParsing="false" selected="true" text="%name" GridPane.rowIndex="1" />
-            <CheckBox fx:id="checkBoxFormatFrameRate" mnemonicParsing="false" text="%frameRate" GridPane.rowIndex="2" />
-            <CheckBox fx:id="checkBoxFormatWidth" mnemonicParsing="false" text="%width" GridPane.columnIndex="1" />
-            <CheckBox fx:id="checkBoxFormatHeight" mnemonicParsing="false" text="%height" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-         </children>
-      </GridPane>
-      <GridPane GridPane.columnIndex="1" GridPane.rowIndex="6">
-         <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="50.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="50.0" prefWidth="100.0" />
-         </columnConstraints>
-         <rowConstraints>
-            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-         </rowConstraints>
-         <children>
-            <CheckBox fx:id="checkBoxVideoId" mnemonicParsing="false" text="%id" />
-            <CheckBox fx:id="checkBoxVideoName" mnemonicParsing="false" selected="true" text="%name" GridPane.rowIndex="1" />
-            <CheckBox fx:id="checkBoxVideoLane" mnemonicParsing="false" text="%lane" GridPane.rowIndex="2" />
-            <CheckBox fx:id="checkBoxVideoStart" mnemonicParsing="false" text="%start" GridPane.columnIndex="1" />
-            <CheckBox fx:id="checkBoxVideoDuration" mnemonicParsing="false" text="%duration" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <CheckBox fx:id="checkBoxVideoOffset" mnemonicParsing="false" text="%offset" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <CheckBox fx:id="checkBoxVideoSrc" mnemonicParsing="false" text="%src" GridPane.rowIndex="3" />
-         </children>
-      </GridPane>
-      <HBox alignment="BOTTOM_RIGHT" GridPane.columnIndex="1" GridPane.rowIndex="7">
-         <children>
-            <Button fx:id="buttonReset" mnemonicParsing="false" onAction="#buttonResetClick" text="%btnReset" />
-            <Button fx:id="buttonApply" mnemonicParsing="false" onAction="#buttonApplyClick" text="%btnApply" />
-            <Button fx:id="buttonCancel" mnemonicParsing="false" onAction="#buttonCancelClick" text="%btnCancel" />
-         </children>
-      </HBox>
-   </children>
-   <padding>
-      <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-   </padding>
+<GridPane hgap="5.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="175.0" prefWidth="750.0" vgap="5.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.esf.xmlParser.fxml.AdvancedSearchController">
+	<columnConstraints>
+		<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="50.0" prefWidth="100.0" />
+		<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="50.0" prefWidth="100.0" />
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="50.0" prefWidth="100.0" />
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="50.0" prefWidth="100.0" />
+	</columnConstraints>
+	<rowConstraints>
+		<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+		<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+		<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+		<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+		<RowConstraints minHeight="10.0" percentHeight="20.0" prefHeight="30.0" vgrow="SOMETIMES" />
+	</rowConstraints>
+	<children>
+
+		<CheckBox fx:id="checkBoxAsset" mnemonicParsing="false" selected="true" text="%asset" />
+		<CheckBox fx:id="checkBoxAssetClip" mnemonicParsing="false" selected="true" text="%assetClip" GridPane.rowIndex="1" />
+		<CheckBox fx:id="checkBoxAudio" mnemonicParsing="false" selected="true" text="%audio" GridPane.rowIndex="2" />
+		<CheckBox fx:id="checkBoxClip" mnemonicParsing="false" selected="true" text="%clip" GridPane.rowIndex="3" />
+		<CheckBox fx:id="checkBoxEffect" mnemonicParsing="false" selected="true" text="%effect" GridPane.columnIndex="2" />
+		<CheckBox fx:id="checkBoxFormat" mnemonicParsing="false" selected="true" text="%format" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+		<CheckBox fx:id="checkBoxVideo" mnemonicParsing="false" selected="true" text="%video" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+		<HBox alignment="BOTTOM_RIGHT" GridPane.columnSpan="4" GridPane.rowIndex="4">
+			<children>
+				<Button fx:id="buttonReset" mnemonicParsing="false" onAction="#buttonResetClick" text="%btnReset" />
+			</children>
+		</HBox>
+	<CheckComboBox fx:id="checkComboBoxAssets" prefHeight="26.0" prefWidth="198.0" GridPane.columnIndex="1" />
+	<CheckComboBox fx:id="checkComboBoxVideos" prefHeight="26.0" prefWidth="198.0" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+	<CheckComboBox fx:id="checkComboBoxFormats" prefHeight="26.0" prefWidth="198.0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+	<CheckComboBox fx:id="checkComboBoxAssetClips" prefHeight="26.0" prefWidth="198.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+	<CheckComboBox fx:id="checkComboBoxAudios" prefHeight="26.0" prefWidth="198.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+	<CheckComboBox fx:id="checkComboBoxClips" prefHeight="26.0" prefWidth="198.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+	<CheckComboBox fx:id="checkComboBoxEffects" prefHeight="26.0" prefWidth="198.0" GridPane.columnIndex="3" />
+	</children>
+	<padding>
+		<Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+	</padding>
 </GridPane>

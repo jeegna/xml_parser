@@ -37,7 +37,6 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.TabPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
@@ -71,8 +70,6 @@ public class MainController {
 	@FXML
 	private MenuItem menuItemChooseFile;
 	@FXML
-	private MenuItem menuItemSearch;
-	@FXML
 	private MenuItem menuItemAbout;
 
 	// Search bar
@@ -85,15 +82,17 @@ public class MainController {
 	private String fileName;
 
 	private TableViewController tableViewController;
+	private AdvancedSearchController advancedSearchController;
 	private DatabaseController db;
 
 	@FXML
 	private void initialize() {
 		logger.info("Start application");
 
-		// Initialize other fxml controllers
+		// Initialize fxml controllers.
 		initializeTableView();
 		initializeSearchBar();
+		initializeAdvancedSearch();
 	}
 
 	/**
@@ -185,22 +184,17 @@ public class MainController {
 
 		return fileChooser.showOpenDialog(borderPane.getScene().getWindow());
 	}
-
-	/**
-	 * Initializes the table view controller and the FXML associated with it.
-	 */
-	private void initializeTableView() {
+	
+	private void initializeAdvancedSearch() {
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setResources(resources);
+			loader.setLocation(Main.class.getResource("/fxml/AdvancedSearch.fxml"));
 
-			loader.setLocation(Main.class.getResource("/fxml/TableView.fxml"));
-			TabPane tabPane = (TabPane) loader.load();
-
-			tableViewController = loader.getController();
-
-			// Add view to Main.fxml
-			borderPane.setCenter(tabPane);
+			// Add view to Main.fxml.
+			borderPaneTop.getChildren().add(loader.load());
+			// Get controller.
+			advancedSearchController = loader.getController();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -227,6 +221,24 @@ public class MainController {
 		});
 
 		comboBoxSearch.setConverter(new ElementConverter());
+	}
+
+	/**
+	 * Initializes the table view controller and the FXML associated with it.
+	 */
+	private void initializeTableView() {
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setResources(resources);
+			loader.setLocation(Main.class.getResource("/fxml/TableView.fxml"));
+
+			// Add view to Main.fxml.
+			borderPane.setCenter(loader.load());
+			// Get controller.
+			tableViewController = loader.getController();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -286,11 +298,6 @@ public class MainController {
 	@FXML
 	private void menuItemClose() {
 		close();
-	}
-
-	@FXML
-	private void menuItemSearch() {
-
 	}
 
 	private void setFile(File file) {
