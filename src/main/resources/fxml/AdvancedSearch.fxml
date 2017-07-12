@@ -3,47 +3,80 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import org.controlsfx.control.CheckComboBox?>
 
-<GridPane hgap="5.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="175.0" prefWidth="750.0" vgap="5.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.esf.xmlParser.fxml.AdvancedSearchController">
+<GridPane xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="com.esf.xmlParser.fxml.SearchController" hgap="5.0"
+	maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+	minWidth="-Infinity" prefHeight="200.0" prefWidth="750.0" vgap="5.0">
 	<columnConstraints>
-		<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="50.0" prefWidth="100.0" />
-		<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="50.0" prefWidth="100.0" />
-      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="50.0" prefWidth="100.0" />
-      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="50.0" prefWidth="100.0" />
+		<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0"
+			percentWidth="50.0" prefWidth="100.0" />
+		<ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES"
+			minWidth="10.0" percentWidth="50.0" prefWidth="100.0" />
+		<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0"
+			percentWidth="50.0" prefWidth="100.0" />
+		<ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES"
+			minWidth="10.0" percentWidth="50.0" prefWidth="100.0" />
 	</columnConstraints>
 	<rowConstraints>
-		<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-		<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-		<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-		<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-		<RowConstraints minHeight="10.0" percentHeight="20.0" prefHeight="30.0" vgrow="SOMETIMES" />
+		<RowConstraints minHeight="10.0" prefHeight="30.0"
+			vgrow="SOMETIMES" />
+		<RowConstraints minHeight="10.0" prefHeight="30.0"
+			vgrow="SOMETIMES" />
+		<RowConstraints minHeight="10.0" prefHeight="30.0"
+			vgrow="SOMETIMES" />
+		<RowConstraints minHeight="10.0" prefHeight="30.0"
+			vgrow="SOMETIMES" />
+		<RowConstraints minHeight="10.0" prefHeight="30.0"
+			vgrow="SOMETIMES" />
+		<RowConstraints minHeight="10.0" prefHeight="30.0"
+			vgrow="SOMETIMES" />
 	</rowConstraints>
 	<children>
 
-		<CheckBox fx:id="checkBoxAsset" mnemonicParsing="false" selected="true" text="%asset" />
-		<CheckBox fx:id="checkBoxAssetClip" mnemonicParsing="false" selected="true" text="%assetClip" GridPane.rowIndex="1" />
-		<CheckBox fx:id="checkBoxAudio" mnemonicParsing="false" selected="true" text="%audio" GridPane.rowIndex="2" />
-		<CheckBox fx:id="checkBoxClip" mnemonicParsing="false" selected="true" text="%clip" GridPane.rowIndex="3" />
-		<CheckBox fx:id="checkBoxEffect" mnemonicParsing="false" selected="true" text="%effect" GridPane.columnIndex="2" />
-		<CheckBox fx:id="checkBoxFormat" mnemonicParsing="false" selected="true" text="%format" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-		<CheckBox fx:id="checkBoxVideo" mnemonicParsing="false" selected="true" text="%video" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-		<HBox alignment="BOTTOM_RIGHT" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="4">
-			<children>
-				<Button fx:id="buttonReset" mnemonicParsing="false" onAction="#buttonResetClick" text="%btnReset" />
-			</children>
-		</HBox>
-	<CheckComboBox fx:id="checkComboBoxAssets" prefHeight="26.0" prefWidth="198.0" GridPane.columnIndex="1" />
-	<CheckComboBox fx:id="checkComboBoxVideos" prefHeight="26.0" prefWidth="198.0" GridPane.columnIndex="3" GridPane.rowIndex="2" />
-	<CheckComboBox fx:id="checkComboBoxFormats" prefHeight="26.0" prefWidth="198.0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-	<CheckComboBox fx:id="checkComboBoxAssetClips" prefHeight="26.0" prefWidth="198.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-	<CheckComboBox fx:id="checkComboBoxAudios" prefHeight="26.0" prefWidth="198.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-	<CheckComboBox fx:id="checkComboBoxClips" prefHeight="26.0" prefWidth="198.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-	<CheckComboBox fx:id="checkComboBoxEffects" prefHeight="26.0" prefWidth="198.0" GridPane.columnIndex="3" />
+		<CheckBox fx:id="checkBoxAsset" mnemonicParsing="false"
+			selected="true" text="%asset" GridPane.rowIndex="1" />
+		<CheckBox fx:id="checkBoxAssetClip" mnemonicParsing="false"
+			selected="true" text="%assetClip" GridPane.rowIndex="2" />
+		<CheckBox fx:id="checkBoxAudio" mnemonicParsing="false"
+			selected="true" text="%audio" GridPane.rowIndex="3" />
+		<CheckBox fx:id="checkBoxClip" mnemonicParsing="false"
+			selected="true" text="%clip" GridPane.rowIndex="4" />
+		<CheckBox fx:id="checkBoxEffect" mnemonicParsing="false"
+			selected="true" text="%effect" GridPane.columnIndex="2"
+			GridPane.rowIndex="1" />
+		<CheckBox fx:id="checkBoxFormat" mnemonicParsing="false"
+			selected="true" text="%format" GridPane.columnIndex="2"
+			GridPane.rowIndex="2" />
+		<CheckBox fx:id="checkBoxVideo" mnemonicParsing="false"
+			selected="true" text="%video" GridPane.columnIndex="2"
+			GridPane.rowIndex="3" />
+		<CheckComboBox fx:id="checkComboBoxAssets"
+			GridPane.columnIndex="1" GridPane.rowIndex="1" />
+		<CheckComboBox fx:id="checkComboBoxVideos"
+			GridPane.columnIndex="3" GridPane.rowIndex="3" />
+		<CheckComboBox fx:id="checkComboBoxFormats"
+			GridPane.columnIndex="3" GridPane.rowIndex="2" />
+		<CheckComboBox fx:id="checkComboBoxAssetClips"
+			GridPane.columnIndex="1" GridPane.rowIndex="2" />
+		<CheckComboBox fx:id="checkComboBoxAudios"
+			GridPane.columnIndex="1" GridPane.rowIndex="3" />
+		<CheckComboBox fx:id="checkComboBoxClips"
+			GridPane.columnIndex="1" GridPane.rowIndex="4" />
+		<CheckComboBox fx:id="checkComboBoxEffects"
+			GridPane.columnIndex="3" GridPane.rowIndex="1" />
+		<ComboBox fx:id="comboBoxSearch" editable="true"
+			onAction="#comboBoxItemSelected" GridPane.columnSpan="3" />
+		<Button fx:id="buttonSearch" defaultButton="true"
+			mnemonicParsing="false" onAction="#buttonSearchClick" text="%search"
+			GridPane.columnIndex="3" />
+		<Button fx:id="buttonReset" mnemonicParsing="false" onAction="#buttonResetClick"
+			text="%btnReset" GridPane.columnIndex="3" GridPane.rowIndex="5" />
 	</children>
 	<padding>
 		<Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />

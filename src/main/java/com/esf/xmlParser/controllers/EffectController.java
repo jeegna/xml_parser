@@ -64,7 +64,7 @@ public class EffectController {
 		return effects;
 	}
 
-	public List<Effect> getEffects(String name) throws SQLException, ClassNotFoundException {
+	public List<Effect> getEffectsByName(String name) throws SQLException, ClassNotFoundException {
 		logger.info("Getting Effects with name like " + name);
 		name = "%" + name + "%";
 
@@ -73,6 +73,31 @@ public class EffectController {
 		Connection conn = db.getConnection();
 		PreparedStatement ps = conn.prepareStatement("SELECT * FROM EFFECTS WHERE EFFECTS.name LIKE ?;");
 		ps.setString(1, name);
+
+		ResultSet rs = ps.executeQuery();
+		while (rs.next()) {
+			Effect effect = createEffect(rs);
+			effects.add(effect);
+
+			logger.info("Found " + effect);
+		}
+
+		ps.close();
+		rs.close();
+		conn.close();
+
+		return effects;
+	}
+
+	public List<Effect> getEffectsByUid(String uid) throws SQLException, ClassNotFoundException {
+		logger.info("Getting Effects with UID like " + uid);
+		uid = "%" + uid + "%";
+
+		List<Effect> effects = new ArrayList<Effect>();
+
+		Connection conn = db.getConnection();
+		PreparedStatement ps = conn.prepareStatement("SELECT * FROM EFFECTS WHERE EFFECTS.uid LIKE ?;");
+		ps.setString(1, uid);
 
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {

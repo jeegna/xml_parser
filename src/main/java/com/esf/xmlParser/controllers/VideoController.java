@@ -67,7 +67,7 @@ public class VideoController {
 		return videos;
 	}
 	
-	public List<Video> getVideos(String name) throws SQLException, ClassNotFoundException {
+	public List<Video> getVideosByName(String name) throws SQLException, ClassNotFoundException {
 		logger.info("Getting Videos with name like " + name);
 		name = "%" + name + "%";
 

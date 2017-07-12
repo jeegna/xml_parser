@@ -73,7 +73,7 @@ public class AssetController {
 		return assets;
 	}
 
-	public List<Asset> getAssets(String name) throws SQLException, ClassNotFoundException {
+	public List<Asset> getAssetsByName(String name) throws SQLException, ClassNotFoundException {
 		logger.info("Getting Assets with name like " + name);
 		name = "%" + name + "%";
 

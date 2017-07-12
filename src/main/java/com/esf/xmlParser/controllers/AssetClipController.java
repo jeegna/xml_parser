@@ -72,7 +72,7 @@ public class AssetClipController {
 		return assetClips;
 	}
 
-	public List<AssetClip> getAssetClips(String name) throws SQLException, ClassNotFoundException {
+	public List<AssetClip> getAssetClipsByName(String name) throws SQLException, ClassNotFoundException {
 		logger.info("Getting Asset Clips with name like " + name);
 		name = "%" + name + "%";
 

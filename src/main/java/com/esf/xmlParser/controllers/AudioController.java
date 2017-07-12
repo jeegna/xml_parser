@@ -69,6 +69,31 @@ public class AudioController {
 		return audios;
 	}
 
+	public List<Audio> getAudioByRole(String role) throws SQLException, ClassNotFoundException {
+		logger.info("Getting Audio with role like " + role);
+		role = "%" + role + "%";
+
+		List<Audio> audios = new ArrayList<Audio>();
+
+		Connection conn = db.getConnection();
+		PreparedStatement ps = conn.prepareStatement("SELECT * FROM AUDIOS WHERE AUDIOS.role LIKE ?;");
+		ps.setString(1, role);
+
+		ResultSet rs = ps.executeQuery();
+		while (rs.next()) {
+			Audio audio = createAudio(rs);
+			audios.add(audio);
+
+			logger.info("Found " + audio);
+		}
+
+		ps.close();
+		rs.close();
+		conn.close();
+
+		return audios;
+	}
+
 	public Audio getAudio(int id) throws SQLException, ClassNotFoundException {
 		logger.info("Getting Audio with id " + id);
 

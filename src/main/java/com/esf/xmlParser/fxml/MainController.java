@@ -3,7 +3,6 @@ package com.esf.xmlParser.fxml;
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Logger;
@@ -13,28 +12,21 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 
 import com.esf.xmlParser.Main;
-import com.esf.xmlParser.converter.ElementConverter;
 import com.esf.xmlParser.database.DatabaseController;
 import com.esf.xmlParser.entities.Asset;
 import com.esf.xmlParser.entities.AssetClip;
 import com.esf.xmlParser.entities.Audio;
 import com.esf.xmlParser.entities.Clip;
 import com.esf.xmlParser.entities.Effect;
-import com.esf.xmlParser.entities.Element;
 import com.esf.xmlParser.entities.Format;
 import com.esf.xmlParser.entities.Video;
 import com.esf.xmlParser.parser.Parser;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.BorderPane;
@@ -42,7 +34,6 @@ import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 
 /**
  * @author Jeegna Patel
@@ -72,16 +63,11 @@ public class MainController {
 	@FXML
 	private MenuItem menuItemAbout;
 
-	// Search bar
-	@FXML
-	private ComboBox<Element> comboBoxSearch;
-	@FXML
-	private Button buttonSearch;
-
 	private String filePath;
 	private String fileName;
 
 	private TableViewController tableViewController;
+	private SearchController searchController;
 	private DatabaseController db;
 
 	@FXML
@@ -91,7 +77,6 @@ public class MainController {
 		// Initialize fxml controllers.
 		initializeTableView();
 		initializeSearchBar();
-		initializeAdvancedSearch();
 	}
 
 	/**
@@ -114,50 +99,12 @@ public class MainController {
 		}
 	}
 
-	@FXML
-	private void buttonSearchClick() {
-		if (db != null) {
-			String query = comboBoxSearch.getValue().getName();
-
-			try {
-				List<Asset> assets = db.getAssets(query);
-				List<AssetClip> assetClips = db.getAssetClips(query);
-				List<Clip> clips = db.getClips(query);
-				List<Effect> effects = db.getEffects(query);
-				List<Format> formats = db.getFormats(query);
-				List<Video> videos = db.getVideos(query);
-
-				List<Element> elements = new ArrayList<Element>();
-				elements.addAll(assets);
-				elements.addAll(assetClips);
-				elements.addAll(clips);
-				elements.addAll(effects);
-				elements.addAll(formats);
-				elements.addAll(videos);
-
-				comboBoxSearch.getItems().setAll(elements);
-
-			} catch (ClassNotFoundException | SQLException e) {
-				new Alert(AlertType.ERROR, resources.getString("errorSearch"), ButtonType.OK).showAndWait();
-				e.printStackTrace();
-			}
-		}
-	}
-
 	/**
 	 * Closes the application
 	 */
 	private void close() {
 		logger.info("Bye!");
 		System.exit(0);
-	}
-
-	@FXML
-	private void comboBoxItemSelected(ActionEvent event) {
-		Element element = comboBoxSearch.getValue();
-		if (element != null) {
-			tableViewController.selectItem(element);
-		}
 	}
 
 	/**
@@ -184,7 +131,7 @@ public class MainController {
 		return fileChooser.showOpenDialog(borderPane.getScene().getWindow());
 	}
 
-	private void initializeAdvancedSearch() {
+	private void initializeSearchBar() {
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setResources(resources);
@@ -193,34 +140,11 @@ public class MainController {
 			// Add view to Main.fxml.
 			borderPaneTop.getChildren().add(loader.load());
 			// Get controller.
-			AdvancedSearchController advancedSearchController = loader.getController();
-			advancedSearchController.initializeItems();
+			searchController = loader.getController();
+			searchController.initializeSearchBar();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
-
-	private void initializeSearchBar() {
-		// http://www.java2s.com/Code/Java/JavaFX/customcellfactory.htm
-		comboBoxSearch.setCellFactory(new Callback<ListView<Element>, ListCell<Element>>() {
-			@Override
-			public ListCell<Element> call(ListView<Element> list) {
-				return new ListCell<Element>() {
-					@Override
-					protected void updateItem(Element element, boolean empty) {
-						super.updateItem(element, empty);
-
-						if (element == null || empty) {
-							setText(null);
-						} else {
-							setText(element.getClass().getSimpleName() + " " + element.getName());
-						}
-					}
-				};
-			}
-		});
-
-		comboBoxSearch.setConverter(new ElementConverter());
 	}
 
 	/**
@@ -283,6 +207,8 @@ public class MainController {
 
 		// Populate tables with file contents.
 		tableViewController.populateTables(assets, assetClips, audios, clips, effects, formats, videos);
+		searchController.setDatabaseController(db);
+		searchController.setTableViewController(tableViewController);
 	}
 
 	@FXML

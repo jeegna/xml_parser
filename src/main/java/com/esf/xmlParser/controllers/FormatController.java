@@ -65,7 +65,7 @@ public class FormatController {
 		return formats;
 	}
 
-	public List<Format> getFormats(String name) throws SQLException, ClassNotFoundException {
+	public List<Format> getFormatsByName(String name) throws SQLException, ClassNotFoundException {
 		logger.info("Getting Formats with name like " + name);
 		name = "%" + name + "%";
 
@@ -74,6 +74,31 @@ public class FormatController {
 		Connection conn = db.getConnection();
 		PreparedStatement ps = conn.prepareStatement("SELECT * FROM FORMATS WHERE FORMATS.name LIKE ?;");
 		ps.setString(1, name);
+
+		ResultSet rs = ps.executeQuery();
+		while (rs.next()) {
+			Format format = createFormat(rs);
+			formats.add(format);
+
+			logger.info("Found " + format);
+		}
+
+		ps.close();
+		rs.close();
+		conn.close();
+
+		return formats;
+	}
+
+	public List<Format> getFormatsByFrameRate(String frameRate) throws SQLException, ClassNotFoundException {
+		logger.info("Getting Formats with frame rate like " + frameRate);
+		frameRate = "%" + frameRate + "%";
+
+		List<Format> formats = new ArrayList<Format>();
+
+		Connection conn = db.getConnection();
+		PreparedStatement ps = conn.prepareStatement("SELECT * FROM FORMATS WHERE FORMATS.frameDuration LIKE ?;");
+		ps.setString(1, frameRate);
 
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {

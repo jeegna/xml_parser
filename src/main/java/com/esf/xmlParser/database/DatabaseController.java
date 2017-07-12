@@ -123,7 +123,7 @@ public class DatabaseController {
 	}
 	
 	public List<Asset> getAssets(String name) throws ClassNotFoundException, SQLException {
-		return assetController.getAssets(name);
+		return assetController.getAssetsByName(name);
 	}
 
 	public List<AssetClip> getAssetClips() throws ClassNotFoundException, SQLException {
@@ -131,7 +131,7 @@ public class DatabaseController {
 	}
 	
 	public List<AssetClip> getAssetClips(String name) throws ClassNotFoundException, SQLException {
-		return assetClipController.getAssetClips(name);
+		return assetClipController.getAssetClipsByName(name);
 	}
 
 	public List<Audio> getAudios() throws ClassNotFoundException, SQLException {
@@ -147,7 +147,7 @@ public class DatabaseController {
 	}
 
 	public List<Clip> getClips(String name) throws ClassNotFoundException, SQLException {
-		return clipController.getClips(name);
+		return clipController.getClipsByName(name);
 	}
 
 	public List<Effect> getEffects() throws ClassNotFoundException, SQLException {
@@ -155,7 +155,7 @@ public class DatabaseController {
 	}
 
 	public List<Effect> getEffects(String name) throws ClassNotFoundException, SQLException {
-		return effectController.getEffects(name);
+		return effectController.getEffectsByName(name);
 	}
 
 	public List<Format> getFormats() throws ClassNotFoundException, SQLException {
@@ -163,7 +163,7 @@ public class DatabaseController {
 	}
 
 	public List<Format> getFormats(String name) throws ClassNotFoundException, SQLException {
-		return formatController.getFormats(name);
+		return formatController.getFormatsByName(name);
 	}
 
 	public List<Video> getVideos() throws ClassNotFoundException, SQLException {
@@ -171,7 +171,7 @@ public class DatabaseController {
 	}
 
 	public List<Video> getVideos(String name) throws ClassNotFoundException, SQLException {
-		return videoController.getVideos(name);
+		return videoController.getVideosByName(name);
 	}
 
 	private void createDatabaseTables() throws SQLException, ClassNotFoundException {

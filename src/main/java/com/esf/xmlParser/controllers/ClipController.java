@@ -65,7 +65,7 @@ public class ClipController {
 		return clips;
 	}
 
-	public List<Clip> getClips(String name) throws SQLException, ClassNotFoundException {
+	public List<Clip> getClipsByName(String name) throws SQLException, ClassNotFoundException {
 		logger.info("Getting Clips with name like " + name);
 		name = "%" + name + "%";
 
@@ -74,6 +74,31 @@ public class ClipController {
 		Connection conn = db.getConnection();
 		PreparedStatement ps = conn.prepareStatement("SELECT * FROM CLIPS WHERE CLIPS.name LIKE ?;");
 		ps.setString(1, name);
+
+		ResultSet rs = ps.executeQuery();
+		while (rs.next()) {
+			Clip clip = createClip(rs);
+			clips.add(clip);
+
+			logger.info("Found " + clip);
+		}
+
+		ps.close();
+		rs.close();
+		conn.close();
+
+		return clips;
+	}
+
+	public List<Clip> getClipsByTcFormat(String tcFormat) throws SQLException, ClassNotFoundException {
+		logger.info("Getting Clips with TC formats like " + tcFormat);
+		tcFormat = "%" + tcFormat + "%";
+
+		List<Clip> clips = new ArrayList<Clip>();
+
+		Connection conn = db.getConnection();
+		PreparedStatement ps = conn.prepareStatement("SELECT * FROM CLIPS WHERE CLIPS.tcFormat LIKE ?;");
+		ps.setString(1, tcFormat);
 
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
