@@ -82,7 +82,6 @@ public class MainController {
 	private String fileName;
 
 	private TableViewController tableViewController;
-	private AdvancedSearchController advancedSearchController;
 	private DatabaseController db;
 
 	@FXML
@@ -184,7 +183,7 @@ public class MainController {
 
 		return fileChooser.showOpenDialog(borderPane.getScene().getWindow());
 	}
-	
+
 	private void initializeAdvancedSearch() {
 		try {
 			FXMLLoader loader = new FXMLLoader();
@@ -194,7 +193,8 @@ public class MainController {
 			// Add view to Main.fxml.
 			borderPaneTop.getChildren().add(loader.load());
 			// Get controller.
-			advancedSearchController = loader.getController();
+			AdvancedSearchController advancedSearchController = loader.getController();
+			advancedSearchController.initializeItems();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
