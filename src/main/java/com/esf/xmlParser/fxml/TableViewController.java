@@ -156,6 +156,9 @@ public class TableViewController {
 		TableColumn<Asset, Number> columnWidth = new TableColumn<>(resources.getString("colWidth"));
 		TableColumn<Asset, Number> columnHeight = new TableColumn<>(resources.getString("colHeight"));
 		TableColumn<Asset, String> columnFrameDuration = new TableColumn<>(resources.getString("colFrameRate"));
+		TableColumn<Asset, Number> columnAudioChannels = new TableColumn<>(resources.getString("colAudioChannels"));
+		TableColumn<Asset, Number> columnAudioRate = new TableColumn<>(resources.getString("colAudioRate"));
+		TableColumn<Asset, Number> columnAudioSources = new TableColumn<>(resources.getString("colAudioSources"));
 		TableColumn<Asset, String> columnUID = new TableColumn<>(resources.getString("colUID"));
 
 		// Set cell values.
@@ -170,9 +173,12 @@ public class TableViewController {
 		columnWidth.setCellValueFactory(cellData -> cellData.getValue().getFormat().widthProperty());
 		columnHeight.setCellValueFactory(cellData -> cellData.getValue().getFormat().heightProperty());
 		columnFrameDuration.setCellValueFactory(cellData -> cellData.getValue().getFormat().frameDurationProperty());
+		columnAudioChannels.setCellValueFactory(cellData -> cellData.getValue().audioChannelsProperty());
+		columnAudioRate.setCellValueFactory(cellData -> cellData.getValue().audioRateProperty());
+		columnAudioSources.setCellValueFactory(cellData -> cellData.getValue().audioSourcesProperty());
 		columnUID.setCellValueFactory(cellData -> cellData.getValue().uidProperty());
 
-		// Override default id column sorting. TODO
+		// Override default column sorting.
 		columnId.setComparator(
 				(id1, id2) -> Integer.compare(Integer.parseInt(id1.substring(1)), Integer.parseInt(id2.substring(1))));
 
@@ -188,6 +194,9 @@ public class TableViewController {
 		columns.add(columnWidth);
 		columns.add(columnHeight);
 		columns.add(columnFrameDuration);
+		columns.add(columnAudioChannels);
+		columns.add(columnAudioRate);
+		columns.add(columnAudioSources);
 		columns.add(columnUID);
 	}
 
@@ -324,6 +333,10 @@ public class TableViewController {
 		columnSrc.setCellValueFactory(cellData -> cellData.getValue().srcProperty());
 		columnUid.setCellValueFactory(cellData -> cellData.getValue().uidProperty());
 
+		// Override default column sorting.
+		columnId.setComparator(
+				(id1, id2) -> Integer.compare(Integer.parseInt(id1.substring(1)), Integer.parseInt(id2.substring(1))));
+
 		ObservableList<TableColumn<Effect, ?>> columns = table.getColumns();
 		columns.add(columnId);
 		columns.add(columnName);
@@ -348,6 +361,10 @@ public class TableViewController {
 		columnWidth.setCellValueFactory(cellData -> cellData.getValue().widthProperty());
 		columnHeight.setCellValueFactory(cellData -> cellData.getValue().heightProperty());
 		columnFrameDuration.setCellValueFactory(cellData -> cellData.getValue().frameDurationProperty());
+
+		// Override default column sorting.
+		columnId.setComparator(
+				(id1, id2) -> Integer.compare(Integer.parseInt(id1.substring(1)), Integer.parseInt(id2.substring(1))));
 
 		ObservableList<TableColumn<Format, ?>> columns = table.getColumns();
 		columns.add(columnId);

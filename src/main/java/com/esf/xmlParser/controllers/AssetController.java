@@ -27,7 +27,8 @@ public class AssetController {
 		logger.info("Adding Assets...");
 		Connection conn = db.getConnection();
 
-		PreparedStatement ps = conn.prepareStatement("INSERT INTO ASSETS VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);");
+		PreparedStatement ps = conn.prepareStatement(
+				"INSERT INTO " + DatabaseController.ASSETS + " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);");
 		for (Asset asset : assets) {
 			logger.info("Adding " + asset);
 			ps.setString(1, asset.getId());
@@ -55,33 +56,34 @@ public class AssetController {
 
 	public List<Asset> getAssets() throws SQLException, ClassNotFoundException {
 		logger.info("Getting all Assets from database...");
-
-		List<Asset> assets = new ArrayList<Asset>();
-
-		Connection conn = db.getConnection();
-		Statement stmt = conn.createStatement();
-
-		ResultSet rs = stmt.executeQuery("SELECT * FROM ASSETS;");
-		while (rs.next()) {
-			assets.add(createAsset(rs));
-		}
-
-		stmt.close();
-		rs.close();
-		conn.close();
-
-		return assets;
+		return getAll();
 	}
 
 	public List<Asset> getAssetsByName(String name) throws SQLException, ClassNotFoundException {
 		logger.info("Getting Assets with name like " + name);
 		name = "%" + name + "%";
 
-		List<Asset> assets = new ArrayList<Asset>();
+		return get(DatabaseController.NAME, name);
+	}
+
+	public Asset getAssetById(String id) throws SQLException, ClassNotFoundException {
+		logger.info("Getting Asset with id " + id);
+		List<Asset> assets = get(DatabaseController.ID, id);
+
+		if (assets != null && !assets.isEmpty()) {
+			return assets.get(0);
+		} else {
+			return null;
+		}
+	}
+
+	private List<Asset> get(String col, String key) throws SQLException, ClassNotFoundException {
+		List<Asset> assets = new ArrayList<>();
 
 		Connection conn = db.getConnection();
-		PreparedStatement ps = conn.prepareStatement("SELECT * FROM ASSETS WHERE ASSETS.name LIKE ?;");
-		ps.setString(1, name);
+		PreparedStatement ps = conn
+				.prepareStatement("SELECT * FROM " + DatabaseController.ASSETS + " WHERE " + col + " LIKE ?;");
+		ps.setString(1, key);
 
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
@@ -98,46 +100,44 @@ public class AssetController {
 		return assets;
 	}
 
-	public Asset getAsset(String id) throws SQLException, ClassNotFoundException {
-		logger.info("Getting Asset with id " + id);
-
-		Asset asset = null;
+	private List<Asset> getAll() throws SQLException, ClassNotFoundException {
+		List<Asset> assets = new ArrayList<>();
 
 		Connection conn = db.getConnection();
-		PreparedStatement ps = conn.prepareStatement("SELECT * FROM ASSETS WHERE ASSETS.id=?;");
-		ps.setString(1, id);
+		Statement stmt = conn.createStatement();
 
-		ResultSet rs = ps.executeQuery();
-		if (rs.next()) {
-			asset = createAsset(rs);
+		ResultSet rs = stmt.executeQuery("SELECT * FROM " + DatabaseController.ASSETS + ";");
+		while (rs.next()) {
+			Asset asset = createAsset(rs);
+			assets.add(asset);
+
+			logger.info("Found " + asset);
 		}
 
-		ps.close();
+		stmt.close();
 		rs.close();
 		conn.close();
 
-		logger.info("Found " + asset);
-		return asset;
+		return assets;
 	}
 
 	private Asset createAsset(ResultSet rs) throws SQLException, ClassNotFoundException {
 		logger.info("Creating Asset...");
 
 		Asset asset = new Asset();
-		asset.setId(rs.getString("id"));
-		asset.setDuration(rs.getString("duration"));
-		asset.setHasVideo(rs.getBoolean("hasVideo"));
-		asset.setHasAudio(rs.getBoolean("hasAudio"));
-		asset.setName(rs.getString("name"));
-		asset.setUid(rs.getString("uid"));
-		asset.setSrc(rs.getString("src"));
-		asset.setStart(rs.getString("start"));
-		asset.setAudioSources(rs.getInt("audioSources"));
-		asset.setAudioChannels(rs.getInt("audioChannels"));
-		asset.setAudioRate(rs.getInt("audioRate"));
+		asset.setId(rs.getString(DatabaseController.ID));
+		asset.setDuration(rs.getString(DatabaseController.DURATION));
+		asset.setHasVideo(rs.getBoolean(DatabaseController.HAS_VIDEO));
+		asset.setHasAudio(rs.getBoolean(DatabaseController.HAS_AUDIO));
+		asset.setName(rs.getString(DatabaseController.NAME));
+		asset.setUid(rs.getString(DatabaseController.UID));
+		asset.setSrc(rs.getString(DatabaseController.SOURCE));
+		asset.setStart(rs.getString(DatabaseController.START));
+		asset.setAudioSources(rs.getInt(DatabaseController.AUDIO_SOURCES));
+		asset.setAudioChannels(rs.getInt(DatabaseController.AUDIO_CHANNELS));
+		asset.setAudioRate(rs.getInt(DatabaseController.AUDIO_RATE));
 
-		FormatController formatController = new FormatController(db);
-		Format format = formatController.getFormat(rs.getString("formatId"));
+		Format format = db.getFormatById(rs.getString(DatabaseController.FORMAT_ID));
 		asset.setFormat(format);
 
 		logger.info("Created " + asset);

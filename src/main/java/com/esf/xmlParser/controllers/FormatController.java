@@ -47,15 +47,69 @@ public class FormatController {
 
 	public List<Format> getFormats() throws SQLException, ClassNotFoundException {
 		logger.info("Getting all Formats from database...");
+		return getAll();
+	}
 
-		List<Format> formats = new ArrayList<Format>();
+	public List<Format> getFormatsByName(String name) throws SQLException, ClassNotFoundException {
+		logger.info("Getting Formats with name like " + name);
+		name = "%" + name + "%";
+
+		return get(DatabaseController.NAME, name);
+	}
+
+	public List<Format> getFormatsByFrameRate(String frameRate) throws SQLException, ClassNotFoundException {
+		logger.info("Getting Formats with frame rate like " + frameRate);
+		frameRate = "%" + frameRate + "%";
+
+		return get(DatabaseController.FRAME_RATE, frameRate);
+	}
+
+	public Format getFormatById(String id) throws SQLException, ClassNotFoundException {
+		logger.info("Getting Format with id " + id);
+		List<Format> formats = get(DatabaseController.ID, String.valueOf(id));
+
+		if (formats != null && !formats.isEmpty()) {
+			return formats.get(0);
+		} else {
+			return null;
+		}
+	}
+
+	private List<Format> get(String col, String key) throws SQLException, ClassNotFoundException {
+		List<Format> formats = new ArrayList<>();
+
+		Connection conn = db.getConnection();
+		PreparedStatement ps = conn
+				.prepareStatement("SELECT * FROM " + DatabaseController.FORMATS + " WHERE " + col + " LIKE ?;");
+		ps.setString(1, key);
+
+		ResultSet rs = ps.executeQuery();
+		while (rs.next()) {
+			Format format = createFormat(rs);
+			formats.add(format);
+
+			logger.info("Found " + format);
+		}
+
+		ps.close();
+		rs.close();
+		conn.close();
+
+		return formats;
+	}
+
+	private List<Format> getAll() throws SQLException, ClassNotFoundException {
+		List<Format> formats = new ArrayList<>();
 
 		Connection conn = db.getConnection();
 		Statement stmt = conn.createStatement();
 
-		ResultSet rs = stmt.executeQuery("SELECT * FROM FORMATS;");
+		ResultSet rs = stmt.executeQuery("SELECT * FROM " + DatabaseController.FORMATS + ";");
 		while (rs.next()) {
-			formats.add(createFormat(rs));
+			Format format = createFormat(rs);
+			formats.add(format);
+
+			logger.info("Found " + format);
 		}
 
 		stmt.close();
@@ -65,88 +119,16 @@ public class FormatController {
 		return formats;
 	}
 
-	public List<Format> getFormatsByName(String name) throws SQLException, ClassNotFoundException {
-		logger.info("Getting Formats with name like " + name);
-		name = "%" + name + "%";
-
-		List<Format> formats = new ArrayList<Format>();
-
-		Connection conn = db.getConnection();
-		PreparedStatement ps = conn.prepareStatement("SELECT * FROM FORMATS WHERE FORMATS.name LIKE ?;");
-		ps.setString(1, name);
-
-		ResultSet rs = ps.executeQuery();
-		while (rs.next()) {
-			Format format = createFormat(rs);
-			formats.add(format);
-
-			logger.info("Found " + format);
-		}
-
-		ps.close();
-		rs.close();
-		conn.close();
-
-		return formats;
-	}
-
-	public List<Format> getFormatsByFrameRate(String frameRate) throws SQLException, ClassNotFoundException {
-		logger.info("Getting Formats with frame rate like " + frameRate);
-		frameRate = "%" + frameRate + "%";
-
-		List<Format> formats = new ArrayList<Format>();
-
-		Connection conn = db.getConnection();
-		PreparedStatement ps = conn.prepareStatement("SELECT * FROM FORMATS WHERE FORMATS.frameDuration LIKE ?;");
-		ps.setString(1, frameRate);
-
-		ResultSet rs = ps.executeQuery();
-		while (rs.next()) {
-			Format format = createFormat(rs);
-			formats.add(format);
-
-			logger.info("Found " + format);
-		}
-
-		ps.close();
-		rs.close();
-		conn.close();
-
-		return formats;
-	}
-
-	public Format getFormat(String id) throws SQLException, ClassNotFoundException {
-		logger.info("Getting Format with id " + id);
-
-		Format format = null;
-
-		Connection conn = db.getConnection();
-		PreparedStatement ps = conn.prepareStatement("SELECT * FROM FORMATS WHERE FORMATS.id=?;");
-		ps.setString(1, id);
-
-		ResultSet rs = ps.executeQuery();
-		if (rs.next()) {
-			format = createFormat(rs);
-		}
-
-		ps.close();
-		rs.close();
-		conn.close();
-
-		logger.info("Found " + format);
-		return format;
-	}
-
 	private Format createFormat(ResultSet rs) throws SQLException {
 		logger.info("Creating Format...");
 
 		Format format = new Format();
 
-		format.setId(rs.getString("id"));
-		format.setName(rs.getString("name"));
-		format.setWidth(rs.getInt("width"));
-		format.setHeight(rs.getInt("height"));
-		format.setFrameDuration(rs.getString("frameDuration"));
+		format.setId(rs.getString(DatabaseController.ID));
+		format.setName(rs.getString(DatabaseController.NAME));
+		format.setWidth(rs.getInt(DatabaseController.WIDTH));
+		format.setHeight(rs.getInt(DatabaseController.HEIGHT));
+		format.setFrameDuration(rs.getString(DatabaseController.FRAME_RATE));
 
 		logger.info("Created " + format);
 		return format;

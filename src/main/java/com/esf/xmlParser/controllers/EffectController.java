@@ -46,15 +46,69 @@ public class EffectController {
 
 	public List<Effect> getEffects() throws SQLException, ClassNotFoundException {
 		logger.info("Getting all Effects from database...");
+		return getAll();
+	}
 
-		List<Effect> effects = new ArrayList<Effect>();
+	public List<Effect> getEffectsByName(String name) throws SQLException, ClassNotFoundException {
+		logger.info("Getting Effects with name like " + name);
+		name = "%" + name + "%";
+
+		return get(DatabaseController.NAME, name);
+	}
+
+	public List<Effect> getEffectsByUid(String uid) throws SQLException, ClassNotFoundException {
+		logger.info("Getting Effects with UID like " + uid);
+		uid = "%" + uid + "%";
+
+		return get(DatabaseController.UID, uid);
+	}
+
+	public Effect getEffectById(String id) throws SQLException, ClassNotFoundException {
+		logger.info("Getting Effect with id: " + id);
+		List<Effect> effects = get(DatabaseController.ID, id);
+
+		if (effects != null && !effects.isEmpty()) {
+			return effects.get(0);
+		} else {
+			return null;
+		}
+	}
+
+	private List<Effect> get(String col, String key) throws SQLException, ClassNotFoundException {
+		List<Effect> effects = new ArrayList<>();
+
+		Connection conn = db.getConnection();
+		PreparedStatement ps = conn
+				.prepareStatement("SELECT * FROM " + DatabaseController.EFFECTS + " WHERE " + col + " LIKE ?;");
+		ps.setString(1, key);
+
+		ResultSet rs = ps.executeQuery();
+		while (rs.next()) {
+			Effect effect = createEffect(rs);
+			effects.add(effect);
+
+			logger.info("Found " + effect);
+		}
+
+		ps.close();
+		rs.close();
+		conn.close();
+
+		return effects;
+	}
+
+	private List<Effect> getAll() throws SQLException, ClassNotFoundException {
+		List<Effect> effects = new ArrayList<>();
 
 		Connection conn = db.getConnection();
 		Statement stmt = conn.createStatement();
 
-		ResultSet rs = stmt.executeQuery("SELECT * FROM EFFECTS;");
+		ResultSet rs = stmt.executeQuery("SELECT * FROM " + DatabaseController.EFFECTS + ";");
 		while (rs.next()) {
-			effects.add(createEffect(rs));
+			Effect effect = createEffect(rs);
+			effects.add(effect);
+
+			logger.info("Found " + effect);
 		}
 
 		stmt.close();
@@ -64,87 +118,15 @@ public class EffectController {
 		return effects;
 	}
 
-	public List<Effect> getEffectsByName(String name) throws SQLException, ClassNotFoundException {
-		logger.info("Getting Effects with name like " + name);
-		name = "%" + name + "%";
-
-		List<Effect> effects = new ArrayList<Effect>();
-
-		Connection conn = db.getConnection();
-		PreparedStatement ps = conn.prepareStatement("SELECT * FROM EFFECTS WHERE EFFECTS.name LIKE ?;");
-		ps.setString(1, name);
-
-		ResultSet rs = ps.executeQuery();
-		while (rs.next()) {
-			Effect effect = createEffect(rs);
-			effects.add(effect);
-
-			logger.info("Found " + effect);
-		}
-
-		ps.close();
-		rs.close();
-		conn.close();
-
-		return effects;
-	}
-
-	public List<Effect> getEffectsByUid(String uid) throws SQLException, ClassNotFoundException {
-		logger.info("Getting Effects with UID like " + uid);
-		uid = "%" + uid + "%";
-
-		List<Effect> effects = new ArrayList<Effect>();
-
-		Connection conn = db.getConnection();
-		PreparedStatement ps = conn.prepareStatement("SELECT * FROM EFFECTS WHERE EFFECTS.uid LIKE ?;");
-		ps.setString(1, uid);
-
-		ResultSet rs = ps.executeQuery();
-		while (rs.next()) {
-			Effect effect = createEffect(rs);
-			effects.add(effect);
-
-			logger.info("Found " + effect);
-		}
-
-		ps.close();
-		rs.close();
-		conn.close();
-
-		return effects;
-	}
-
-	public Effect getEffect(String id) throws SQLException, ClassNotFoundException {
-		logger.info("Getting Effect with id: " + id);
-
-		Effect effect = null;
-
-		Connection conn = db.getConnection();
-		PreparedStatement ps = conn.prepareStatement("SELECT * FROM EFFECTS WHERE EFFECTS.id=?;");
-		ps.setString(1, id);
-
-		ResultSet rs = ps.executeQuery();
-		if (rs.next()) {
-			effect = createEffect(rs);
-		}
-
-		ps.close();
-		rs.close();
-		conn.close();
-
-		logger.info("Found " + effect);
-		return effect;
-	}
-
 	private Effect createEffect(ResultSet rs) throws SQLException {
 		logger.info("Creating Effect...");
 
 		Effect effect = new Effect();
 
-		effect.setId(rs.getString("id"));
-		effect.setName(rs.getString("name"));
-		effect.setUid(rs.getString("uid"));
-		effect.setSrc(rs.getString("src"));
+		effect.setId(rs.getString(DatabaseController.ID));
+		effect.setName(rs.getString(DatabaseController.NAME));
+		effect.setUid(rs.getString(DatabaseController.UID));
+		effect.setSrc(rs.getString(DatabaseController.SOURCE));
 
 		logger.info("Created " + effect);
 		return effect;

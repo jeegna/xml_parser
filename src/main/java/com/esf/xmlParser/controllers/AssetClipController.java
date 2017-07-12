@@ -28,8 +28,8 @@ public class AssetClipController {
 		logger.info("Adding AssetClips...");
 		Connection conn = db.getConnection();
 
-		PreparedStatement ps = conn
-				.prepareStatement("INSERT INTO ASSET_CLIPS VALUES (null, ?, ?, ?, ?, ?, ?, ?, ?, ?);");
+		PreparedStatement ps = conn.prepareStatement(
+				"INSERT INTO " + DatabaseController.ASSET_CLIPS + " VALUES (null, ?, ?, ?, ?, ?, ?, ?, ?, ?);");
 		for (AssetClip assetClip : assetClips) {
 			logger.info("Adding " + assetClip);
 			ps.setString(1, assetClip.getAsset().getId());
@@ -54,33 +54,34 @@ public class AssetClipController {
 
 	public List<AssetClip> getAssetClips() throws SQLException, ClassNotFoundException {
 		logger.info("Getting all Asset Clips from database...");
-
-		List<AssetClip> assetClips = new ArrayList<AssetClip>();
-
-		Connection conn = db.getConnection();
-		Statement stmt = conn.createStatement();
-
-		ResultSet rs = stmt.executeQuery("SELECT * FROM ASSET_CLIPS;");
-		while (rs.next()) {
-			assetClips.add(createAssetClip(rs));
-		}
-
-		stmt.close();
-		rs.close();
-		conn.close();
-
-		return assetClips;
+		return getAll();
 	}
 
 	public List<AssetClip> getAssetClipsByName(String name) throws SQLException, ClassNotFoundException {
 		logger.info("Getting Asset Clips with name like " + name);
 		name = "%" + name + "%";
 
-		List<AssetClip> assetClips = new ArrayList<AssetClip>();
+		return get(DatabaseController.NAME, name);
+	}
+
+	public AssetClip getAssetClipById(int id) throws SQLException, ClassNotFoundException {
+		logger.info("Getting Asset Clip with id " + id);
+		List<AssetClip> assetClips = get(DatabaseController.ID, String.valueOf(id));
+
+		if (assetClips != null && !assetClips.isEmpty()) {
+			return assetClips.get(0);
+		} else {
+			return null;
+		}
+	}
+
+	private List<AssetClip> get(String col, String key) throws SQLException, ClassNotFoundException {
+		List<AssetClip> assetClips = new ArrayList<>();
 
 		Connection conn = db.getConnection();
-		PreparedStatement ps = conn.prepareStatement("SELECT * FROM ASSET_CLIPS WHERE ASSET_CLIPS.name LIKE ?;");
-		ps.setString(1, name);
+		PreparedStatement ps = conn
+				.prepareStatement("SELECT * FROM " + DatabaseController.ASSET_CLIPS + " WHERE " + col + " LIKE ?;");
+		ps.setString(1, key);
 
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
@@ -97,47 +98,44 @@ public class AssetClipController {
 		return assetClips;
 	}
 
-	public AssetClip getAssetClip(int id) throws SQLException, ClassNotFoundException {
-		logger.info("Getting Asset Clip with id " + id);
-
-		AssetClip assetClip = null;
+	private List<AssetClip> getAll() throws SQLException, ClassNotFoundException {
+		List<AssetClip> assetClips = new ArrayList<>();
 
 		Connection conn = db.getConnection();
-		PreparedStatement ps = conn.prepareStatement("SELECT * FROM ASSET_CLIPS WHERE ASSET_CLIPS.assetId LIKE %?%;");
-		ps.setInt(1, id);
+		Statement stmt = conn.createStatement();
 
-		ResultSet rs = ps.executeQuery();
-		if (rs.next()) {
-			assetClip = createAssetClip(rs);
+		ResultSet rs = stmt.executeQuery("SELECT * FROM " + DatabaseController.ASSET_CLIPS + ";");
+		while (rs.next()) {
+			AssetClip assetClip = createAssetClip(rs);
+			assetClips.add(assetClip);
+
+			logger.info("Found " + assetClip);
 		}
 
-		ps.close();
+		stmt.close();
 		rs.close();
 		conn.close();
 
-		logger.info("Found " + assetClip);
-		return assetClip;
+		return assetClips;
 	}
 
 	private AssetClip createAssetClip(ResultSet rs) throws SQLException, ClassNotFoundException {
 		logger.info("Creating Asset Clip...");
 
 		AssetClip assetClip = new AssetClip();
-		assetClip.setId(rs.getInt("id"));
-		assetClip.setName(rs.getString("name"));
-		assetClip.setLane(rs.getInt("lane"));
-		assetClip.setOffset(rs.getString("offset"));
-		assetClip.setDuration(rs.getString("duration"));
-		assetClip.setStart(rs.getString("start"));
-		assetClip.setRole(rs.getString("role"));
-		assetClip.setTcFormat(rs.getString("tcFormat"));
+		assetClip.setId(rs.getInt(DatabaseController.ID));
+		assetClip.setName(rs.getString(DatabaseController.NAME));
+		assetClip.setLane(rs.getInt(DatabaseController.LANE));
+		assetClip.setOffset(rs.getString(DatabaseController.OFFSET));
+		assetClip.setDuration(rs.getString(DatabaseController.DURATION));
+		assetClip.setStart(rs.getString(DatabaseController.START));
+		assetClip.setRole(rs.getString(DatabaseController.ROLE));
+		assetClip.setTcFormat(rs.getString(DatabaseController.TC_FORMAT));
 
-		AssetController assetController = new AssetController(db);
-		Asset asset = assetController.getAsset(rs.getString("assetId"));
+		Asset asset = db.getAssetById(rs.getString(DatabaseController.ASSET_ID));
 		assetClip.setAsset(asset);
 
-		FormatController formatController = new FormatController(db);
-		Format format = formatController.getFormat(rs.getString("formatId"));
+		Format format = db.getFormatById(rs.getString(DatabaseController.FORMAT_ID));
 		assetClip.setFormat(format);
 
 		logger.info("Created " + assetClip);

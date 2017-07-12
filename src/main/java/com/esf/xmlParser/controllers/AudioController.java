@@ -51,33 +51,34 @@ public class AudioController {
 
 	public List<Audio> getAudios() throws SQLException, ClassNotFoundException {
 		logger.info("Getting all Audios from database...");
-
-		List<Audio> audios = new ArrayList<Audio>();
-
-		Connection conn = db.getConnection();
-		Statement stmt = conn.createStatement();
-
-		ResultSet rs = stmt.executeQuery("SELECT * FROM AUDIOS;");
-		while (rs.next()) {
-			audios.add(createAudio(rs));
-		}
-
-		stmt.close();
-		rs.close();
-		conn.close();
-
-		return audios;
+		return getAll();
 	}
 
-	public List<Audio> getAudioByRole(String role) throws SQLException, ClassNotFoundException {
+	public List<Audio> getAudiosByRole(String role) throws SQLException, ClassNotFoundException {
 		logger.info("Getting Audio with role like " + role);
 		role = "%" + role + "%";
 
-		List<Audio> audios = new ArrayList<Audio>();
+		return get(DatabaseController.ROLE, role);
+	}
+
+	public Audio getAudioById(int id) throws SQLException, ClassNotFoundException {
+		logger.info("Getting Audio with id " + id);
+		List<Audio> audios = get(DatabaseController.ID, String.valueOf(id));
+
+		if (audios != null && !audios.isEmpty()) {
+			return audios.get(0);
+		} else {
+			return null;
+		}
+	}
+
+	private List<Audio> get(String col, String key) throws SQLException, ClassNotFoundException {
+		List<Audio> audios = new ArrayList<>();
 
 		Connection conn = db.getConnection();
-		PreparedStatement ps = conn.prepareStatement("SELECT * FROM AUDIOS WHERE AUDIOS.role LIKE ?;");
-		ps.setString(1, role);
+		PreparedStatement ps = conn
+				.prepareStatement("SELECT * FROM " + DatabaseController.AUDIOS + " WHERE " + col + " LIKE ?;");
+		ps.setString(1, key);
 
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
@@ -94,44 +95,41 @@ public class AudioController {
 		return audios;
 	}
 
-	public Audio getAudio(int id) throws SQLException, ClassNotFoundException {
-		logger.info("Getting Audio with id " + id);
-
-		Audio audio = null;
+	private List<Audio> getAll() throws SQLException, ClassNotFoundException {
+		List<Audio> audios = new ArrayList<>();
 
 		Connection conn = db.getConnection();
-		PreparedStatement ps = conn.prepareStatement("SELECT * FROM AUDIOS WHERE AUDIOS.id=?;");
-		ps.setInt(1, id);
+		Statement stmt = conn.createStatement();
 
-		ResultSet rs = ps.executeQuery();
-		if (rs.next()) {
-			audio = createAudio(rs);
+		ResultSet rs = stmt.executeQuery("SELECT * FROM " + DatabaseController.AUDIOS + ";");
+		while (rs.next()) {
+			Audio audio = createAudio(rs);
+			audios.add(audio);
+
+			logger.info("Found " + audio);
 		}
 
-		ps.close();
+		stmt.close();
 		rs.close();
 		conn.close();
 
-		logger.info("Found " + audio);
-		return audio;
+		return audios;
 	}
 
 	private Audio createAudio(ResultSet rs) throws SQLException, ClassNotFoundException {
 		logger.info("Creating Audio...");
 
 		Audio audio = new Audio();
+		audio.setId(rs.getInt(DatabaseController.ID));
+		audio.setLane(rs.getInt(DatabaseController.LANE));
+		audio.setRole(rs.getString(DatabaseController.ROLE));
+		audio.setOffset(rs.getString(DatabaseController.OFFSET));
+		audio.setDuration(rs.getString(DatabaseController.DURATION));
+		audio.setStart(rs.getString(DatabaseController.START));
+		audio.setSrcCh(rs.getString(DatabaseController.SOURCE_CHANNEL));
+		audio.setSrcId(rs.getInt(DatabaseController.SOURCE_ID));
 
-		audio.setId(rs.getInt("id"));
-		audio.setLane(rs.getInt("lane"));
-		audio.setRole(rs.getString("role"));
-		audio.setOffset(rs.getString("offset"));
-		audio.setDuration(rs.getString("duration"));
-		audio.setStart(rs.getString("start"));
-		audio.setSrcCh(rs.getString("srcCh"));
-		audio.setSrcId(rs.getInt("srcId"));
-
-		AssetController assetController = new AssetController(db);
-		Asset asset = assetController.getAsset(rs.getString("assetId"));
+		Asset asset = db.getAssetById(rs.getString(DatabaseController.ASSET_ID));
 		audio.setAsset(asset);
 
 		logger.info("Created " + audio);

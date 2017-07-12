@@ -1,5 +1,6 @@
 package com.esf.xmlParser.fxml;
 
+import java.lang.reflect.Method;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +32,7 @@ import javafx.scene.control.ToggleButton;
 import javafx.scene.control.Alert.AlertType;
 import javafx.util.Callback;
 
-public class SearchController {
+public class SearchViewController {
 
 	@FXML
 	private ResourceBundle resources;
@@ -168,13 +169,15 @@ public class SearchController {
 		if (db != null) {
 			String query = comboBoxSearch.getValue().getName();
 
+			List<String> checkedAssets = checkComboBoxAssets.getCheckModel().getCheckedItems();
+
 			try {
-				List<Asset> assets = db.getAssets(query);
-				List<AssetClip> assetClips = db.getAssetClips(query);
-				List<Clip> clips = db.getClips(query);
-				List<Effect> effects = db.getEffects(query);
-				List<Format> formats = db.getFormats(query);
-				List<Video> videos = db.getVideos(query);
+				List<Asset> assets = db.getAssetsByName(query);
+				List<AssetClip> assetClips = db.getAssetClipsByName(query);
+				List<Clip> clips = db.getClipsByName(query);
+				List<Effect> effects = db.getEffectsByName(query);
+				List<Format> formats = db.getFormatsByName(query);
+				List<Video> videos = db.getVideosByName(query);
 
 				List<Element> elements = new ArrayList<Element>();
 				elements.addAll(assets);
@@ -189,6 +192,15 @@ public class SearchController {
 			} catch (ClassNotFoundException | SQLException e) {
 				new Alert(AlertType.ERROR, resources.getString("errorSearch"), ButtonType.OK).showAndWait();
 				e.printStackTrace();
+			}
+		}
+	}
+
+	private void getResults(List<String> items) {
+		for (String item : items) {
+			switch (item) {
+			case "id":
+				break;
 			}
 		}
 	}

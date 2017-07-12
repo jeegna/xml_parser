@@ -67,7 +67,7 @@ public class MainController {
 	private String fileName;
 
 	private TableViewController tableViewController;
-	private SearchController searchController;
+	private SearchViewController searchViewController;
 	private DatabaseController db;
 
 	@FXML
@@ -76,7 +76,7 @@ public class MainController {
 
 		// Initialize fxml controllers.
 		initializeTableView();
-		initializeSearchBar();
+		initializeSearchView();
 	}
 
 	/**
@@ -131,17 +131,17 @@ public class MainController {
 		return fileChooser.showOpenDialog(borderPane.getScene().getWindow());
 	}
 
-	private void initializeSearchBar() {
+	private void initializeSearchView() {
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setResources(resources);
-			loader.setLocation(Main.class.getResource("/fxml/AdvancedSearch.fxml"));
+			loader.setLocation(Main.class.getResource("/fxml/SearchView.fxml"));
 
 			// Add view to Main.fxml.
 			borderPaneTop.getChildren().add(loader.load());
 			// Get controller.
-			searchController = loader.getController();
-			searchController.initializeSearchBar();
+			searchViewController = loader.getController();
+			searchViewController.initializeSearchBar();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -205,10 +205,10 @@ public class MainController {
 		formats = db.getFormats();
 		videos = db.getVideos();
 
-		// Populate tables with file contents.
+		// Populate tables with file contents, and give controllers to SearchViewController.
 		tableViewController.populateTables(assets, assetClips, audios, clips, effects, formats, videos);
-		searchController.setDatabaseController(db);
-		searchController.setTableViewController(tableViewController);
+		searchViewController.setDatabaseController(db);
+		searchViewController.setTableViewController(tableViewController);
 	}
 
 	@FXML
