@@ -111,7 +111,7 @@ public class DatabaseController {
 
 	public void populateDatabase(List<Asset> assets, List<AssetClip> assetClips, List<Audio> audios, List<Clip> clips,
 			List<Effect> effects, List<Format> formats, List<Video> videos)
-			throws SQLException, ClassNotFoundException {
+					throws SQLException, ClassNotFoundException {
 
 		createDatabaseTables();
 
@@ -152,68 +152,144 @@ public class DatabaseController {
 		videoController.addVideos(videos);
 	}
 
-	public Asset getAssetById(String id) throws ClassNotFoundException, SQLException {
-		return assetController.getAssetById(id);
-	}
-
 	public List<Asset> getAssets() throws ClassNotFoundException, SQLException {
 		return assetController.getAssets();
+	}
+
+	public Asset getAssetById(String id) throws ClassNotFoundException, SQLException {
+		return assetController.getAssetById(id);
 	}
 
 	public List<Asset> getAssetsByName(String name) throws ClassNotFoundException, SQLException {
 		return assetController.getAssetsByName(name);
 	}
 
-	public AssetClip getAssetClipById(int id) throws ClassNotFoundException, SQLException {
-		return assetClipController.getAssetClipById(id);
+	public List<Asset> getAssetsByDuration(String duration) throws ClassNotFoundException, SQLException {
+		return assetController.getAssetsByDuration(duration);
+	}
+
+	public List<Asset> getAssetsByHasAudio(boolean hasAudio) throws ClassNotFoundException, SQLException {
+		return assetController.getAssetsByHasAudio(hasAudio);
+	}
+
+	public List<Asset> getAssetsByHasVideo(boolean hasVideo) throws ClassNotFoundException, SQLException {
+		return assetController.getAssetsByHasVideo(hasVideo);
+	}
+
+	public List<Asset> getAssetsBySrc(String src) throws ClassNotFoundException, SQLException {
+		return assetController.getAssetsBySrc(src);
+	}
+
+	public List<Asset> getAssetsByStart(String start) throws ClassNotFoundException, SQLException {
+		return assetController.getAssetsByStart(start);
+	}
+
+	public List<Asset> getAssetsByUID(String uid) throws ClassNotFoundException, SQLException {
+		return assetController.getAssetsByUID(uid);
 	}
 
 	public List<AssetClip> getAssetClips() throws ClassNotFoundException, SQLException {
 		return assetClipController.getAssetClips();
 	}
 
+	public AssetClip getAssetClipById(int id) throws ClassNotFoundException, SQLException {
+		return assetClipController.getAssetClipById(id);
+	}
+
 	public List<AssetClip> getAssetClipsByName(String name) throws ClassNotFoundException, SQLException {
 		return assetClipController.getAssetClipsByName(name);
 	}
 
-	public Audio getAudioById(int id) throws ClassNotFoundException, SQLException {
-		return audioController.getAudioById(id);
+	public List<AssetClip> getAssetClipsByLane(int lane) throws ClassNotFoundException, SQLException {
+		return assetClipController.getAssetClipsByLane(lane);
+	}
+
+	public List<AssetClip> getAssetClipsByOffset(String offset) throws ClassNotFoundException, SQLException {
+		return assetClipController.getAssetClipsByOffset(offset);
+	}
+
+	public List<AssetClip> getAssetClipsByDuration(String duration) throws ClassNotFoundException, SQLException {
+		return assetClipController.getAssetClipsByDuration(duration);
+	}
+
+	public List<AssetClip> getAssetClipsByStart(String start) throws ClassNotFoundException, SQLException {
+		return assetClipController.getAssetClipsByStart(start);
+	}
+
+	public List<AssetClip> getAssetClipsByRole(String role) throws ClassNotFoundException, SQLException {
+		return assetClipController.getAssetClipsByRole(role);
 	}
 
 	public List<Audio> getAudios() throws ClassNotFoundException, SQLException {
 		return audioController.getAudios();
 	}
 
-//	public List<Audio> getAudiosByName(String name) throws ClassNotFoundException, SQLException {
-//		return audioController.getAudiosByName(name);
-//	}
+	public Audio getAudioById(int id) throws ClassNotFoundException, SQLException {
+		return audioController.getAudioById(id);
+	}
+
+	public List<Audio> getAudiosByLane(int lane) throws ClassNotFoundException, SQLException {
+		return audioController.getAudiosByLane(lane);
+	}
 
 	public List<Audio> getAudiosByRole(String role) throws ClassNotFoundException, SQLException {
 		return audioController.getAudiosByRole(role);
 	}
 
-	public Clip getClipById(int id) throws ClassNotFoundException, SQLException {
-		return clipController.getClipById(id);
+	public List<Audio> getAudiosByOffset(String offset) throws ClassNotFoundException, SQLException {
+		return audioController.getAudiosByOffset(offset);
+	}
+
+	public List<Audio> getAudiosByDuration(String duration) throws ClassNotFoundException, SQLException {
+		return audioController.getAudiosByDuration(duration);
+	}
+
+	public List<Audio> getAudiosByStart(String start) throws ClassNotFoundException, SQLException {
+		return audioController.getAudiosByStart(start);
+	}
+
+	public List<Audio> getAudiosBySrcCh(String srcCh) throws ClassNotFoundException, SQLException {
+		return audioController.getAudiosBySrcCh(srcCh);
+	}
+
+	public List<Audio> getAudiosBySrcId(int srcId) throws ClassNotFoundException, SQLException {
+		return audioController.getAudiosBySrcId(srcId);
 	}
 
 	public List<Clip> getClips() throws ClassNotFoundException, SQLException {
 		return clipController.getClips();
 	}
 
+	public Clip getClipById(int id) throws ClassNotFoundException, SQLException {
+		return clipController.getClipById(id);
+	}
+
 	public List<Clip> getClipsByName(String name) throws ClassNotFoundException, SQLException {
 		return clipController.getClipsByName(name);
+	}
+
+	public List<Clip> getClipsByOffset(String offset) throws ClassNotFoundException, SQLException {
+		return clipController.getClipsByOffset(offset);
+	}
+
+	public List<Clip> getClipsByDuration(String duration) throws ClassNotFoundException, SQLException {
+		return clipController.getClipsByDuration(duration);
+	}
+
+	public List<Clip> getClipsByStart(String start) throws ClassNotFoundException, SQLException {
+		return clipController.getClipsByStart(start);
 	}
 
 	public List<Clip> getClipsByTcFormat(String tcFormat) throws ClassNotFoundException, SQLException {
 		return clipController.getClipsByTcFormat(tcFormat);
 	}
 
-	public Effect getEffectById(String id) throws ClassNotFoundException, SQLException {
-		return effectController.getEffectById(id);
-	}
-
 	public List<Effect> getEffects() throws ClassNotFoundException, SQLException {
 		return effectController.getEffects();
+	}
+
+	public Effect getEffectById(String id) throws ClassNotFoundException, SQLException {
+		return effectController.getEffectById(id);
 	}
 
 	public List<Effect> getEffectsByName(String name) throws ClassNotFoundException, SQLException {
@@ -224,32 +300,60 @@ public class DatabaseController {
 		return effectController.getEffectsByUid(uid);
 	}
 
-	public Format getFormatById(String id) throws ClassNotFoundException, SQLException {
-		return formatController.getFormatById(id);
+	public List<Effect> getEffectsBySrc(String src) throws ClassNotFoundException, SQLException {
+		return effectController.getEffectsBySrc(src);
 	}
 
 	public List<Format> getFormats() throws ClassNotFoundException, SQLException {
 		return formatController.getFormats();
 	}
 
+	public Format getFormatById(String id) throws ClassNotFoundException, SQLException {
+		return formatController.getFormatById(id);
+	}
+
 	public List<Format> getFormatsByName(String name) throws ClassNotFoundException, SQLException {
 		return formatController.getFormatsByName(name);
+	}
+
+	public List<Format> getFormatsByWidth(int width) throws ClassNotFoundException, SQLException {
+		return formatController.getFormatsByWidth(width);
+	}
+
+	public List<Format> getFormatsByHeight(int height) throws ClassNotFoundException, SQLException {
+		return formatController.getFormatsByHeight(height);
 	}
 
 	public List<Format> getFormatsByFrameRate(String fps) throws ClassNotFoundException, SQLException {
 		return formatController.getFormatsByFrameRate(fps);
 	}
 
-	public Video getVideoById(int id) throws ClassNotFoundException, SQLException {
-		return videoController.getVideoById(id);
-	}
-
 	public List<Video> getVideos() throws ClassNotFoundException, SQLException {
 		return videoController.getVideos();
 	}
 
+	public Video getVideoById(int id) throws ClassNotFoundException, SQLException {
+		return videoController.getVideoById(id);
+	}
+
 	public List<Video> getVideosByName(String name) throws ClassNotFoundException, SQLException {
 		return videoController.getVideosByName(name);
+	}
+
+	public List<Video> getVideosByLane(int lane) throws ClassNotFoundException, SQLException {
+		return videoController.getVideosByLane(lane);
+	}
+
+	public List<Video> getVideosByOffset(String offset) throws ClassNotFoundException, SQLException {
+		return videoController.getVideosByOffset(offset);
+	}
+
+	public List<Video> getVideosByDuration(String duration) throws ClassNotFoundException, SQLException {
+		return videoController.getVideosByDuration(duration);
+	}
+
+	public List<Video> getVideosByStart(String start) throws ClassNotFoundException, SQLException {
+		return videoController.getVideosByStart(start);
 	}
 
 	private void createDatabaseTables() throws SQLException, ClassNotFoundException {
