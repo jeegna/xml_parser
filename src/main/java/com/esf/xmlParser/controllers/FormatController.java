@@ -50,20 +50,6 @@ public class FormatController {
 		return getAll();
 	}
 
-	public List<Format> getFormatsByName(String name) throws SQLException, ClassNotFoundException {
-		logger.info("Getting Formats with name like " + name);
-		name = "%" + name + "%";
-
-		return get(DatabaseController.NAME, name);
-	}
-
-	public List<Format> getFormatsByFrameRate(String frameRate) throws SQLException, ClassNotFoundException {
-		logger.info("Getting Formats with frame rate like " + frameRate);
-		frameRate = "%" + frameRate + "%";
-
-		return get(DatabaseController.FRAME_RATE, frameRate);
-	}
-
 	public Format getFormatById(String id) throws SQLException, ClassNotFoundException {
 		logger.info("Getting Format with id " + id);
 		List<Format> formats = get(DatabaseController.ID, String.valueOf(id));
@@ -73,6 +59,26 @@ public class FormatController {
 		} else {
 			return null;
 		}
+	}
+
+	public List<Format> getFormatsByName(String name) throws SQLException, ClassNotFoundException {
+		logger.info("Getting Formats with name like " + name);
+		return get(DatabaseController.NAME, "%" + name + "%");
+	}
+
+	public List<Format> getFormatsByWidth(int width) throws SQLException, ClassNotFoundException {
+		logger.info("Getting Formats with width like " + width);
+		return get(DatabaseController.WIDTH, "%" + width + "%");
+	}
+
+	public List<Format> getFormatsByHeight(int height) throws SQLException, ClassNotFoundException {
+		logger.info("Getting Formats with height like " + height);
+		return get(DatabaseController.HEIGHT, "%" + height + "%");
+	}
+
+	public List<Format> getFormatsByFrameRate(String frameRate) throws SQLException, ClassNotFoundException {
+		logger.info("Getting Formats with frame rate like " + frameRate);
+		return get(DatabaseController.FRAME_RATE, "%" + frameRate + "%");
 	}
 
 	private List<Format> get(String col, String key) throws SQLException, ClassNotFoundException {

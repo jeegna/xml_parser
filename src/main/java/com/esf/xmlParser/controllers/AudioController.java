@@ -54,11 +54,39 @@ public class AudioController {
 		return getAll();
 	}
 
+	public List<Audio> getAudiosByLane(int lane) throws SQLException, ClassNotFoundException {
+		logger.info("Getting Audio with lane like " + lane);
+		return get(DatabaseController.LANE, "%" + lane + "%");
+	}
+
 	public List<Audio> getAudiosByRole(String role) throws SQLException, ClassNotFoundException {
 		logger.info("Getting Audio with role like " + role);
-		role = "%" + role + "%";
+		return get(DatabaseController.ROLE, "%" + role + "%");
+	}
 
-		return get(DatabaseController.ROLE, role);
+	public List<Audio> getAudiosByOffset(String offset) throws SQLException, ClassNotFoundException {
+		logger.info("Getting Audio with offset like " + offset);
+		return get(DatabaseController.OFFSET, "%" + offset + "%");
+	}
+
+	public List<Audio> getAudiosByDuration(String duration) throws SQLException, ClassNotFoundException {
+		logger.info("Getting Audio with duration like " + duration);
+		return get(DatabaseController.DURATION, "%" + duration + "%");
+	}
+
+	public List<Audio> getAudiosByStart(String start) throws SQLException, ClassNotFoundException {
+		logger.info("Getting Audio with start like " + start);
+		return get(DatabaseController.START, "%" + start + "%");
+	}
+
+	public List<Audio> getAudiosBySrcCh(String srcCh) throws SQLException, ClassNotFoundException {
+		logger.info("Getting Audio with source channel like " + srcCh);
+		return get(DatabaseController.SOURCE_CHANNEL, "%" + srcCh + "%");
+	}
+
+	public List<Audio> getAudiosBySrcId(int srcId) throws SQLException, ClassNotFoundException {
+		logger.info("Getting Audio with source ID like " + srcId);
+		return get(DatabaseController.SOURCE_ID, "%" + srcId + "%");
 	}
 
 	public Audio getAudioById(int id) throws SQLException, ClassNotFoundException {

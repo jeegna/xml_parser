@@ -49,20 +49,6 @@ public class EffectController {
 		return getAll();
 	}
 
-	public List<Effect> getEffectsByName(String name) throws SQLException, ClassNotFoundException {
-		logger.info("Getting Effects with name like " + name);
-		name = "%" + name + "%";
-
-		return get(DatabaseController.NAME, name);
-	}
-
-	public List<Effect> getEffectsByUid(String uid) throws SQLException, ClassNotFoundException {
-		logger.info("Getting Effects with UID like " + uid);
-		uid = "%" + uid + "%";
-
-		return get(DatabaseController.UID, uid);
-	}
-
 	public Effect getEffectById(String id) throws SQLException, ClassNotFoundException {
 		logger.info("Getting Effect with id: " + id);
 		List<Effect> effects = get(DatabaseController.ID, id);
@@ -72,6 +58,21 @@ public class EffectController {
 		} else {
 			return null;
 		}
+	}
+
+	public List<Effect> getEffectsByName(String name) throws SQLException, ClassNotFoundException {
+		logger.info("Getting Effects with name like " + name);
+		return get(DatabaseController.NAME, "%" + name + "%");
+	}
+
+	public List<Effect> getEffectsByUid(String uid) throws SQLException, ClassNotFoundException {
+		logger.info("Getting Effects with UID like " + uid);
+		return get(DatabaseController.UID, "%" + uid + "%");
+	}
+
+	public List<Effect> getEffectsBySrc(String src) throws SQLException, ClassNotFoundException {
+		logger.info("Getting Effects with source like " + src);
+		return get(DatabaseController.SOURCE, "%" + src + "%");
 	}
 
 	private List<Effect> get(String col, String key) throws SQLException, ClassNotFoundException {

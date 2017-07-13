@@ -52,13 +52,6 @@ public class VideoController {
 		return getAll();
 	}
 
-	public List<Video> getVideosByName(String name) throws SQLException, ClassNotFoundException {
-		logger.info("Getting Videos with name like " + name);
-		name = "%" + name + "%";
-
-		return get(DatabaseController.NAME, name);
-	}
-
 	public Video getVideoById(int id) throws SQLException, ClassNotFoundException {
 		logger.info("Getting Video with id " + id);
 		List<Video> videos = get(DatabaseController.ID, String.valueOf(id));
@@ -68,6 +61,31 @@ public class VideoController {
 		} else {
 			return null;
 		}
+	}
+
+	public List<Video> getVideosByName(String name) throws SQLException, ClassNotFoundException {
+		logger.info("Getting Videos with name like " + name);
+		return get(DatabaseController.NAME, "%" + name + "%");
+	}
+
+	public List<Video> getVideosByLane(int lane) throws SQLException, ClassNotFoundException {
+		logger.info("Getting Videos with lane like " + lane);
+		return get(DatabaseController.LANE, "%" + lane + "%");
+	}
+
+	public List<Video> getVideosByOffset(String offset) throws SQLException, ClassNotFoundException {
+		logger.info("Getting Videos with offset like " + offset);
+		return get(DatabaseController.OFFSET, "%" + offset + "%");
+	}
+
+	public List<Video> getVideosByDuration(String duration) throws SQLException, ClassNotFoundException {
+		logger.info("Getting Videos with duration like " + duration);
+		return get(DatabaseController.DURATION, "%" + duration + "%");
+	}
+
+	public List<Video> getVideosByStart(String start) throws SQLException, ClassNotFoundException {
+		logger.info("Getting Videos with start like " + start);
+		return get(DatabaseController.START, "%" + start + "%");
 	}
 
 	private List<Video> get(String col, String key) throws SQLException, ClassNotFoundException {

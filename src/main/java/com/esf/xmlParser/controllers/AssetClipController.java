@@ -57,13 +57,6 @@ public class AssetClipController {
 		return getAll();
 	}
 
-	public List<AssetClip> getAssetClipsByName(String name) throws SQLException, ClassNotFoundException {
-		logger.info("Getting Asset Clips with name like " + name);
-		name = "%" + name + "%";
-
-		return get(DatabaseController.NAME, name);
-	}
-
 	public AssetClip getAssetClipById(int id) throws SQLException, ClassNotFoundException {
 		logger.info("Getting Asset Clip with id " + id);
 		List<AssetClip> assetClips = get(DatabaseController.ID, String.valueOf(id));
@@ -73,6 +66,36 @@ public class AssetClipController {
 		} else {
 			return null;
 		}
+	}
+
+	public List<AssetClip> getAssetClipsByName(String name) throws SQLException, ClassNotFoundException {
+		logger.info("Getting Asset Clips with name like " + name);
+		return get(DatabaseController.NAME, "%" + name + "%");
+	}
+
+	public List<AssetClip> getAssetClipsByLane(int lane) throws SQLException, ClassNotFoundException {
+		logger.info("Getting Asset Clips with lane like " + lane);
+		return get(DatabaseController.LANE, "%" + lane + "%");
+	}
+
+	public List<AssetClip> getAssetClipsByOffset(String offset) throws SQLException, ClassNotFoundException {
+		logger.info("Getting Asset Clips with offset like " + offset);
+		return get(DatabaseController.OFFSET, "%" + offset + "%");
+	}
+
+	public List<AssetClip> getAssetClipsByDuration(String duration) throws SQLException, ClassNotFoundException {
+		logger.info("Getting Asset Clips with duration like " + duration);
+		return get(DatabaseController.DURATION, "%" + duration + "%");
+	}
+
+	public List<AssetClip> getAssetClipsByStart(String start) throws SQLException, ClassNotFoundException {
+		logger.info("Getting Asset Clips with start like " + start);
+		return get(DatabaseController.START, "%" + start + "%");
+	}
+
+	public List<AssetClip> getAssetClipsByRole(String role) throws SQLException, ClassNotFoundException {
+		logger.info("Getting Asset Clips with role like " + role);
+		return get(DatabaseController.ROLE, "%" + role + "%");
 	}
 
 	private List<AssetClip> get(String col, String key) throws SQLException, ClassNotFoundException {

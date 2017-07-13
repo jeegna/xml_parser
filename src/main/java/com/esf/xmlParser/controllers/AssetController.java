@@ -59,13 +59,6 @@ public class AssetController {
 		return getAll();
 	}
 
-	public List<Asset> getAssetsByName(String name) throws SQLException, ClassNotFoundException {
-		logger.info("Getting Assets with name like " + name);
-		name = "%" + name + "%";
-
-		return get(DatabaseController.NAME, name);
-	}
-
 	public Asset getAssetById(String id) throws SQLException, ClassNotFoundException {
 		logger.info("Getting Asset with id " + id);
 		List<Asset> assets = get(DatabaseController.ID, id);
@@ -75,6 +68,41 @@ public class AssetController {
 		} else {
 			return null;
 		}
+	}
+
+	public List<Asset> getAssetsByName(String name) throws SQLException, ClassNotFoundException {
+		logger.info("Getting Assets with name like " + name);
+		return get(DatabaseController.NAME, "%" + name + "%");
+	}
+
+	public List<Asset> getAssetsByDuration(String duration) throws SQLException, ClassNotFoundException {
+		logger.info("Getting Assets with duration like " + duration);
+		return get(DatabaseController.DURATION, "%" + duration + "%");
+	}
+
+	public List<Asset> getAssetsByHasAudio(boolean hasAudio) throws SQLException, ClassNotFoundException {
+		logger.info("Getting Assets with hasAudio like " + hasAudio);
+		return get(DatabaseController.HAS_AUDIO, "%" + (hasAudio ? '1' : '0') + "%");
+	}
+
+	public List<Asset> getAssetsByHasVideo(boolean hasVideo) throws SQLException, ClassNotFoundException {
+		logger.info("Getting Assets with hasVideo like " + hasVideo);
+		return get(DatabaseController.HAS_VIDEO, "%" + (hasVideo ? '1' : '0') + "%");
+	}
+
+	public List<Asset> getAssetsByUID(String uid) throws SQLException, ClassNotFoundException {
+		logger.info("Getting Assets with UID like " + uid);
+		return get(DatabaseController.UID, "%" + uid + "%");
+	}
+
+	public List<Asset> getAssetsBySrc(String src) throws SQLException, ClassNotFoundException {
+		logger.info("Getting Assets with src like " + src);
+		return get(DatabaseController.SOURCE, "%" + src + "%");
+	}
+
+	public List<Asset> getAssetsByStart(String start) throws SQLException, ClassNotFoundException {
+		logger.info("Getting Assets with start like " + start);
+		return get(DatabaseController.START, "%" + start + "%");
 	}
 
 	private List<Asset> get(String col, String key) throws SQLException, ClassNotFoundException {

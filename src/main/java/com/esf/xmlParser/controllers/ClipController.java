@@ -50,20 +50,6 @@ public class ClipController {
 		return getAll();
 	}
 
-	public List<Clip> getClipsByName(String name) throws SQLException, ClassNotFoundException {
-		logger.info("Getting Clips with name like " + name);
-		name = "%" + name + "%";
-
-		return get(DatabaseController.NAME, name);
-	}
-
-	public List<Clip> getClipsByTcFormat(String tcFormat) throws SQLException, ClassNotFoundException {
-		logger.info("Getting Clips with TC formats like " + tcFormat);
-		tcFormat = "%" + tcFormat + "%";
-
-		return get(DatabaseController.TC_FORMAT, tcFormat);
-	}
-
 	public Clip getClipById(int id) throws SQLException, ClassNotFoundException {
 		logger.info("Getting Clip with id " + id);
 		List<Clip> clips = get(DatabaseController.ID, String.valueOf(id));
@@ -73,6 +59,33 @@ public class ClipController {
 		} else {
 			return null;
 		}
+	}
+
+	public List<Clip> getClipsByName(String name) throws SQLException, ClassNotFoundException {
+		logger.info("Getting Clips with name like " + name);
+		return get(DatabaseController.NAME, "%" + name + "%");
+	}
+
+	public List<Clip> getClipsByOffset(String offset) throws SQLException, ClassNotFoundException {
+		logger.info("Getting Clips with offset like " + offset);
+		return get(DatabaseController.OFFSET, "%" + offset + "%");
+	}
+
+	public List<Clip> getClipsByDuration(String duration) throws SQLException, ClassNotFoundException {
+		logger.info("Getting Clips with duration like " + duration);
+		return get(DatabaseController.DURATION, "%" + duration + "%");
+	}
+
+	public List<Clip> getClipsByStart(String start) throws SQLException, ClassNotFoundException {
+		logger.info("Getting Clips with start like " + start);
+		return get(DatabaseController.START, "%" + start + "%");
+	}
+
+	public List<Clip> getClipsByTcFormat(String tcFormat) throws SQLException, ClassNotFoundException {
+		logger.info("Getting Clips with TC formats like " + tcFormat);
+		tcFormat = "%" + tcFormat + "%";
+
+		return get(DatabaseController.TC_FORMAT, tcFormat);
 	}
 
 	private List<Clip> get(String col, String key) throws SQLException, ClassNotFoundException {
