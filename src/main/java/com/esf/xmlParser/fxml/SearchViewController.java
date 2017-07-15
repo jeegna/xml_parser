@@ -118,6 +118,8 @@ public class SearchViewController {
 		comboBoxSearch.setConverter(new ElementConverter());
 
 		initializeItems();
+		addEventHandlers();
+		checkDefaults();
 	}
 
 	private void initializeItems() {
@@ -132,7 +134,6 @@ public class SearchViewController {
 		String srcId = resources.getString("srcId");
 		String hasAudio = resources.getString("hasAudio");
 		String hasVideo = resources.getString("hasVideo");
-		String formatName = resources.getString("formatName");
 		String tcFormat = resources.getString("tcFormat");
 		String uid = resources.getString("uid");
 		String width = resources.getString("width");
@@ -152,8 +153,13 @@ public class SearchViewController {
 		checkComboBoxFormats.getItems().addAll(id, name, width, height, frameRate);
 		checkComboBoxVideos.getItems().addAll(id, name, lane, offset, duration, start);
 
-		addEventHandlers();
-		checkDefaults();
+		checkBoxAsset.setUserData(checkComboBoxAssets);
+		checkBoxAssetClip.setUserData(checkComboBoxAssetClips);
+		checkBoxAudio.setUserData(checkComboBoxAudios);
+		checkBoxClip.setUserData(checkComboBoxClips);
+		checkBoxEffect.setUserData(checkComboBoxEffects);
+		checkBoxFormat.setUserData(checkComboBoxFormats);
+		checkBoxVideo.setUserData(checkComboBoxVideos);
 	}
 
 	private void addEventHandlers() {
@@ -286,7 +292,21 @@ public class SearchViewController {
 
 	@FXML
 	private void checkBoxSelectAllCheck(ActionEvent event) {
-		// TODO
+		boolean isSelected = !checkBoxSelectAll.isSelected();
+		checkBoxAsset.setSelected(isSelected);
+		checkBoxAssetClip.setSelected(isSelected);
+		checkBoxAudio.setSelected(isSelected);
+		checkBoxClip.setSelected(isSelected);
+		checkBoxEffect.setSelected(isSelected);
+		checkBoxFormat.setSelected(isSelected);
+		checkBoxVideo.setSelected(isSelected);
+		checkBoxAsset.fire();
+		checkBoxAssetClip.fire();
+		checkBoxAudio.fire();
+		checkBoxClip.fire();
+		checkBoxEffect.fire();
+		checkBoxFormat.fire();
+		checkBoxVideo.fire();
 	}
 
 	private void checkDefaults() {
@@ -296,16 +316,6 @@ public class SearchViewController {
 		checkComboBoxEffects.getCheckModel().check(1);
 		checkComboBoxFormats.getCheckModel().check(1);
 		checkComboBoxVideos.getCheckModel().check(1);
-
-		// List<String> names = new ArrayList<>();
-		// names.add(resources.getString("name"));
-		// addQueryToList(assetStatements, names, DatabaseController.ASSETS);
-		// addQueryToList(assetClipStatements, names,
-		// DatabaseController.ASSET_CLIPS);
-		// addQueryToList(clipStatements, names, DatabaseController.CLIPS);
-		// addQueryToList(effectStatements, names, DatabaseController.EFFECTS);
-		// addQueryToList(formatStatements, names, DatabaseController.FORMATS);
-		// addQueryToList(videoStatements, names, DatabaseController.VIDEOS);
 	}
 
 	@FXML
@@ -330,65 +340,16 @@ public class SearchViewController {
 	}
 
 	@FXML
-	private void checkBoxAssetClick(ActionEvent event) {
-		if (checkBoxAsset.isSelected()) {
-			checkComboBoxAssets.getCheckModel().checkAll();
-		} else {
-			checkComboBoxAssets.getCheckModel().clearChecks();
-		}
-	}
+	private void checkBoxClick(ActionEvent event) {
+		CheckBox checkBox = (CheckBox) event.getSource();
 
-	@FXML
-	private void checkBoxAssetClipClick(ActionEvent event) {
-		if (checkBoxAssetClip.isSelected()) {
-			checkComboBoxAssetClips.getCheckModel().checkAll();
-		} else {
-			checkComboBoxAssetClips.getCheckModel().clearChecks();
-		}
-	}
+		@SuppressWarnings("unchecked")
+		CheckComboBox<String> checkComboBox = (CheckComboBox<String>) checkBox.getUserData();
 
-	@FXML
-	private void checkBoxAudioClick(ActionEvent event) {
-		if (checkBoxAudio.isSelected()) {
-			checkComboBoxAudios.getCheckModel().checkAll();
+		if (checkBox.isSelected()) {
+			checkComboBox.getCheckModel().checkAll();
 		} else {
-			checkComboBoxAudios.getCheckModel().clearChecks();
-		}
-	}
-
-	@FXML
-	private void checkBoxClipClick(ActionEvent event) {
-		if (checkBoxClip.isSelected()) {
-			checkComboBoxClips.getCheckModel().checkAll();
-		} else {
-			checkComboBoxClips.getCheckModel().clearChecks();
-		}
-	}
-
-	@FXML
-	private void checkBoxEffectClick(ActionEvent event) {
-		if (checkBoxEffect.isSelected()) {
-			checkComboBoxEffects.getCheckModel().checkAll();
-		} else {
-			checkComboBoxEffects.getCheckModel().clearChecks();
-		}
-	}
-
-	@FXML
-	private void checkBoxFormatClick(ActionEvent event) {
-		if (checkBoxFormat.isSelected()) {
-			checkComboBoxFormats.getCheckModel().checkAll();
-		} else {
-			checkComboBoxFormats.getCheckModel().clearChecks();
-		}
-	}
-
-	@FXML
-	private void checkBoxVideoClick(ActionEvent event) {
-		if (checkBoxVideo.isSelected()) {
-			checkComboBoxVideos.getCheckModel().checkAll();
-		} else {
-			checkComboBoxVideos.getCheckModel().clearChecks();
+			checkComboBox.getCheckModel().clearChecks();
 		}
 	}
 
