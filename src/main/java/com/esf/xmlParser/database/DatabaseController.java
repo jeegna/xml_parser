@@ -2,9 +2,12 @@ package com.esf.xmlParser.database;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
+import java.util.logging.Logger;
 
 import com.esf.xmlParser.controllers.AssetClipController;
 import com.esf.xmlParser.controllers.AssetController;
@@ -66,6 +69,8 @@ public class DatabaseController {
 	private EffectController effectController;
 	private FormatController formatController;
 	private VideoController videoController;
+
+	private final Logger logger = Logger.getLogger(this.getClass().getName());
 
 	/**
 	 * 
@@ -354,6 +359,28 @@ public class DatabaseController {
 
 	public List<Video> getVideosByStart(String start) throws ClassNotFoundException, SQLException {
 		return videoController.getVideosByStart(start);
+	}
+
+	public void executeQueries(List<String> queries, String key) throws ClassNotFoundException, SQLException {
+		Connection conn = getConnection();
+
+		for (String query : queries) {
+			logger.info("Running query: " + query.replaceAll("[?]", "'" + key + "'"));
+			PreparedStatement ps = conn.prepareStatement(query);
+			ps.setString(1, key);
+
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				for (int i = 1; i < rs.getMetaData().getColumnCount(); i++) {
+					System.out.println(rs.getString(i));
+				}
+			}
+
+			ps.close();
+			rs.close();
+		}
+
+		conn.close();
 	}
 
 	private void createDatabaseTables() throws SQLException, ClassNotFoundException {

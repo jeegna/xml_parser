@@ -1,6 +1,5 @@
 package com.esf.xmlParser.fxml;
 
-import java.lang.reflect.Method;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,25 +10,19 @@ import org.controlsfx.control.CheckComboBox;
 
 import com.esf.xmlParser.converter.ElementConverter;
 import com.esf.xmlParser.database.DatabaseController;
-import com.esf.xmlParser.entities.Asset;
-import com.esf.xmlParser.entities.AssetClip;
-import com.esf.xmlParser.entities.Clip;
-import com.esf.xmlParser.entities.Effect;
 import com.esf.xmlParser.entities.Element;
-import com.esf.xmlParser.entities.Format;
-import com.esf.xmlParser.entities.Video;
 
+import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
-import javafx.scene.control.ToggleButton;
-import javafx.scene.control.Alert.AlertType;
 import javafx.util.Callback;
 
 public class SearchViewController {
@@ -74,20 +67,33 @@ public class SearchViewController {
 	private CheckComboBox<String> checkComboBoxVideos;
 
 	@FXML
+	private CheckBox checkBoxSelectAll;
+
+	@FXML
 	private Button buttonReset;
-	@FXML
-	private Button buttonApply;
-	@FXML
-	private Button buttonCancel;
-	@FXML
-	private ToggleButton buttonSelect;
 
 	private final Logger logger = Logger.getLogger(this.getClass().getName());
 
 	private TableViewController tableViewController;
 	private DatabaseController db;
 
+	private List<String> assetStatements;
+	private List<String> assetClipStatements;
+	private List<String> audioStatements;
+	private List<String> clipStatements;
+	private List<String> effectStatements;
+	private List<String> formatStatements;
+	private List<String> videoStatements;
+
 	public void initializeSearchBar() {
+		assetStatements = new ArrayList<>();
+		assetClipStatements = new ArrayList<>();
+		audioStatements = new ArrayList<>();
+		clipStatements = new ArrayList<>();
+		effectStatements = new ArrayList<>();
+		formatStatements = new ArrayList<>();
+		videoStatements = new ArrayList<>();
+
 		// http://www.java2s.com/Code/Java/JavaFX/customcellfactory.htm
 		comboBoxSearch.setCellFactory(new Callback<ListView<Element>, ListCell<Element>>() {
 			@Override
@@ -135,7 +141,7 @@ public class SearchViewController {
 		String audioChannels = resources.getString("audioChannels");
 		String audioRate = resources.getString("audioRate");
 
-		checkComboBoxAssets.getItems().addAll(id, duration, hasVideo, hasAudio, name, uid, src, start, formatName,
+		checkComboBoxAssets.getItems().addAll(id, name, duration, hasVideo, hasAudio, uid, src, start, formatName,
 				width, height, frameRate, audioSources, audioChannels, audioRate);
 		checkComboBoxAssetClips.getItems().addAll(id, name, lane, offset, duration, start, role, formatName, width,
 				height, frameRate, tcFormat);
@@ -144,6 +150,124 @@ public class SearchViewController {
 		checkComboBoxEffects.getItems().addAll(id, name, uid, src);
 		checkComboBoxFormats.getItems().addAll(id, name, width, height, frameRate);
 		checkComboBoxVideos.getItems().addAll(id, name, lane, offset, duration, start);
+
+		checkDefaults();
+		addEventHandlers();
+	}
+
+	private void addEventHandlers() {
+		checkComboBoxAssets.getCheckModel().getCheckedItems().addListener(new ListChangeListener<String>() {
+			@Override
+			public void onChanged(Change<? extends String> c) {
+				c.next();
+
+				if (c.wasAdded()) {
+					addQueryToList(assetStatements, c.getAddedSubList(), DatabaseController.ASSETS);
+				} else if (c.wasRemoved()) {
+					removeQueryFromList(assetStatements, c.getRemoved(), DatabaseController.ASSETS);
+				}
+			}
+		});
+
+		checkComboBoxAssetClips.getCheckModel().getCheckedItems().addListener(new ListChangeListener<String>() {
+			@Override
+			public void onChanged(Change<? extends String> c) {
+				c.next();
+
+				if (c.wasAdded()) {
+					addQueryToList(assetClipStatements, c.getAddedSubList(), DatabaseController.ASSET_CLIPS);
+				} else if (c.wasRemoved()) {
+					removeQueryFromList(assetClipStatements, c.getRemoved(), DatabaseController.ASSET_CLIPS);
+				}
+			}
+		});
+
+		checkComboBoxAudios.getCheckModel().getCheckedItems().addListener(new ListChangeListener<String>() {
+			@Override
+			public void onChanged(Change<? extends String> c) {
+				c.next();
+
+				if (c.wasAdded()) {
+					addQueryToList(audioStatements, c.getAddedSubList(), DatabaseController.AUDIOS);
+				} else if (c.wasRemoved()) {
+					removeQueryFromList(audioStatements, c.getRemoved(), DatabaseController.AUDIOS);
+				}
+			}
+		});
+
+		checkComboBoxClips.getCheckModel().getCheckedItems().addListener(new ListChangeListener<String>() {
+			@Override
+			public void onChanged(Change<? extends String> c) {
+				c.next();
+
+				if (c.wasAdded()) {
+					addQueryToList(clipStatements, c.getAddedSubList(), DatabaseController.CLIPS);
+				} else if (c.wasRemoved()) {
+					removeQueryFromList(clipStatements, c.getRemoved(), DatabaseController.CLIPS);
+				}
+			}
+		});
+
+		checkComboBoxEffects.getCheckModel().getCheckedItems().addListener(new ListChangeListener<String>() {
+			@Override
+			public void onChanged(Change<? extends String> c) {
+				c.next();
+
+				if (c.wasAdded()) {
+					addQueryToList(effectStatements, c.getAddedSubList(), DatabaseController.EFFECTS);
+				} else if (c.wasRemoved()) {
+					removeQueryFromList(effectStatements, c.getRemoved(), DatabaseController.EFFECTS);
+				}
+			}
+		});
+
+		checkComboBoxFormats.getCheckModel().getCheckedItems().addListener(new ListChangeListener<String>() {
+			@Override
+			public void onChanged(Change<? extends String> c) {
+				c.next();
+
+				if (c.wasAdded()) {
+					addQueryToList(formatStatements, c.getAddedSubList(), DatabaseController.FORMATS);
+				} else if (c.wasRemoved()) {
+					removeQueryFromList(formatStatements, c.getRemoved(), DatabaseController.FORMATS);
+				}
+			}
+		});
+
+		checkComboBoxVideos.getCheckModel().getCheckedItems().addListener(new ListChangeListener<String>() {
+			@Override
+			public void onChanged(Change<? extends String> c) {
+				c.next();
+
+				if (c.wasAdded()) {
+					addQueryToList(videoStatements, c.getAddedSubList(), DatabaseController.VIDEOS);
+				} else if (c.wasRemoved()) {
+					removeQueryFromList(videoStatements, c.getRemoved(), DatabaseController.VIDEOS);
+				}
+			}
+		});
+	}
+
+	private void addQueryToList(List<String> list, List<? extends String> additions, String tableName) {
+		for (String addition : additions) {
+			String key = convertString(addition);
+			String statement = "SELECT * FROM " + tableName + " WHERE " + key + " LIKE ?;";
+			logger.info("Adding query " + statement);
+
+			list.add(statement);
+		}
+		System.out.println(list);
+	}
+
+	private void removeQueryFromList(List<String> list, List<? extends String> removals, String tableName) {
+		for (String removal : removals) {
+			String key = convertString(removal);
+			String statement = "SELECT * FROM " + tableName + " WHERE " + key + " LIKE ?;";
+			logger.info("Removing query " + statement);
+
+			list.remove(statement);
+		}
+		System.out.println(list);
 	}
 
 	@FXML
@@ -156,51 +280,49 @@ public class SearchViewController {
 		checkComboBoxFormats.getCheckModel().clearChecks();
 		checkComboBoxVideos.getCheckModel().clearChecks();
 
+		checkDefaults();
+	}
+
+	@FXML
+	private void checkBoxSelectAllCheck(ActionEvent event) {
+		// TODO
+	}
+
+	private void checkDefaults() {
 		checkComboBoxAssets.getCheckModel().check(1);
 		checkComboBoxAssetClips.getCheckModel().check(1);
 		checkComboBoxClips.getCheckModel().check(1);
 		checkComboBoxEffects.getCheckModel().check(1);
 		checkComboBoxFormats.getCheckModel().check(1);
 		checkComboBoxVideos.getCheckModel().check(1);
+
+		List<String> names = new ArrayList<>();
+		names.add(resources.getString("name"));
+		addQueryToList(assetStatements, names, DatabaseController.ASSETS);
+		addQueryToList(assetClipStatements, names, DatabaseController.ASSET_CLIPS);
+		addQueryToList(clipStatements, names, DatabaseController.CLIPS);
+		addQueryToList(effectStatements, names, DatabaseController.EFFECTS);
+		addQueryToList(formatStatements, names, DatabaseController.FORMATS);
+		addQueryToList(videoStatements, names, DatabaseController.VIDEOS);
 	}
 
 	@FXML
 	private void buttonSearchClick() {
 		if (db != null) {
-			String query = comboBoxSearch.getValue().getName();
-
-			List<String> checkedAssets = checkComboBoxAssets.getCheckModel().getCheckedItems();
-
+			String query = "%" + comboBoxSearch.getValue().getName() + "%";
+			List<String> queries = new ArrayList<>();
+			queries.addAll(assetStatements);
+			queries.addAll(assetClipStatements);
+			queries.addAll(audioStatements);
+			queries.addAll(clipStatements);
+			queries.addAll(effectStatements);
+			queries.addAll(formatStatements);
+			queries.addAll(videoStatements);
 			try {
-				List<Asset> assets = db.getAssetsByName(query);
-				List<AssetClip> assetClips = db.getAssetClipsByName(query);
-				List<Clip> clips = db.getClipsByName(query);
-				List<Effect> effects = db.getEffectsByName(query);
-				List<Format> formats = db.getFormatsByName(query);
-				List<Video> videos = db.getVideosByName(query);
-
-				List<Element> elements = new ArrayList<Element>();
-				elements.addAll(assets);
-				elements.addAll(assetClips);
-				elements.addAll(clips);
-				elements.addAll(effects);
-				elements.addAll(formats);
-				elements.addAll(videos);
-
-				comboBoxSearch.getItems().setAll(elements);
-
+				db.executeQueries(queries, query);
 			} catch (ClassNotFoundException | SQLException e) {
 				new Alert(AlertType.ERROR, resources.getString("errorSearch"), ButtonType.OK).showAndWait();
 				e.printStackTrace();
-			}
-		}
-	}
-
-	private void getResults(List<String> items) {
-		for (String item : items) {
-			switch (item) {
-			case "id":
-				break;
 			}
 		}
 	}
@@ -219,5 +341,55 @@ public class SearchViewController {
 
 	public void setDatabaseController(DatabaseController db) {
 		this.db = db;
+	}
+
+	private String convertString(String s) {
+		String converted = null;
+
+		if (s.equals(resources.getString("id"))) {
+			converted = DatabaseController.ID;
+		} else if (s.equals(resources.getString("name"))) {
+			converted = DatabaseController.NAME;
+		} else if (s.equals(resources.getString("lane"))) {
+			converted = DatabaseController.LANE;
+		} else if (s.equals(resources.getString("start"))) {
+			converted = DatabaseController.START;
+		} else if (s.equals(resources.getString("duration"))) {
+			converted = DatabaseController.DURATION;
+		} else if (s.equals(resources.getString("src"))) {
+			converted = DatabaseController.SOURCE;
+		} else if (s.equals(resources.getString("role"))) {
+			converted = DatabaseController.ROLE;
+		} else if (s.equals(resources.getString("srcCh"))) {
+			converted = DatabaseController.SOURCE_CHANNEL;
+		} else if (s.equals(resources.getString("srcId"))) {
+			converted = DatabaseController.SOURCE_ID;
+		} else if (s.equals(resources.getString("hasAudio"))) {
+			converted = DatabaseController.HAS_AUDIO;
+		} else if (s.equals(resources.getString("hasVideo"))) {
+			converted = DatabaseController.HAS_VIDEO;
+		} else if (s.equals(resources.getString("formatName"))) {
+			converted = DatabaseController.FORMAT_NAME;
+		} else if (s.equals(resources.getString("tcFormat"))) {
+			converted = DatabaseController.TC_FORMAT;
+		} else if (s.equals(resources.getString("uid"))) {
+			converted = DatabaseController.UID;
+		} else if (s.equals(resources.getString("width"))) {
+			converted = DatabaseController.WIDTH;
+		} else if (s.equals(resources.getString("height"))) {
+			converted = DatabaseController.HEIGHT;
+		} else if (s.equals(resources.getString("frameRate"))) {
+			converted = DatabaseController.FRAME_RATE;
+		} else if (s.equals(resources.getString("offset"))) {
+			converted = DatabaseController.OFFSET;
+		} else if (s.equals(resources.getString("audioSources"))) {
+			converted = DatabaseController.AUDIO_SOURCES;
+		} else if (s.equals(resources.getString("audioChannels"))) {
+			converted = DatabaseController.AUDIO_CHANNELS;
+		} else if (s.equals(resources.getString("audioRate"))) {
+			converted = DatabaseController.AUDIO_RATE;
+		}
+
+		return converted;
 	}
 }
