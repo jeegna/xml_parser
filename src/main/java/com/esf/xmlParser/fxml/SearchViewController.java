@@ -2,8 +2,10 @@ package com.esf.xmlParser.fxml;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.Set;
 import java.util.logging.Logger;
 
 import org.controlsfx.control.CheckComboBox;
@@ -77,22 +79,22 @@ public class SearchViewController {
 	private TableViewController tableViewController;
 	private DatabaseController db;
 
-	private List<String> assetStatements;
-	private List<String> assetClipStatements;
-	private List<String> audioStatements;
-	private List<String> clipStatements;
-	private List<String> effectStatements;
-	private List<String> formatStatements;
-	private List<String> videoStatements;
+	private Set<String> assetStatements;
+	private Set<String> assetClipStatements;
+	private Set<String> audioStatements;
+	private Set<String> clipStatements;
+	private Set<String> effectStatements;
+	private Set<String> formatStatements;
+	private Set<String> videoStatements;
 
 	public void initializeSearchBar() {
-		assetStatements = new ArrayList<>();
-		assetClipStatements = new ArrayList<>();
-		audioStatements = new ArrayList<>();
-		clipStatements = new ArrayList<>();
-		effectStatements = new ArrayList<>();
-		formatStatements = new ArrayList<>();
-		videoStatements = new ArrayList<>();
+		assetStatements = new HashSet<>();
+		assetClipStatements = new HashSet<>();
+		audioStatements = new HashSet<>();
+		clipStatements = new HashSet<>();
+		effectStatements = new HashSet<>();
+		formatStatements = new HashSet<>();
+		videoStatements = new HashSet<>();
 
 		// http://www.java2s.com/Code/Java/JavaFX/customcellfactory.htm
 		comboBoxSearch.setCellFactory(new Callback<ListView<Element>, ListCell<Element>>() {
@@ -141,18 +143,17 @@ public class SearchViewController {
 		String audioChannels = resources.getString("audioChannels");
 		String audioRate = resources.getString("audioRate");
 
-		checkComboBoxAssets.getItems().addAll(id, name, duration, hasVideo, hasAudio, uid, src, start, formatName,
-				width, height, frameRate, audioSources, audioChannels, audioRate);
-		checkComboBoxAssetClips.getItems().addAll(id, name, lane, offset, duration, start, role, formatName, width,
-				height, frameRate, tcFormat);
+		checkComboBoxAssets.getItems().addAll(id, name, duration, hasVideo, hasAudio, uid, src, start, audioSources,
+				audioChannels, audioRate);
+		checkComboBoxAssetClips.getItems().addAll(id, name, lane, offset, duration, start, role, tcFormat);
 		checkComboBoxAudios.getItems().addAll(id, lane, role, offset, duration, start, srcCh, srcId);
 		checkComboBoxClips.getItems().addAll(id, name, offset, duration, start, tcFormat);
 		checkComboBoxEffects.getItems().addAll(id, name, uid, src);
 		checkComboBoxFormats.getItems().addAll(id, name, width, height, frameRate);
 		checkComboBoxVideos.getItems().addAll(id, name, lane, offset, duration, start);
 
-		checkDefaults();
 		addEventHandlers();
+		checkDefaults();
 	}
 
 	private void addEventHandlers() {
@@ -248,7 +249,7 @@ public class SearchViewController {
 		});
 	}
 
-	private void addQueryToList(List<String> list, List<? extends String> additions, String tableName) {
+	private void addQueryToList(Set<String> list, List<? extends String> additions, String tableName) {
 		for (String addition : additions) {
 			String key = convertString(addition);
 			String statement = "SELECT * FROM " + tableName + " WHERE " + key + " LIKE ?;";
@@ -259,7 +260,7 @@ public class SearchViewController {
 		System.out.println(list);
 	}
 
-	private void removeQueryFromList(List<String> list, List<? extends String> removals, String tableName) {
+	private void removeQueryFromList(Set<String> list, List<? extends String> removals, String tableName) {
 		for (String removal : removals) {
 			String key = convertString(removal);
 			String statement = "SELECT * FROM " + tableName + " WHERE " + key + " LIKE ?;";
@@ -296,19 +297,20 @@ public class SearchViewController {
 		checkComboBoxFormats.getCheckModel().check(1);
 		checkComboBoxVideos.getCheckModel().check(1);
 
-		List<String> names = new ArrayList<>();
-		names.add(resources.getString("name"));
-		addQueryToList(assetStatements, names, DatabaseController.ASSETS);
-		addQueryToList(assetClipStatements, names, DatabaseController.ASSET_CLIPS);
-		addQueryToList(clipStatements, names, DatabaseController.CLIPS);
-		addQueryToList(effectStatements, names, DatabaseController.EFFECTS);
-		addQueryToList(formatStatements, names, DatabaseController.FORMATS);
-		addQueryToList(videoStatements, names, DatabaseController.VIDEOS);
+		// List<String> names = new ArrayList<>();
+		// names.add(resources.getString("name"));
+		// addQueryToList(assetStatements, names, DatabaseController.ASSETS);
+		// addQueryToList(assetClipStatements, names,
+		// DatabaseController.ASSET_CLIPS);
+		// addQueryToList(clipStatements, names, DatabaseController.CLIPS);
+		// addQueryToList(effectStatements, names, DatabaseController.EFFECTS);
+		// addQueryToList(formatStatements, names, DatabaseController.FORMATS);
+		// addQueryToList(videoStatements, names, DatabaseController.VIDEOS);
 	}
 
 	@FXML
 	private void buttonSearchClick() {
-		if (db != null) {
+		if (db != null && comboBoxSearch.getValue() != null) {
 			String query = "%" + comboBoxSearch.getValue().getName() + "%";
 			List<String> queries = new ArrayList<>();
 			queries.addAll(assetStatements);
@@ -324,6 +326,69 @@ public class SearchViewController {
 				new Alert(AlertType.ERROR, resources.getString("errorSearch"), ButtonType.OK).showAndWait();
 				e.printStackTrace();
 			}
+		}
+	}
+
+	@FXML
+	private void checkBoxAssetClick(ActionEvent event) {
+		if (checkBoxAsset.isSelected()) {
+			checkComboBoxAssets.getCheckModel().checkAll();
+		} else {
+			checkComboBoxAssets.getCheckModel().clearChecks();
+		}
+	}
+
+	@FXML
+	private void checkBoxAssetClipClick(ActionEvent event) {
+		if (checkBoxAssetClip.isSelected()) {
+			checkComboBoxAssetClips.getCheckModel().checkAll();
+		} else {
+			checkComboBoxAssetClips.getCheckModel().clearChecks();
+		}
+	}
+
+	@FXML
+	private void checkBoxAudioClick(ActionEvent event) {
+		if (checkBoxAudio.isSelected()) {
+			checkComboBoxAudios.getCheckModel().checkAll();
+		} else {
+			checkComboBoxAudios.getCheckModel().clearChecks();
+		}
+	}
+
+	@FXML
+	private void checkBoxClipClick(ActionEvent event) {
+		if (checkBoxClip.isSelected()) {
+			checkComboBoxClips.getCheckModel().checkAll();
+		} else {
+			checkComboBoxClips.getCheckModel().clearChecks();
+		}
+	}
+
+	@FXML
+	private void checkBoxEffectClick(ActionEvent event) {
+		if (checkBoxEffect.isSelected()) {
+			checkComboBoxEffects.getCheckModel().checkAll();
+		} else {
+			checkComboBoxEffects.getCheckModel().clearChecks();
+		}
+	}
+
+	@FXML
+	private void checkBoxFormatClick(ActionEvent event) {
+		if (checkBoxFormat.isSelected()) {
+			checkComboBoxFormats.getCheckModel().checkAll();
+		} else {
+			checkComboBoxFormats.getCheckModel().clearChecks();
+		}
+	}
+
+	@FXML
+	private void checkBoxVideoClick(ActionEvent event) {
+		if (checkBoxVideo.isSelected()) {
+			checkComboBoxVideos.getCheckModel().checkAll();
+		} else {
+			checkComboBoxVideos.getCheckModel().clearChecks();
 		}
 	}
 

@@ -27,13 +27,13 @@
 	<children>
 		<ComboBox fx:id="comboBoxSearch" editable="true" onAction="#comboBoxItemSelected" GridPane.columnSpan="3" />
 		<Button fx:id="buttonSearch" defaultButton="true" mnemonicParsing="false" onAction="#buttonSearchClick" text="%btnSearch" GridPane.columnIndex="3" />
-		<CheckBox fx:id="checkBoxAsset" mnemonicParsing="false" selected="true" text="%asset" GridPane.rowIndex="1" />
-		<CheckBox fx:id="checkBoxAssetClip" mnemonicParsing="false" selected="true" text="%assetClip" GridPane.rowIndex="2" />
-		<CheckBox fx:id="checkBoxAudio" mnemonicParsing="false" selected="true" text="%audio" GridPane.rowIndex="3" />
-		<CheckBox fx:id="checkBoxClip" mnemonicParsing="false" selected="true" text="%clip" GridPane.rowIndex="4" />
-		<CheckBox fx:id="checkBoxEffect" mnemonicParsing="false" selected="true" text="%effect" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-		<CheckBox fx:id="checkBoxFormat" mnemonicParsing="false" selected="true" text="%format" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-		<CheckBox fx:id="checkBoxVideo" mnemonicParsing="false" selected="true" text="%video" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+		<CheckBox fx:id="checkBoxAsset" mnemonicParsing="false" onAction="#checkBoxAssetClick" text="%asset" GridPane.rowIndex="1" />
+		<CheckBox fx:id="checkBoxAssetClip" mnemonicParsing="false" onAction="#checkBoxAssetClipClick" text="%assetClip" GridPane.rowIndex="2" />
+		<CheckBox fx:id="checkBoxAudio" mnemonicParsing="false" onAction="#checkBoxAudioClick" text="%audio" GridPane.rowIndex="3" />
+		<CheckBox fx:id="checkBoxClip" mnemonicParsing="false" onAction="#checkBoxClipClick" text="%clip" GridPane.rowIndex="4" />
+		<CheckBox fx:id="checkBoxEffect" mnemonicParsing="false" onAction="#checkBoxEffectClick" text="%effect" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+		<CheckBox fx:id="checkBoxFormat" mnemonicParsing="false" onAction="#checkBoxFormatClick" text="%format" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+		<CheckBox fx:id="checkBoxVideo" mnemonicParsing="false" onAction="#checkBoxVideoClick" text="%video" GridPane.columnIndex="2" GridPane.rowIndex="3" />
 		<CheckComboBox fx:id="checkComboBoxAssets" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS" />
 		<CheckComboBox fx:id="checkComboBoxVideos" GridPane.columnIndex="3" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" />
 		<CheckComboBox fx:id="checkComboBoxFormats" GridPane.columnIndex="3" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" />
