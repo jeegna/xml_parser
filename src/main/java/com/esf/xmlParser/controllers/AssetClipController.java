@@ -57,45 +57,44 @@ public class AssetClipController {
 		return getAll();
 	}
 
-	public AssetClip getAssetClipById(int id) throws SQLException, ClassNotFoundException {
-		logger.info("Getting Asset Clip with id " + id);
-		List<AssetClip> assetClips = get(DatabaseController.ID, String.valueOf(id));
-
-		if (assetClips != null && !assetClips.isEmpty()) {
-			return assetClips.get(0);
-		} else {
-			return null;
-		}
+	public List<AssetClip> getAssetClipsById(String key) throws SQLException, ClassNotFoundException {
+		logger.info("Getting Asset Clip with id " + key);
+		return get(DatabaseController.ID, key);
 	}
 
-	public List<AssetClip> getAssetClipsByName(String name) throws SQLException, ClassNotFoundException {
-		logger.info("Getting Asset Clips with name like " + name);
-		return get(DatabaseController.NAME, "%" + name + "%");
+	public List<AssetClip> getAssetClipsByName(String key) throws SQLException, ClassNotFoundException {
+		logger.info("Getting Asset Clips with name like " + key);
+		return get(DatabaseController.NAME, key);
 	}
 
-	public List<AssetClip> getAssetClipsByLane(int lane) throws SQLException, ClassNotFoundException {
-		logger.info("Getting Asset Clips with lane like " + lane);
-		return get(DatabaseController.LANE, "%" + lane + "%");
+	public List<AssetClip> getAssetClipsByLane(String key) throws SQLException, ClassNotFoundException {
+		logger.info("Getting Asset Clips with lane like " + key);
+		return get(DatabaseController.LANE, key);
 	}
 
-	public List<AssetClip> getAssetClipsByOffset(String offset) throws SQLException, ClassNotFoundException {
-		logger.info("Getting Asset Clips with offset like " + offset);
-		return get(DatabaseController.OFFSET, "%" + offset + "%");
+	public List<AssetClip> getAssetClipsByOffset(String key) throws SQLException, ClassNotFoundException {
+		logger.info("Getting Asset Clips with offset like " + key);
+		return get(DatabaseController.OFFSET, key);
 	}
 
-	public List<AssetClip> getAssetClipsByDuration(String duration) throws SQLException, ClassNotFoundException {
-		logger.info("Getting Asset Clips with duration like " + duration);
-		return get(DatabaseController.DURATION, "%" + duration + "%");
+	public List<AssetClip> getAssetClipsByDuration(String key) throws SQLException, ClassNotFoundException {
+		logger.info("Getting Asset Clips with duration like " + key);
+		return get(DatabaseController.DURATION, key);
 	}
 
-	public List<AssetClip> getAssetClipsByStart(String start) throws SQLException, ClassNotFoundException {
-		logger.info("Getting Asset Clips with start like " + start);
-		return get(DatabaseController.START, "%" + start + "%");
+	public List<AssetClip> getAssetClipsByStart(String key) throws SQLException, ClassNotFoundException {
+		logger.info("Getting Asset Clips with start like " + key);
+		return get(DatabaseController.START, key);
 	}
 
-	public List<AssetClip> getAssetClipsByRole(String role) throws SQLException, ClassNotFoundException {
-		logger.info("Getting Asset Clips with role like " + role);
-		return get(DatabaseController.ROLE, "%" + role + "%");
+	public List<AssetClip> getAssetClipsByRole(String key) throws SQLException, ClassNotFoundException {
+		logger.info("Getting Asset Clips with role like " + key);
+		return get(DatabaseController.ROLE, key);
+	}
+
+	public List<AssetClip> getAssetClipsByTcFormat(String key) throws SQLException, ClassNotFoundException {
+		logger.info("Getting Asset Clips with TC format like " + key);
+		return get(DatabaseController.TC_FORMAT, key);
 	}
 
 	private List<AssetClip> get(String col, String key) throws SQLException, ClassNotFoundException {
@@ -155,10 +154,18 @@ public class AssetClipController {
 		assetClip.setRole(rs.getString(DatabaseController.ROLE));
 		assetClip.setTcFormat(rs.getString(DatabaseController.TC_FORMAT));
 
-		Asset asset = db.getAssetById(rs.getString(DatabaseController.ASSET_ID));
+		List<Asset> assets = db.getAssetsById(rs.getString(DatabaseController.ASSET_ID));
+		Asset asset = null;
+		if (assets != null && !assets.isEmpty()) {
+			asset = assets.get(0);
+		}
 		assetClip.setAsset(asset);
 
-		Format format = db.getFormatById(rs.getString(DatabaseController.FORMAT_ID));
+		List<Format> formats = db.getFormatsById(rs.getString(DatabaseController.FORMAT_ID));
+		Format format = null;
+		if (formats != null && !formats.isEmpty()) {
+			format = formats.get(0);
+		}
 		assetClip.setFormat(format);
 
 		logger.info("Created " + assetClip);

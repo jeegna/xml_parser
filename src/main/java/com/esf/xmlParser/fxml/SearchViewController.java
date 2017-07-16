@@ -1,7 +1,6 @@
 package com.esf.xmlParser.fxml;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -12,9 +11,17 @@ import org.controlsfx.control.CheckComboBox;
 
 import com.esf.xmlParser.converter.ElementConverter;
 import com.esf.xmlParser.database.DatabaseController;
+import com.esf.xmlParser.entities.Asset;
+import com.esf.xmlParser.entities.AssetClip;
+import com.esf.xmlParser.entities.Audio;
+import com.esf.xmlParser.entities.Clip;
+import com.esf.xmlParser.entities.Effect;
 import com.esf.xmlParser.entities.Element;
+import com.esf.xmlParser.entities.Format;
+import com.esf.xmlParser.entities.Video;
 
 import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -169,9 +176,9 @@ public class SearchViewController {
 				c.next();
 
 				if (c.wasAdded()) {
-					addQueryToList(assetStatements, c.getAddedSubList(), DatabaseController.ASSETS);
+					addQueryToList(assetStatements, c.getAddedSubList());
 				} else if (c.wasRemoved()) {
-					removeQueryFromList(assetStatements, c.getRemoved(), DatabaseController.ASSETS);
+					removeQueryFromList(assetStatements, c.getRemoved());
 				}
 			}
 		});
@@ -182,9 +189,9 @@ public class SearchViewController {
 				c.next();
 
 				if (c.wasAdded()) {
-					addQueryToList(assetClipStatements, c.getAddedSubList(), DatabaseController.ASSET_CLIPS);
+					addQueryToList(assetClipStatements, c.getAddedSubList());
 				} else if (c.wasRemoved()) {
-					removeQueryFromList(assetClipStatements, c.getRemoved(), DatabaseController.ASSET_CLIPS);
+					removeQueryFromList(assetClipStatements, c.getRemoved());
 				}
 			}
 		});
@@ -195,9 +202,9 @@ public class SearchViewController {
 				c.next();
 
 				if (c.wasAdded()) {
-					addQueryToList(audioStatements, c.getAddedSubList(), DatabaseController.AUDIOS);
+					addQueryToList(audioStatements, c.getAddedSubList());
 				} else if (c.wasRemoved()) {
-					removeQueryFromList(audioStatements, c.getRemoved(), DatabaseController.AUDIOS);
+					removeQueryFromList(audioStatements, c.getRemoved());
 				}
 			}
 		});
@@ -208,9 +215,9 @@ public class SearchViewController {
 				c.next();
 
 				if (c.wasAdded()) {
-					addQueryToList(clipStatements, c.getAddedSubList(), DatabaseController.CLIPS);
+					addQueryToList(clipStatements, c.getAddedSubList());
 				} else if (c.wasRemoved()) {
-					removeQueryFromList(clipStatements, c.getRemoved(), DatabaseController.CLIPS);
+					removeQueryFromList(clipStatements, c.getRemoved());
 				}
 			}
 		});
@@ -221,9 +228,9 @@ public class SearchViewController {
 				c.next();
 
 				if (c.wasAdded()) {
-					addQueryToList(effectStatements, c.getAddedSubList(), DatabaseController.EFFECTS);
+					addQueryToList(effectStatements, c.getAddedSubList());
 				} else if (c.wasRemoved()) {
-					removeQueryFromList(effectStatements, c.getRemoved(), DatabaseController.EFFECTS);
+					removeQueryFromList(effectStatements, c.getRemoved());
 				}
 			}
 		});
@@ -234,9 +241,9 @@ public class SearchViewController {
 				c.next();
 
 				if (c.wasAdded()) {
-					addQueryToList(formatStatements, c.getAddedSubList(), DatabaseController.FORMATS);
+					addQueryToList(formatStatements, c.getAddedSubList());
 				} else if (c.wasRemoved()) {
-					removeQueryFromList(formatStatements, c.getRemoved(), DatabaseController.FORMATS);
+					removeQueryFromList(formatStatements, c.getRemoved());
 				}
 			}
 		});
@@ -247,32 +254,30 @@ public class SearchViewController {
 				c.next();
 
 				if (c.wasAdded()) {
-					addQueryToList(videoStatements, c.getAddedSubList(), DatabaseController.VIDEOS);
+					addQueryToList(videoStatements, c.getAddedSubList());
 				} else if (c.wasRemoved()) {
-					removeQueryFromList(videoStatements, c.getRemoved(), DatabaseController.VIDEOS);
+					removeQueryFromList(videoStatements, c.getRemoved());
 				}
 			}
 		});
 	}
 
-	private void addQueryToList(Set<String> list, List<? extends String> additions, String tableName) {
+	private void addQueryToList(Set<String> list, List<? extends String> additions) {
 		for (String addition : additions) {
-			String key = convertString(addition);
-			String statement = "SELECT * FROM " + tableName + " WHERE " + key + " LIKE ?;";
-			logger.info("Adding query " + statement);
+			String column = convertString(addition);
+			logger.info("Adding column to array " + column);
 
-			list.add(statement);
+			list.add(column);
 		}
 		System.out.println(list);
 	}
 
-	private void removeQueryFromList(Set<String> list, List<? extends String> removals, String tableName) {
+	private void removeQueryFromList(Set<String> list, List<? extends String> removals) {
 		for (String removal : removals) {
-			String key = convertString(removal);
-			String statement = "SELECT * FROM " + tableName + " WHERE " + key + " LIKE ?;";
-			logger.info("Removing query " + statement);
+			String column = convertString(removal);
+			logger.info("Removing column from array " + column);
 
-			list.remove(statement);
+			list.remove(column);
 		}
 		System.out.println(list);
 	}
@@ -292,14 +297,14 @@ public class SearchViewController {
 
 	@FXML
 	private void checkBoxSelectAllCheck(ActionEvent event) {
-		boolean isSelected = !checkBoxSelectAll.isSelected();
-		checkBoxAsset.setSelected(isSelected);
-		checkBoxAssetClip.setSelected(isSelected);
-		checkBoxAudio.setSelected(isSelected);
-		checkBoxClip.setSelected(isSelected);
-		checkBoxEffect.setSelected(isSelected);
-		checkBoxFormat.setSelected(isSelected);
-		checkBoxVideo.setSelected(isSelected);
+		boolean b = !checkBoxSelectAll.isSelected();
+		checkBoxAsset.setSelected(b);
+		checkBoxAssetClip.setSelected(b);
+		checkBoxAudio.setSelected(b);
+		checkBoxClip.setSelected(b);
+		checkBoxEffect.setSelected(b);
+		checkBoxFormat.setSelected(b);
+		checkBoxVideo.setSelected(b);
 		checkBoxAsset.fire();
 		checkBoxAssetClip.fire();
 		checkBoxAudio.fire();
@@ -322,16 +327,25 @@ public class SearchViewController {
 	private void buttonSearchClick() {
 		if (db != null && comboBoxSearch.getValue() != null) {
 			String query = "%" + comboBoxSearch.getValue().getName() + "%";
-			List<String> queries = new ArrayList<>();
-			queries.addAll(assetStatements);
-			queries.addAll(assetClipStatements);
-			queries.addAll(audioStatements);
-			queries.addAll(clipStatements);
-			queries.addAll(effectStatements);
-			queries.addAll(formatStatements);
-			queries.addAll(videoStatements);
+
 			try {
-				db.executeQueries(queries, query);
+				List<Asset> assets = db.getAssetsFromQueryInfo(assetStatements, query);
+				List<AssetClip> assetClips = db.getAssetClipsFromQueryInfo(assetClipStatements, query);
+				List<Audio> audios = db.getAudiosFromQueryInfo(audioStatements, query);
+				List<Clip> clips = db.getClipsFromQueryInfo(clipStatements, query);
+				List<Effect> effects = db.getEffectsFromQueryInfo(effectStatements, query);
+				List<Format> formats = db.getFormatsFromQueryInfo(formatStatements, query);
+				List<Video> videos = db.getVideosFromQueryInfo(videoStatements, query);
+				
+				ObservableList<Element> items = comboBoxSearch.getItems();
+				items.addAll(assets);
+				items.addAll(assetClips);
+				// FIXME Add Audio's to search results
+//				items.addAll(audios);
+				items.addAll(clips);
+				items.addAll(effects);
+				items.addAll(formats);
+				items.addAll(videos);
 			} catch (ClassNotFoundException | SQLException e) {
 				new Alert(AlertType.ERROR, resources.getString("errorSearch"), ButtonType.OK).showAndWait();
 				e.printStackTrace();

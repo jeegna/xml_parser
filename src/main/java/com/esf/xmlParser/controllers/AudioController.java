@@ -54,50 +54,44 @@ public class AudioController {
 		return getAll();
 	}
 
-	public List<Audio> getAudiosByLane(int lane) throws SQLException, ClassNotFoundException {
-		logger.info("Getting Audio with lane like " + lane);
-		return get(DatabaseController.LANE, "%" + lane + "%");
+	public List<Audio> getAudiosById(String key) throws SQLException, ClassNotFoundException {
+		logger.info("Getting Audio with id " + key);
+		return get(DatabaseController.ID, String.valueOf(key));
 	}
 
-	public List<Audio> getAudiosByRole(String role) throws SQLException, ClassNotFoundException {
-		logger.info("Getting Audio with role like " + role);
-		return get(DatabaseController.ROLE, "%" + role + "%");
+	public List<Audio> getAudiosByLane(String key) throws SQLException, ClassNotFoundException {
+		logger.info("Getting Audio with lane like " + key);
+		return get(DatabaseController.LANE, key);
 	}
 
-	public List<Audio> getAudiosByOffset(String offset) throws SQLException, ClassNotFoundException {
-		logger.info("Getting Audio with offset like " + offset);
-		return get(DatabaseController.OFFSET, "%" + offset + "%");
+	public List<Audio> getAudiosByRole(String key) throws SQLException, ClassNotFoundException {
+		logger.info("Getting Audio with role like " + key);
+		return get(DatabaseController.ROLE, key);
 	}
 
-	public List<Audio> getAudiosByDuration(String duration) throws SQLException, ClassNotFoundException {
-		logger.info("Getting Audio with duration like " + duration);
-		return get(DatabaseController.DURATION, "%" + duration + "%");
+	public List<Audio> getAudiosByOffset(String key) throws SQLException, ClassNotFoundException {
+		logger.info("Getting Audio with offset like " + key);
+		return get(DatabaseController.OFFSET, key);
 	}
 
-	public List<Audio> getAudiosByStart(String start) throws SQLException, ClassNotFoundException {
-		logger.info("Getting Audio with start like " + start);
-		return get(DatabaseController.START, "%" + start + "%");
+	public List<Audio> getAudiosByDuration(String key) throws SQLException, ClassNotFoundException {
+		logger.info("Getting Audio with duration like " + key);
+		return get(DatabaseController.DURATION, key);
 	}
 
-	public List<Audio> getAudiosBySrcCh(String srcCh) throws SQLException, ClassNotFoundException {
-		logger.info("Getting Audio with source channel like " + srcCh);
-		return get(DatabaseController.SOURCE_CHANNEL, "%" + srcCh + "%");
+	public List<Audio> getAudiosByStart(String key) throws SQLException, ClassNotFoundException {
+		logger.info("Getting Audio with start like " + key);
+		return get(DatabaseController.START, key);
 	}
 
-	public List<Audio> getAudiosBySrcId(int srcId) throws SQLException, ClassNotFoundException {
-		logger.info("Getting Audio with source ID like " + srcId);
-		return get(DatabaseController.SOURCE_ID, "%" + srcId + "%");
+	public List<Audio> getAudiosBySrcCh(String key) throws SQLException, ClassNotFoundException {
+		logger.info("Getting Audio with source channel like " + key);
+		return get(DatabaseController.SOURCE_CHANNEL, key);
 	}
 
-	public Audio getAudioById(int id) throws SQLException, ClassNotFoundException {
-		logger.info("Getting Audio with id " + id);
-		List<Audio> audios = get(DatabaseController.ID, String.valueOf(id));
-
-		if (audios != null && !audios.isEmpty()) {
-			return audios.get(0);
-		} else {
-			return null;
-		}
+	public List<Audio> getAudiosBySrcId(String key) throws SQLException, ClassNotFoundException {
+		logger.info("Getting Audio with source ID like " + key);
+		return get(DatabaseController.SOURCE_ID, key);
 	}
 
 	private List<Audio> get(String col, String key) throws SQLException, ClassNotFoundException {
@@ -157,7 +151,11 @@ public class AudioController {
 		audio.setSrcCh(rs.getString(DatabaseController.SOURCE_CHANNEL));
 		audio.setSrcId(rs.getInt(DatabaseController.SOURCE_ID));
 
-		Asset asset = db.getAssetById(rs.getString(DatabaseController.ASSET_ID));
+		List<Asset> assets = db.getAssetsById(rs.getString(DatabaseController.ASSET_ID));
+		Asset asset = null;
+		if (assets != null && !assets.isEmpty()) {
+			asset = assets.get(0);
+		}
 		audio.setAsset(asset);
 
 		logger.info("Created " + audio);

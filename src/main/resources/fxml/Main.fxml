@@ -4,35 +4,30 @@
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.VBox?>
 
-<BorderPane fx:id="borderPane" minHeight="500.0" minWidth="750.0"
-	xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1"
-	fx:controller="com.esf.xmlParser.fxml.MainController">
+<BorderPane fx:id="borderPane" minHeight="500.0" minWidth="750.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.esf.xmlParser.fxml.MainController">
 	<top>
-		<VBox fx:id="borderPaneTop">
-			<children>
-				<MenuBar fx:id="menubar">
+      <AnchorPane fx:id="borderPaneTop">
+         <children>
+				<MenuBar fx:id="menubar" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 					<menus>
 						<Menu mnemonicParsing="false" text="%menuItemFile">
 							<items>
-								<MenuItem fx:id="menuItemChooseFile" mnemonicParsing="false"
-									onAction="#menuItemChooseFile" text="%menuItemChooseFile" />
+								<MenuItem fx:id="menuItemChooseFile" mnemonicParsing="false" onAction="#menuItemChooseFile" text="%menuItemChooseFile" />
 								<SeparatorMenuItem mnemonicParsing="false" />
-								<MenuItem fx:id="menuItemClose" mnemonicParsing="false"
-									onAction="#menuItemClose" text="%menuItemClose" />
+								<MenuItem fx:id="menuItemClose" mnemonicParsing="false" onAction="#menuItemClose" text="%menuItemClose" />
 							</items>
 						</Menu>
 						<Menu mnemonicParsing="false" text="%menuItemHelp">
 							<items>
-								<MenuItem fx:id="menuItemAbout" mnemonicParsing="false"
-									onAction="#menuItemAbout" text="%menuItemAbout" />
+								<MenuItem fx:id="menuItemAbout" mnemonicParsing="false" onAction="#menuItemAbout" text="%menuItemAbout" />
 							</items>
 						</Menu>
 					</menus>
 				</MenuBar>
-			</children>
-		</VBox>
+         </children>
+      </AnchorPane>
 	</top>
 </BorderPane>

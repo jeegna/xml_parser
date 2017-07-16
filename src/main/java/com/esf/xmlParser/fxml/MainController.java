@@ -29,6 +29,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
@@ -51,7 +52,7 @@ public class MainController {
 	@FXML
 	private BorderPane borderPane;
 	@FXML
-	private VBox borderPaneTop;
+	private AnchorPane borderPaneTop;
 
 	// Menubar
 	@FXML

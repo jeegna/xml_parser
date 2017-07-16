@@ -50,42 +50,34 @@ public class ClipController {
 		return getAll();
 	}
 
-	public Clip getClipById(int id) throws SQLException, ClassNotFoundException {
+	public List<Clip> getClipsById(String id) throws SQLException, ClassNotFoundException {
 		logger.info("Getting Clip with id " + id);
-		List<Clip> clips = get(DatabaseController.ID, String.valueOf(id));
-
-		if (clips != null && !clips.isEmpty()) {
-			return clips.get(0);
-		} else {
-			return null;
-		}
+		return get(DatabaseController.ID, id);
 	}
 
-	public List<Clip> getClipsByName(String name) throws SQLException, ClassNotFoundException {
-		logger.info("Getting Clips with name like " + name);
-		return get(DatabaseController.NAME, "%" + name + "%");
+	public List<Clip> getClipsByName(String key) throws SQLException, ClassNotFoundException {
+		logger.info("Getting Clips with name like " + key);
+		return get(DatabaseController.NAME, key);
 	}
 
-	public List<Clip> getClipsByOffset(String offset) throws SQLException, ClassNotFoundException {
-		logger.info("Getting Clips with offset like " + offset);
-		return get(DatabaseController.OFFSET, "%" + offset + "%");
+	public List<Clip> getClipsByOffset(String key) throws SQLException, ClassNotFoundException {
+		logger.info("Getting Clips with offset like " + key);
+		return get(DatabaseController.OFFSET, key);
 	}
 
-	public List<Clip> getClipsByDuration(String duration) throws SQLException, ClassNotFoundException {
-		logger.info("Getting Clips with duration like " + duration);
-		return get(DatabaseController.DURATION, "%" + duration + "%");
+	public List<Clip> getClipsByDuration(String key) throws SQLException, ClassNotFoundException {
+		logger.info("Getting Clips with duration like " + key);
+		return get(DatabaseController.DURATION, key);
 	}
 
-	public List<Clip> getClipsByStart(String start) throws SQLException, ClassNotFoundException {
-		logger.info("Getting Clips with start like " + start);
-		return get(DatabaseController.START, "%" + start + "%");
+	public List<Clip> getClipsByStart(String key) throws SQLException, ClassNotFoundException {
+		logger.info("Getting Clips with start like " + key);
+		return get(DatabaseController.START, key);
 	}
 
-	public List<Clip> getClipsByTcFormat(String tcFormat) throws SQLException, ClassNotFoundException {
-		logger.info("Getting Clips with TC formats like " + tcFormat);
-		tcFormat = "%" + tcFormat + "%";
-
-		return get(DatabaseController.TC_FORMAT, tcFormat);
+	public List<Clip> getClipsByTcFormat(String key) throws SQLException, ClassNotFoundException {
+		logger.info("Getting Clips with TC formats like " + key);
+		return get(DatabaseController.TC_FORMAT, key);
 	}
 
 	private List<Clip> get(String col, String key) throws SQLException, ClassNotFoundException {

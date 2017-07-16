@@ -59,50 +59,44 @@ public class AssetController {
 		return getAll();
 	}
 
-	public Asset getAssetById(String id) throws SQLException, ClassNotFoundException {
-		logger.info("Getting Asset with id " + id);
-		List<Asset> assets = get(DatabaseController.ID, id);
-
-		if (assets != null && !assets.isEmpty()) {
-			return assets.get(0);
-		} else {
-			return null;
-		}
+	public List<Asset> getAssetsById(String key) throws SQLException, ClassNotFoundException {
+		logger.info("Getting Asset with id " + key);
+		return get(DatabaseController.ID, key);
 	}
 
-	public List<Asset> getAssetsByName(String name) throws SQLException, ClassNotFoundException {
-		logger.info("Getting Assets with name like " + name);
-		return get(DatabaseController.NAME, "%" + name + "%");
+	public List<Asset> getAssetsByName(String key) throws SQLException, ClassNotFoundException {
+		logger.info("Getting Assets with name like " + key);
+		return get(DatabaseController.NAME, key);
 	}
 
-	public List<Asset> getAssetsByDuration(String duration) throws SQLException, ClassNotFoundException {
-		logger.info("Getting Assets with duration like " + duration);
-		return get(DatabaseController.DURATION, "%" + duration + "%");
+	public List<Asset> getAssetsByDuration(String key) throws SQLException, ClassNotFoundException {
+		logger.info("Getting Assets with duration like " + key);
+		return get(DatabaseController.DURATION, key);
 	}
 
-	public List<Asset> getAssetsByHasAudio(boolean hasAudio) throws SQLException, ClassNotFoundException {
-		logger.info("Getting Assets with hasAudio like " + hasAudio);
-		return get(DatabaseController.HAS_AUDIO, "%" + (hasAudio ? '1' : '0') + "%");
+	public List<Asset> getAssetsByHasAudio(String key) throws SQLException, ClassNotFoundException {
+		logger.info("Getting Assets with hasAudio like " + key);
+		return get(DatabaseController.HAS_AUDIO, key);
 	}
 
-	public List<Asset> getAssetsByHasVideo(boolean hasVideo) throws SQLException, ClassNotFoundException {
-		logger.info("Getting Assets with hasVideo like " + hasVideo);
-		return get(DatabaseController.HAS_VIDEO, "%" + (hasVideo ? '1' : '0') + "%");
+	public List<Asset> getAssetsByHasVideo(String key) throws SQLException, ClassNotFoundException {
+		logger.info("Getting Assets with hasVideo like " + key);
+		return get(DatabaseController.HAS_VIDEO, key);
 	}
 
-	public List<Asset> getAssetsByUID(String uid) throws SQLException, ClassNotFoundException {
-		logger.info("Getting Assets with UID like " + uid);
-		return get(DatabaseController.UID, "%" + uid + "%");
+	public List<Asset> getAssetsByUID(String key) throws SQLException, ClassNotFoundException {
+		logger.info("Getting Assets with UID like " + key);
+		return get(DatabaseController.UID, key);
 	}
 
-	public List<Asset> getAssetsBySrc(String src) throws SQLException, ClassNotFoundException {
-		logger.info("Getting Assets with src like " + src);
-		return get(DatabaseController.SOURCE, "%" + src + "%");
+	public List<Asset> getAssetsBySrc(String key) throws SQLException, ClassNotFoundException {
+		logger.info("Getting Assets with src like " + key);
+		return get(DatabaseController.SOURCE, key);
 	}
 
-	public List<Asset> getAssetsByStart(String start) throws SQLException, ClassNotFoundException {
-		logger.info("Getting Assets with start like " + start);
-		return get(DatabaseController.START, "%" + start + "%");
+	public List<Asset> getAssetsByStart(String key) throws SQLException, ClassNotFoundException {
+		logger.info("Getting Assets with start like " + key);
+		return get(DatabaseController.START, key);
 	}
 
 	private List<Asset> get(String col, String key) throws SQLException, ClassNotFoundException {
@@ -165,7 +159,11 @@ public class AssetController {
 		asset.setAudioChannels(rs.getInt(DatabaseController.AUDIO_CHANNELS));
 		asset.setAudioRate(rs.getInt(DatabaseController.AUDIO_RATE));
 
-		Format format = db.getFormatById(rs.getString(DatabaseController.FORMAT_ID));
+		List<Format> formats = db.getFormatsById(rs.getString(DatabaseController.FORMAT_ID));
+		Format format = null;
+		if (formats != null && !formats.isEmpty()) {
+			format = formats.get(0);
+		}
 		asset.setFormat(format);
 
 		logger.info("Created " + asset);
