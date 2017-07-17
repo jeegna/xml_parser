@@ -416,7 +416,7 @@ public class Parser {
 		audio.setStart(getTime(start));
 		audio.setOffset(getTime(offset));
 
-		// Find corresponding asset element's sourcc file.
+		// Find corresponding asset element's source file.
 		String ref = validateString(element.getAttribute(REFERENCE));
 		Asset asset = new Asset();
 		asset.setId(ref);
@@ -427,14 +427,19 @@ public class Parser {
 		boolean foundClip = false;
 		do {
 			parent = parent.getParentNode();
+			if (parent == null) {
+				break;
+			}
 			String name = parent.getNodeName();
 			if (name == CLIP) {
 				foundClip = true;
 			}
 		} while (!foundClip);
-		Clip clip = createClip(parent);
-		audio.setName(clip.getName());
-		audio.setTcFormat(clip.getTcFormat());
+		if (foundClip) {
+			Clip clip = createClip(parent);
+			audio.setName(clip.getName());
+			audio.setTcFormat(clip.getTcFormat());
+		}
 
 		return audio;
 	}
@@ -546,79 +551,46 @@ public class Parser {
 		Asset asset = new Asset();
 		asset.setId(ref);
 		video.setAsset(asset);
-		
-		// Find parent Clip node
-//		Node parent = node;
-//		boolean foundClip = false;
-//		do {
-//			parent = parent.getParentNode();
-//			String name = parent.getNodeName();
-//			if (name == CLIP) {
-//				foundClip = true;
-//			}
-//		} while (!foundClip);
-//		Clip clip = createClip(parent);
-//		video.setName(clip.getName());
-//		video.setTcFormat(clip.getTcFormat());
 
+		// Find parent Clip node
+		Node parent = node;
+		boolean foundClip = false;
+		do {
+			parent = parent.getParentNode();
+
+			/*
+			 * The only way parent is null is if the node whose parent was
+			 * attempted to be retrieved does not have a parent. In which case,
+			 * the Video tag should have all of its information.
+			 */
+			if (parent == null) {
+				break;
+			}
+
+			String name = parent.getNodeName();
+			if (name == CLIP) {
+				foundClip = true;
+			}
+		} while (!foundClip);
+
+		if (foundClip) {
+			Clip clip = createClip(parent);
+			video.setName(clip.getName());
+			video.setTcFormat(clip.getTcFormat());
+		}
 
 		return video;
 	}
 
-	private String getTime(String s) {
-		String time = "0";
-
-		if (s != null && !s.isEmpty()) {
-			time = s;
-			int division = s.indexOf('/');
-
-			if (division != -1) {
-				int length = s.length();
-
-				String num = s.substring(0, division);
-				String denom = s.substring(division + 1, length - 1);
-
-				BigDecimal numerator = new BigDecimal(num);
-				BigDecimal denominator = new BigDecimal(denom);
-
-				BigDecimal quotient = numerator.divide(denominator, 2, RoundingMode.HALF_UP);
-
-				time = convertToTimeStamp(quotient);
-			}
-		}
-
-		return time;
-	}
-
-	private String getFrameRate(String s) {
-		String time = "0";
-
-		if (s != null && !s.isEmpty()) {
-			time = s;
-			int division = s.indexOf('/');
-
-			if (division != -1) {
-				int length = s.length();
-
-				String num = s.substring(0, division);
-				String denom = s.substring(division + 1, length - 1);
-
-				BigDecimal numerator = new BigDecimal(num);
-				BigDecimal denominator = new BigDecimal(denom);
-
-				time = denominator.divide(numerator, 2, RoundingMode.HALF_UP).toString();
-			}
-		}
-
-		if (!time.endsWith("fps")) {
-			time += " fps";
-		}
-
-		return time;
-	}
-
+	/**
+	 * Parses the given string to a format suitable to represent time stamps.
+	 * The time stamp will be represented as: HH:MM:SS
+	 * 
+	 * @param s
+	 *            The string to convert to a time stamp.
+	 * @return The time stamp.
+	 */
 	private String convertToTimeStamp(BigDecimal num) {
-
 		String timeStamp = "";
 
 		int numberOfHours = (num.intValue() % 86400) / 3600;
@@ -646,6 +618,83 @@ public class Parser {
 		return timeStamp;
 	}
 
+	/**
+	 * Parses the given string to a frame rate.
+	 * 
+	 * @param s
+	 *            The string to convert to a frame rate.
+	 * @return The frame rate.
+	 */
+	private String getFrameRate(String s) {
+		String time = "0";
+
+		if (s != null && !s.isEmpty()) {
+			time = s;
+			int division = s.indexOf('/');
+
+			if (division != -1) {
+				int length = s.length();
+
+				String num = s.substring(0, division);
+				String denom = s.substring(division + 1, length - 1);
+
+				BigDecimal numerator = new BigDecimal(num);
+				BigDecimal denominator = new BigDecimal(denom);
+
+				time = denominator.divide(numerator, 2, RoundingMode.HALF_UP).toString();
+			}
+		}
+
+		if (!time.endsWith("fps")) {
+			time += " fps";
+		}
+
+		return time;
+	}
+
+	/**
+	 * Parses the given string to milliseconds.
+	 * 
+	 * @param s
+	 *            The string to convert to milliseconds
+	 * @return The time in milliseconds.
+	 */
+	private String getTime(String s) {
+		String time = "0";
+
+		if (s != null && !s.isEmpty()) {
+			time = s;
+			int division = s.indexOf('/');
+
+			if (division != -1) {
+				int length = s.length();
+
+				String num = s.substring(0, division);
+				String denom = s.substring(division + 1, length - 1);
+
+				BigDecimal numerator = new BigDecimal(num);
+				BigDecimal denominator = new BigDecimal(denom);
+
+				BigDecimal quotient = numerator.divide(denominator, 2, RoundingMode.HALF_UP);
+
+				time = convertToTimeStamp(quotient);
+			}
+		}
+
+		return time;
+	}
+
+	/**
+	 * Validates whether or not the given string is a valid number.
+	 * 
+	 * @param n
+	 *            The string to validate.
+	 * @return An integer representation of the given string, or -1 if the
+	 *         string is null or empty.
+	 * 
+	 * @throws NumberFormatException
+	 *             if the given string cannot be converted to an integer.
+	 */
 	private int validateNumber(String n) {
 		if (n == null || n.isEmpty()) {
 			return -1;
@@ -654,6 +703,14 @@ public class Parser {
 		}
 	}
 
+	/**
+	 * Validates whether or not the given string is a valid. A valid string is
+	 * one that is not empty.
+	 * 
+	 * @param n
+	 *            The string to validate.
+	 * @return The given string itself or null if the string is empty.
+	 */
 	private String validateString(String n) {
 		if (n == null || n.isEmpty()) {
 			return null;

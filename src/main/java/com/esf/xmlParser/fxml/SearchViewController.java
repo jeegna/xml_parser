@@ -357,7 +357,7 @@ public class SearchViewController {
 				List<Effect> effects = db.getEffectsFromQueryInfo(effectStatements, query);
 				List<Format> formats = db.getFormatsFromQueryInfo(formatStatements, query);
 				List<Video> videos = db.getVideosFromQueryInfo(videoStatements, query);
-				
+
 				ObservableList<Element> items = comboBoxSearch.getItems();
 				items.addAll(assets);
 				items.addAll(assetClips);

@@ -16,6 +16,7 @@ import com.esf.xmlParser.entities.Video;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TableColumn;
@@ -143,6 +144,7 @@ public class TableViewController {
 		TableView<Asset> table = tableAssets;
 
 		resetTable(table);
+		table.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
 		// Create columns.
 		TableColumn<Asset, String> columnId = new TableColumn<>(resources.getString("colId"));
@@ -204,6 +206,9 @@ public class TableViewController {
 		logger.info("Creating asset clips table...");
 		TableView<AssetClip> table = tableAssetClips;
 
+		resetTable(table);
+		table.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+
 		// Create columns
 		TableColumn<AssetClip, Number> columnId = new TableColumn<>(resources.getString("colId"));
 		TableColumn<AssetClip, String> columnRef = new TableColumn<>(resources.getString("colRef"));
@@ -254,6 +259,9 @@ public class TableViewController {
 		logger.info("Creating audios table...");
 		TableView<Audio> table = tableAudios;
 
+		resetTable(table);
+		table.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+
 		// Create columns
 		TableColumn<Audio, Number> columnId = new TableColumn<>(resources.getString("colId"));
 		TableColumn<Audio, String> columnName = new TableColumn<>(resources.getString("colName"));
@@ -298,6 +306,9 @@ public class TableViewController {
 		logger.info("Creating clips table...");
 		TableView<Clip> table = tableClips;
 
+		resetTable(table);
+		table.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+
 		// Create columns
 		TableColumn<Clip, Number> columnId = new TableColumn<>(resources.getString("colId"));
 		TableColumn<Clip, String> columnName = new TableColumn<>(resources.getString("colName"));
@@ -327,6 +338,9 @@ public class TableViewController {
 		logger.info("Creating effects table...");
 		TableView<Effect> table = tableEffects;
 
+		resetTable(table);
+		table.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+
 		// Create columns
 		TableColumn<Effect, String> columnId = new TableColumn<>(resources.getString("colId"));
 		TableColumn<Effect, String> columnName = new TableColumn<>(resources.getString("colName"));
@@ -353,6 +367,9 @@ public class TableViewController {
 	private void createFormatsTable() {
 		logger.info("Creating formats table...");
 		TableView<Format> table = tableFormats;
+
+		resetTable(table);
+		table.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
 		// Create columns
 		TableColumn<Format, String> columnId = new TableColumn<>(resources.getString("colId"));
@@ -383,6 +400,9 @@ public class TableViewController {
 	private void createVideosTable() {
 		logger.info("Creating videos table...");
 		TableView<Video> table = tableVideos;
+
+		resetTable(table);
+		table.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
 		// Create columns
 		TableColumn<Video, Number> columnId = new TableColumn<>(resources.getString("colId"));
@@ -561,7 +581,6 @@ public class TableViewController {
 	private <T> void resetTable(TableView<T> table) {
 		// Remove all columns from table
 		table.getColumns().clear();
-
 		clearTable(table);
 	}
 }

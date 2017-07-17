@@ -142,6 +142,7 @@ public class VideoController {
 		video.setLane(rs.getInt(DatabaseController.LANE));
 		video.setOffset(rs.getString(DatabaseController.OFFSET));
 		video.setStart(rs.getString(DatabaseController.START));
+		video.setDuration(rs.getString(DatabaseController.DURATION));
 		video.setTcFormat(rs.getString(DatabaseController.TC_FORMAT));
 
 		List<Asset> assets = db.getAssetsById(rs.getString(DatabaseController.ASSET_ID));

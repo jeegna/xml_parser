@@ -9,12 +9,12 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import org.controlsfx.control.CheckComboBox?>
 
-<BorderPane xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.esf.xmlParser.fxml.SearchViewController">
+<BorderPane xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.esf.xmlParser.fxml.SearchViewController" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="30.0" AnchorPane.rightAnchor="0.0">
    <top>
       <AnchorPane fx:id="anchorPaneTop" BorderPane.alignment="CENTER">
          <children>
-      		<ComboBox fx:id="comboBoxSearch" editable="true" layoutX="10.0" layoutY="10.0" onAction="#comboBoxItemSelected" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="269.0" AnchorPane.topAnchor="0.0" />
-            <ButtonBar buttonMinWidth="30.0" layoutX="481.0" layoutY="5.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      		<ComboBox fx:id="comboBoxSearch" editable="true" layoutX="10.0" layoutY="10.0" onAction="#comboBoxItemSelected" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
+            <ButtonBar buttonMinWidth="100.0" layoutX="481.0" layoutY="10.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <buttons>
             		<Button fx:id="buttonSearch" defaultButton="true" mnemonicParsing="false" onAction="#buttonSearchClick" text="%btnSearch" />
                   <Button fx:id="buttonAdvancedSearch" mnemonicParsing="false" onAction="#buttonAdvancedSearchClick" text="%btnAdvancedSearch" />
