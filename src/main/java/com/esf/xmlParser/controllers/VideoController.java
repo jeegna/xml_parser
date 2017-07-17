@@ -19,10 +19,20 @@ public class VideoController {
 
 	private DatabaseController db;
 
+	/**
+	 * @param db
+	 */
 	public VideoController(DatabaseController db) {
 		this.db = db;
 	}
 
+	/**
+	 * @param videos
+	 * @throws SQLException
+	 *             If an SQL Exception occurs.
+	 * @throws ClassNotFoundException
+	 *             If the SQLite JDBC driver was not found.
+	 */
 	public void addVideos(List<Video> videos) throws SQLException, ClassNotFoundException {
 		logger.info("Adding Videos...");
 		Connection conn = db.getConnection();
@@ -48,46 +58,118 @@ public class VideoController {
 		conn.close();
 	}
 
+	/**
+	 * @return
+	 * @throws SQLException
+	 *             If an SQL Exception occurs.
+	 * @throws ClassNotFoundException
+	 *             If the SQLite JDBC driver was not found.
+	 */
 	public List<Video> getVideos() throws SQLException, ClassNotFoundException {
 		logger.info("Getting all Videos from database...");
 		return getAll();
 	}
 
+	/**
+	 * @param key
+	 * @return
+	 * @throws SQLException
+	 *             If an SQL Exception occurs.
+	 * @throws ClassNotFoundException
+	 *             If the SQLite JDBC driver was not found.
+	 */
 	public List<Video> getVideosById(String key) throws SQLException, ClassNotFoundException {
 		logger.info("Getting Video with id " + key);
 		return get(DatabaseController.ID, String.valueOf(key));
 	}
 
+	/**
+	 * @param key
+	 * @return
+	 * @throws SQLException
+	 *             If an SQL Exception occurs.
+	 * @throws ClassNotFoundException
+	 *             If the SQLite JDBC driver was not found.
+	 */
 	public List<Video> getVideosByName(String key) throws SQLException, ClassNotFoundException {
 		logger.info("Getting Videos with name like " + key);
 		return get(DatabaseController.NAME, key);
 	}
 
+	/**
+	 * @param key
+	 * @return
+	 * @throws SQLException
+	 *             If an SQL Exception occurs.
+	 * @throws ClassNotFoundException
+	 *             If the SQLite JDBC driver was not found.
+	 */
 	public List<Video> getVideosByLane(String key) throws SQLException, ClassNotFoundException {
 		logger.info("Getting Videos with lane like " + key);
 		return get(DatabaseController.LANE, key);
 	}
 
+	/**
+	 * @param key
+	 * @return
+	 * @throws SQLException
+	 *             If an SQL Exception occurs.
+	 * @throws ClassNotFoundException
+	 *             If the SQLite JDBC driver was not found.
+	 */
 	public List<Video> getVideosByOffset(String key) throws SQLException, ClassNotFoundException {
 		logger.info("Getting Videos with offset like " + key);
 		return get(DatabaseController.OFFSET, key);
 	}
 
+	/**
+	 * @param key
+	 * @return
+	 * @throws SQLException
+	 *             If an SQL Exception occurs.
+	 * @throws ClassNotFoundException
+	 *             If the SQLite JDBC driver was not found.
+	 */
 	public List<Video> getVideosByDuration(String key) throws SQLException, ClassNotFoundException {
 		logger.info("Getting Videos with duration like " + key);
 		return get(DatabaseController.DURATION, key);
 	}
 
+	/**
+	 * @param key
+	 * @return
+	 * @throws SQLException
+	 *             If an SQL Exception occurs.
+	 * @throws ClassNotFoundException
+	 *             If the SQLite JDBC driver was not found.
+	 */
 	public List<Video> getVideosByStart(String key) throws SQLException, ClassNotFoundException {
 		logger.info("Getting Videos with start like " + key);
 		return get(DatabaseController.START, key);
 	}
 
+	/**
+	 * @param key
+	 * @return
+	 * @throws SQLException
+	 *             If an SQL Exception occurs.
+	 * @throws ClassNotFoundException
+	 *             If the SQLite JDBC driver was not found.
+	 */
 	public List<Video> getVideosByTcFormat(String key) throws SQLException, ClassNotFoundException {
 		logger.info("Getting Videos with TC format like " + key);
 		return get(DatabaseController.TC_FORMAT, key);
 	}
 
+	/**
+	 * @param col
+	 * @param key
+	 * @return
+	 * @throws SQLException
+	 *             If an SQL Exception occurs.
+	 * @throws ClassNotFoundException
+	 *             If the SQLite JDBC driver was not found.
+	 */
 	private List<Video> get(String col, String key) throws SQLException, ClassNotFoundException {
 		List<Video> videos = new ArrayList<>();
 
@@ -111,6 +193,13 @@ public class VideoController {
 		return videos;
 	}
 
+	/**
+	 * @return
+	 * @throws SQLException
+	 *             If an SQL Exception occurs.
+	 * @throws ClassNotFoundException
+	 *             If the SQLite JDBC driver was not found.
+	 */
 	private List<Video> getAll() throws SQLException, ClassNotFoundException {
 		List<Video> videos = new ArrayList<>();
 
@@ -132,6 +221,14 @@ public class VideoController {
 		return videos;
 	}
 
+	/**
+	 * @param rs
+	 * @return
+	 * @throws SQLException
+	 *             If an SQL Exception occurs.
+	 * @throws ClassNotFoundException
+	 *             If the SQLite JDBC driver was not found.
+	 */
 	private Video createVideo(ResultSet rs) throws SQLException, ClassNotFoundException {
 		logger.info("Creating Video...");
 

@@ -19,10 +19,20 @@ public class AssetController {
 
 	private DatabaseController db;
 
+	/**
+	 * @param db
+	 */
 	public AssetController(DatabaseController db) {
 		this.db = db;
 	}
 
+	/**
+	 * @param assets
+	 * @throws SQLException
+	 *             If an SQL Exception occurs.
+	 * @throws ClassNotFoundException
+	 *             If the SQLite JDBC driver was not found.
+	 */
 	public void addAssets(List<Asset> assets) throws SQLException, ClassNotFoundException {
 		logger.info("Adding Assets...");
 		Connection conn = db.getConnection();
@@ -54,51 +64,131 @@ public class AssetController {
 		conn.close();
 	}
 
+	/**
+	 * @return
+	 * @throws SQLException
+	 *             If an SQL Exception occurs.
+	 * @throws ClassNotFoundException
+	 *             If the SQLite JDBC driver was not found.
+	 */
 	public List<Asset> getAssets() throws SQLException, ClassNotFoundException {
 		logger.info("Getting all Assets from database...");
 		return getAll();
 	}
 
+	/**
+	 * @param key
+	 * @return
+	 * @throws SQLException
+	 *             If an SQL Exception occurs.
+	 * @throws ClassNotFoundException
+	 *             If the SQLite JDBC driver was not found.
+	 */
 	public List<Asset> getAssetsById(String key) throws SQLException, ClassNotFoundException {
 		logger.info("Getting Asset with id " + key);
 		return get(DatabaseController.ID, key);
 	}
 
+	/**
+	 * @param key
+	 * @return
+	 * @throws SQLException
+	 *             If an SQL Exception occurs.
+	 * @throws ClassNotFoundException
+	 *             If the SQLite JDBC driver was not found.
+	 */
 	public List<Asset> getAssetsByName(String key) throws SQLException, ClassNotFoundException {
 		logger.info("Getting Assets with name like " + key);
 		return get(DatabaseController.NAME, key);
 	}
 
+	/**
+	 * @param key
+	 * @return
+	 * @throws SQLException
+	 *             If an SQL Exception occurs.
+	 * @throws ClassNotFoundException
+	 *             If the SQLite JDBC driver was not found.
+	 */
 	public List<Asset> getAssetsByDuration(String key) throws SQLException, ClassNotFoundException {
 		logger.info("Getting Assets with duration like " + key);
 		return get(DatabaseController.DURATION, key);
 	}
 
+	/**
+	 * @param key
+	 * @return
+	 * @throws SQLException
+	 *             If an SQL Exception occurs.
+	 * @throws ClassNotFoundException
+	 *             If the SQLite JDBC driver was not found.
+	 */
 	public List<Asset> getAssetsByHasAudio(String key) throws SQLException, ClassNotFoundException {
 		logger.info("Getting Assets with hasAudio like " + key);
 		return get(DatabaseController.HAS_AUDIO, key);
 	}
 
+	/**
+	 * @param key
+	 * @return
+	 * @throws SQLException
+	 *             If an SQL Exception occurs.
+	 * @throws ClassNotFoundException
+	 *             If the SQLite JDBC driver was not found.
+	 */
 	public List<Asset> getAssetsByHasVideo(String key) throws SQLException, ClassNotFoundException {
 		logger.info("Getting Assets with hasVideo like " + key);
 		return get(DatabaseController.HAS_VIDEO, key);
 	}
 
+	/**
+	 * @param key
+	 * @return
+	 * @throws SQLException
+	 *             If an SQL Exception occurs.
+	 * @throws ClassNotFoundException
+	 *             If the SQLite JDBC driver was not found.
+	 */
 	public List<Asset> getAssetsByUID(String key) throws SQLException, ClassNotFoundException {
 		logger.info("Getting Assets with UID like " + key);
 		return get(DatabaseController.UID, key);
 	}
 
+	/**
+	 * @param key
+	 * @return
+	 * @throws SQLException
+	 *             If an SQL Exception occurs.
+	 * @throws ClassNotFoundException
+	 *             If the SQLite JDBC driver was not found.
+	 */
 	public List<Asset> getAssetsBySrc(String key) throws SQLException, ClassNotFoundException {
 		logger.info("Getting Assets with src like " + key);
 		return get(DatabaseController.SOURCE, key);
 	}
 
+	/**
+	 * @param key
+	 * @return
+	 * @throws SQLException
+	 *             If an SQL Exception occurs.
+	 * @throws ClassNotFoundException
+	 *             If the SQLite JDBC driver was not found.
+	 */
 	public List<Asset> getAssetsByStart(String key) throws SQLException, ClassNotFoundException {
 		logger.info("Getting Assets with start like " + key);
 		return get(DatabaseController.START, key);
 	}
 
+	/**
+	 * @param col
+	 * @param key
+	 * @return
+	 * @throws SQLException
+	 *             If an SQL Exception occurs.
+	 * @throws ClassNotFoundException
+	 *             If the SQLite JDBC driver was not found.
+	 */
 	private List<Asset> get(String col, String key) throws SQLException, ClassNotFoundException {
 		List<Asset> assets = new ArrayList<>();
 
@@ -122,6 +212,13 @@ public class AssetController {
 		return assets;
 	}
 
+	/**
+	 * @return
+	 * @throws SQLException
+	 *             If an SQL Exception occurs.
+	 * @throws ClassNotFoundException
+	 *             If the SQLite JDBC driver was not found.
+	 */
 	private List<Asset> getAll() throws SQLException, ClassNotFoundException {
 		List<Asset> assets = new ArrayList<>();
 
@@ -143,6 +240,14 @@ public class AssetController {
 		return assets;
 	}
 
+	/**
+	 * @param rs
+	 * @return
+	 * @throws SQLException
+	 *             If an SQL Exception occurs.
+	 * @throws ClassNotFoundException
+	 *             If the SQLite JDBC driver was not found.
+	 */
 	private Asset createAsset(ResultSet rs) throws SQLException, ClassNotFoundException {
 		logger.info("Creating Asset...");
 

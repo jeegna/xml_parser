@@ -18,10 +18,20 @@ public class FormatController {
 
 	private DatabaseController db;
 
+	/**
+	 * @param db
+	 */
 	public FormatController(DatabaseController db) {
 		this.db = db;
 	}
 
+	/**
+	 * @param formats
+	 * @throws SQLException
+	 *             If an SQL Exception occurs.
+	 * @throws ClassNotFoundException
+	 *             If the SQLite JDBC driver was not found.
+	 */
 	public void addFormats(List<Format> formats) throws SQLException, ClassNotFoundException {
 		logger.info("Adding Formats...");
 		Connection conn = db.getConnection();
@@ -45,36 +55,92 @@ public class FormatController {
 		conn.close();
 	}
 
+	/**
+	 * @return
+	 * @throws SQLException
+	 *             If an SQL Exception occurs.
+	 * @throws ClassNotFoundException
+	 *             If the SQLite JDBC driver was not found.
+	 */
 	public List<Format> getFormats() throws SQLException, ClassNotFoundException {
 		logger.info("Getting all Formats from database...");
 		return getAll();
 	}
 
+	/**
+	 * @param key
+	 * @return
+	 * @throws SQLException
+	 *             If an SQL Exception occurs.
+	 * @throws ClassNotFoundException
+	 *             If the SQLite JDBC driver was not found.
+	 */
 	public List<Format> getFormatsById(String key) throws SQLException, ClassNotFoundException {
 		logger.info("Getting Format with id " + key);
 		return get(DatabaseController.ID, key);
 	}
 
+	/**
+	 * @param key
+	 * @return
+	 * @throws SQLException
+	 *             If an SQL Exception occurs.
+	 * @throws ClassNotFoundException
+	 *             If the SQLite JDBC driver was not found.
+	 */
 	public List<Format> getFormatsByName(String key) throws SQLException, ClassNotFoundException {
 		logger.info("Getting Formats with name like " + key);
 		return get(DatabaseController.NAME, key);
 	}
 
+	/**
+	 * @param key
+	 * @return
+	 * @throws SQLException
+	 *             If an SQL Exception occurs.
+	 * @throws ClassNotFoundException
+	 *             If the SQLite JDBC driver was not found.
+	 */
 	public List<Format> getFormatsByWidth(String key) throws SQLException, ClassNotFoundException {
 		logger.info("Getting Formats with width like " + key);
 		return get(DatabaseController.WIDTH, key);
 	}
 
+	/**
+	 * @param key
+	 * @return
+	 * @throws SQLException
+	 *             If an SQL Exception occurs.
+	 * @throws ClassNotFoundException
+	 *             If the SQLite JDBC driver was not found.
+	 */
 	public List<Format> getFormatsByHeight(String key) throws SQLException, ClassNotFoundException {
 		logger.info("Getting Formats with height like " + key);
 		return get(DatabaseController.HEIGHT, key);
 	}
 
+	/**
+	 * @param key
+	 * @return
+	 * @throws SQLException
+	 *             If an SQL Exception occurs.
+	 * @throws ClassNotFoundException
+	 *             If the SQLite JDBC driver was not found.
+	 */
 	public List<Format> getFormatsByFrameRate(String key) throws SQLException, ClassNotFoundException {
 		logger.info("Getting Formats with frame rate like " + key);
 		return get(DatabaseController.FRAME_RATE, key);
 	}
 
+	/**
+	 * @param col
+	 * @param key
+	 * @return
+	 * @throws SQLException
+	 *             If an SQL Exception occurs.
+	 * @throws ClassNotFoundException
+	 *             If the SQLite JDBC driver was not found.
+	 */
 	private List<Format> get(String col, String key) throws SQLException, ClassNotFoundException {
 		List<Format> formats = new ArrayList<>();
 
@@ -98,6 +164,13 @@ public class FormatController {
 		return formats;
 	}
 
+	/**
+	 * @return
+	 * @throws SQLException
+	 *             If an SQL Exception occurs.
+	 * @throws ClassNotFoundException
+	 *             If the SQLite JDBC driver was not found.
+	 */
 	private List<Format> getAll() throws SQLException, ClassNotFoundException {
 		List<Format> formats = new ArrayList<>();
 
@@ -119,6 +192,12 @@ public class FormatController {
 		return formats;
 	}
 
+	/**
+	 * @param rs
+	 * @return
+	 * @throws SQLException
+	 *             If an SQL Exception occurs.
+	 */
 	private Format createFormat(ResultSet rs) throws SQLException {
 		logger.info("Creating Format...");
 

@@ -18,10 +18,20 @@ public class EffectController {
 
 	private DatabaseController db;
 
+	/**
+	 * @param db
+	 */
 	public EffectController(DatabaseController db) {
 		this.db = db;
 	}
 
+	/**
+	 * @param effects
+	 * @throws SQLException
+	 *             If an SQL Exception occurs.
+	 * @throws ClassNotFoundException
+	 *             If the SQLite JDBC driver was not found.
+	 */
 	public void addEffects(List<Effect> effects) throws SQLException, ClassNotFoundException {
 		logger.info("Adding Effects...");
 		Connection conn = db.getConnection();
@@ -44,31 +54,79 @@ public class EffectController {
 		conn.close();
 	}
 
+	/**
+	 * @return
+	 * @throws SQLException
+	 *             If an SQL Exception occurs.
+	 * @throws ClassNotFoundException
+	 *             If the SQLite JDBC driver was not found.
+	 */
 	public List<Effect> getEffects() throws SQLException, ClassNotFoundException {
 		logger.info("Getting all Effects from database...");
 		return getAll();
 	}
 
+	/**
+	 * @param key
+	 * @return
+	 * @throws SQLException
+	 *             If an SQL Exception occurs.
+	 * @throws ClassNotFoundException
+	 *             If the SQLite JDBC driver was not found.
+	 */
 	public List<Effect> getEffectsById(String key) throws SQLException, ClassNotFoundException {
 		logger.info("Getting Effects with id: " + key);
 		return get(DatabaseController.ID, key);
 	}
 
+	/**
+	 * @param key
+	 * @return
+	 * @throws SQLException
+	 *             If an SQL Exception occurs.
+	 * @throws ClassNotFoundException
+	 *             If the SQLite JDBC driver was not found.
+	 */
 	public List<Effect> getEffectsByName(String key) throws SQLException, ClassNotFoundException {
 		logger.info("Getting Effects with name like " + key);
 		return get(DatabaseController.NAME, key);
 	}
 
+	/**
+	 * @param key
+	 * @return
+	 * @throws SQLException
+	 *             If an SQL Exception occurs.
+	 * @throws ClassNotFoundException
+	 *             If the SQLite JDBC driver was not found.
+	 */
 	public List<Effect> getEffectsByUid(String key) throws SQLException, ClassNotFoundException {
 		logger.info("Getting Effects with UID like " + key);
 		return get(DatabaseController.UID, key);
 	}
 
+	/**
+	 * @param key
+	 * @return
+	 * @throws SQLException
+	 *             If an SQL Exception occurs.
+	 * @throws ClassNotFoundException
+	 *             If the SQLite JDBC driver was not found.
+	 */
 	public List<Effect> getEffectsBySrc(String key) throws SQLException, ClassNotFoundException {
 		logger.info("Getting Effects with source like " + key);
 		return get(DatabaseController.SOURCE, key);
 	}
 
+	/**
+	 * @param col
+	 * @param key
+	 * @return
+	 * @throws SQLException
+	 *             If an SQL Exception occurs.
+	 * @throws ClassNotFoundException
+	 *             If the SQLite JDBC driver was not found.
+	 */
 	private List<Effect> get(String col, String key) throws SQLException, ClassNotFoundException {
 		List<Effect> effects = new ArrayList<>();
 
@@ -92,6 +150,13 @@ public class EffectController {
 		return effects;
 	}
 
+	/**
+	 * @return
+	 * @throws SQLException
+	 *             If an SQL Exception occurs.
+	 * @throws ClassNotFoundException
+	 *             If the SQLite JDBC driver was not found.
+	 */
 	private List<Effect> getAll() throws SQLException, ClassNotFoundException {
 		List<Effect> effects = new ArrayList<>();
 
@@ -113,6 +178,12 @@ public class EffectController {
 		return effects;
 	}
 
+	/**
+	 * @param rs
+	 * @return
+	 * @throws SQLException
+	 *             If an SQL Exception occurs.
+	 */
 	private Effect createEffect(ResultSet rs) throws SQLException {
 		logger.info("Creating Effect...");
 

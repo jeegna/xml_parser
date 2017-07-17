@@ -19,10 +19,20 @@ public class AudioController {
 
 	private DatabaseController db;
 
+	/**
+	 * @param db
+	 */
 	public AudioController(DatabaseController db) {
 		this.db = db;
 	}
 
+	/**
+	 * @param audios
+	 * @throws SQLException
+	 *             If an SQL Exception occurs.
+	 * @throws ClassNotFoundException
+	 *             If the SQLite JDBC driver was not found.
+	 */
 	public void addAudios(List<Audio> audios) throws SQLException, ClassNotFoundException {
 		logger.info("Adding Audios...");
 		Connection conn = db.getConnection();
@@ -51,61 +61,157 @@ public class AudioController {
 		conn.close();
 	}
 
+	/**
+	 * @return
+	 * @throws SQLException
+	 *             If an SQL Exception occurs.
+	 * @throws ClassNotFoundException
+	 *             If the SQLite JDBC driver was not found.
+	 */
 	public List<Audio> getAudios() throws SQLException, ClassNotFoundException {
 		logger.info("Getting all Audios from database...");
 		return getAll();
 	}
 
+	/**
+	 * @param key
+	 * @return
+	 * @throws SQLException
+	 *             If an SQL Exception occurs.
+	 * @throws ClassNotFoundException
+	 *             If the SQLite JDBC driver was not found.
+	 */
 	public List<Audio> getAudiosById(String key) throws SQLException, ClassNotFoundException {
 		logger.info("Getting Audio with id " + key);
 		return get(DatabaseController.ID, String.valueOf(key));
 	}
 
+	/**
+	 * @param key
+	 * @return
+	 * @throws SQLException
+	 *             If an SQL Exception occurs.
+	 * @throws ClassNotFoundException
+	 *             If the SQLite JDBC driver was not found.
+	 */
 	public List<Audio> getAudiosByName(String key) throws SQLException, ClassNotFoundException {
 		logger.info("Getting Audio with name like " + key);
 		return get(DatabaseController.NAME, key);
 	}
 
+	/**
+	 * @param key
+	 * @return
+	 * @throws SQLException
+	 *             If an SQL Exception occurs.
+	 * @throws ClassNotFoundException
+	 *             If the SQLite JDBC driver was not found.
+	 */
 	public List<Audio> getAudiosByLane(String key) throws SQLException, ClassNotFoundException {
 		logger.info("Getting Audio with lane like " + key);
 		return get(DatabaseController.LANE, key);
 	}
 
+	/**
+	 * @param key
+	 * @return
+	 * @throws SQLException
+	 *             If an SQL Exception occurs.
+	 * @throws ClassNotFoundException
+	 *             If the SQLite JDBC driver was not found.
+	 */
 	public List<Audio> getAudiosByRole(String key) throws SQLException, ClassNotFoundException {
 		logger.info("Getting Audio with role like " + key);
 		return get(DatabaseController.ROLE, key);
 	}
 
+	/**
+	 * @param key
+	 * @return
+	 * @throws SQLException
+	 *             If an SQL Exception occurs.
+	 * @throws ClassNotFoundException
+	 *             If the SQLite JDBC driver was not found.
+	 */
 	public List<Audio> getAudiosByOffset(String key) throws SQLException, ClassNotFoundException {
 		logger.info("Getting Audio with offset like " + key);
 		return get(DatabaseController.OFFSET, key);
 	}
 
+	/**
+	 * @param key
+	 * @return
+	 * @throws SQLException
+	 *             If an SQL Exception occurs.
+	 * @throws ClassNotFoundException
+	 *             If the SQLite JDBC driver was not found.
+	 */
 	public List<Audio> getAudiosByDuration(String key) throws SQLException, ClassNotFoundException {
 		logger.info("Getting Audio with duration like " + key);
 		return get(DatabaseController.DURATION, key);
 	}
 
+	/**
+	 * @param key
+	 * @return
+	 * @throws SQLException
+	 *             If an SQL Exception occurs.
+	 * @throws ClassNotFoundException
+	 *             If the SQLite JDBC driver was not found.
+	 */
 	public List<Audio> getAudiosByStart(String key) throws SQLException, ClassNotFoundException {
 		logger.info("Getting Audio with start like " + key);
 		return get(DatabaseController.START, key);
 	}
 
+	/**
+	 * @param key
+	 * @return
+	 * @throws SQLException
+	 *             If an SQL Exception occurs.
+	 * @throws ClassNotFoundException
+	 *             If the SQLite JDBC driver was not found.
+	 */
 	public List<Audio> getAudiosBySrcCh(String key) throws SQLException, ClassNotFoundException {
 		logger.info("Getting Audio with source channel like " + key);
 		return get(DatabaseController.SOURCE_CHANNEL, key);
 	}
 
+	/**
+	 * @param key
+	 * @return
+	 * @throws SQLException
+	 *             If an SQL Exception occurs.
+	 * @throws ClassNotFoundException
+	 *             If the SQLite JDBC driver was not found.
+	 */
 	public List<Audio> getAudiosBySrcId(String key) throws SQLException, ClassNotFoundException {
 		logger.info("Getting Audio with source ID like " + key);
 		return get(DatabaseController.SOURCE_ID, key);
 	}
 
+	/**
+	 * @param key
+	 * @return
+	 * @throws SQLException
+	 *             If an SQL Exception occurs.
+	 * @throws ClassNotFoundException
+	 *             If the SQLite JDBC driver was not found.
+	 */
 	public List<Audio> getAudiosByTcFormat(String key) throws SQLException, ClassNotFoundException {
 		logger.info("Getting Audio with TC format like " + key);
 		return get(DatabaseController.TC_FORMAT, key);
 	}
 
+	/**
+	 * @param col
+	 * @param key
+	 * @return
+	 * @throws SQLException
+	 *             If an SQL Exception occurs.
+	 * @throws ClassNotFoundException
+	 *             If the SQLite JDBC driver was not found.
+	 */
 	private List<Audio> get(String col, String key) throws SQLException, ClassNotFoundException {
 		List<Audio> audios = new ArrayList<>();
 
@@ -129,6 +235,13 @@ public class AudioController {
 		return audios;
 	}
 
+	/**
+	 * @return
+	 * @throws SQLException
+	 *             If an SQL Exception occurs.
+	 * @throws ClassNotFoundException
+	 *             If the SQLite JDBC driver was not found.
+	 */
 	private List<Audio> getAll() throws SQLException, ClassNotFoundException {
 		List<Audio> audios = new ArrayList<>();
 
@@ -150,6 +263,14 @@ public class AudioController {
 		return audios;
 	}
 
+	/**
+	 * @param rs
+	 * @return
+	 * @throws SQLException
+	 *             If an SQL Exception occurs.
+	 * @throws ClassNotFoundException
+	 *             If the SQLite JDBC driver was not found.
+	 */
 	private Audio createAudio(ResultSet rs) throws SQLException, ClassNotFoundException {
 		logger.info("Creating Audio...");
 

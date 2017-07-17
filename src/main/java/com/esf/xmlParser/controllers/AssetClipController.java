@@ -20,10 +20,27 @@ public class AssetClipController {
 
 	private DatabaseController db;
 
+	/**
+	 * Creates an AssetClipController. This controller can be used to query the
+	 * given database for information about AssetClips.
+	 * 
+	 * @param db
+	 *            The database controller to use.
+	 */
 	public AssetClipController(DatabaseController db) {
 		this.db = db;
 	}
 
+	/**
+	 * Adds the given AssetClip's to the database.
+	 * 
+	 * @param assetClips
+	 *            A List of AssetClip's to add.
+	 * @throws SQLException
+	 *             If an SQL exception occurs.
+	 * @throws ClassNotFoundException
+	 *             If the SQLite JDBC driver was not found.
+	 */
 	public void addAssetClips(List<AssetClip> assetClips) throws SQLException, ClassNotFoundException {
 		logger.info("Adding AssetClips...");
 		Connection conn = db.getConnection();
@@ -52,51 +69,142 @@ public class AssetClipController {
 		conn.close();
 	}
 
+	/**
+	 * Gets all AssetClip's in the database.
+	 * 
+	 * @return A List of all AssetClip's in the database.
+	 * @throws SQLException
+	 *             If an SQL Exception occurs.
+	 * @throws ClassNotFoundException
+	 *             If the SQLite JDBC driver was not found.
+	 */
 	public List<AssetClip> getAssetClips() throws SQLException, ClassNotFoundException {
 		logger.info("Getting all Asset Clips from database...");
 		return getAll();
 	}
 
+	/**
+	 * 
+	 * @param key
+	 * @return
+	 * @throws SQLException
+	 *             If an SQL Exception occurs.
+	 * @throws ClassNotFoundException
+	 *             If the SQLite JDBC driver was not found.
+	 */
 	public List<AssetClip> getAssetClipsById(String key) throws SQLException, ClassNotFoundException {
 		logger.info("Getting Asset Clip with id " + key);
 		return get(DatabaseController.ID, key);
 	}
 
+	/**
+	 * 
+	 * @param key
+	 * @return
+	 * @throws SQLException
+	 *             If an SQL Exception occurs.
+	 * @throws ClassNotFoundException
+	 *             If the SQLite JDBC driver was not found.
+	 */
 	public List<AssetClip> getAssetClipsByName(String key) throws SQLException, ClassNotFoundException {
 		logger.info("Getting Asset Clips with name like " + key);
 		return get(DatabaseController.NAME, key);
 	}
 
+	/**
+	 * 
+	 * @param key
+	 * @return
+	 * @throws SQLException
+	 *             If an SQL Exception occurs.
+	 * @throws ClassNotFoundException
+	 *             If the SQLite JDBC driver was not found.
+	 */
 	public List<AssetClip> getAssetClipsByLane(String key) throws SQLException, ClassNotFoundException {
 		logger.info("Getting Asset Clips with lane like " + key);
 		return get(DatabaseController.LANE, key);
 	}
 
+	/**
+	 * 
+	 * @param key
+	 * @return
+	 * @throws SQLException
+	 *             If an SQL Exception occurs.
+	 * @throws ClassNotFoundException
+	 *             If the SQLite JDBC driver was not found.
+	 */
 	public List<AssetClip> getAssetClipsByOffset(String key) throws SQLException, ClassNotFoundException {
 		logger.info("Getting Asset Clips with offset like " + key);
 		return get(DatabaseController.OFFSET, key);
 	}
 
+	/**
+	 * 
+	 * @param key
+	 * @return
+	 * @throws SQLException
+	 *             If an SQL Exception occurs.
+	 * @throws ClassNotFoundException
+	 *             If the SQLite JDBC driver was not found.
+	 */
 	public List<AssetClip> getAssetClipsByDuration(String key) throws SQLException, ClassNotFoundException {
 		logger.info("Getting Asset Clips with duration like " + key);
 		return get(DatabaseController.DURATION, key);
 	}
 
+	/**
+	 * 
+	 * @param key
+	 * @return
+	 * @throws SQLException
+	 *             If an SQL Exception occurs.
+	 * @throws ClassNotFoundException
+	 *             If the SQLite JDBC driver was not found.
+	 */
 	public List<AssetClip> getAssetClipsByStart(String key) throws SQLException, ClassNotFoundException {
 		logger.info("Getting Asset Clips with start like " + key);
 		return get(DatabaseController.START, key);
 	}
 
+	/**
+	 * 
+	 * @param key
+	 * @return
+	 * @throws SQLException
+	 *             If an SQL Exception occurs.
+	 * @throws ClassNotFoundException
+	 *             If the SQLite JDBC driver was not found.
+	 */
 	public List<AssetClip> getAssetClipsByRole(String key) throws SQLException, ClassNotFoundException {
 		logger.info("Getting Asset Clips with role like " + key);
 		return get(DatabaseController.ROLE, key);
 	}
 
+	/**
+	 * 
+	 * @param key
+	 * @return
+	 * @throws SQLException
+	 *             If an SQL Exception occurs.
+	 * @throws ClassNotFoundException
+	 *             If the SQLite JDBC driver was not found.
+	 */
 	public List<AssetClip> getAssetClipsByTcFormat(String key) throws SQLException, ClassNotFoundException {
 		logger.info("Getting Asset Clips with TC format like " + key);
 		return get(DatabaseController.TC_FORMAT, key);
 	}
 
+	/**
+	 * 
+	 * @param col
+	 * @param key
+	 * @return
+	 * @throws SQLException
+	 *             If an SQL Exception occurs.
+	 * @throws ClassNotFoundException
+	 *             If the SQLite JDBC driver was not found.
+	 */
 	private List<AssetClip> get(String col, String key) throws SQLException, ClassNotFoundException {
 		List<AssetClip> assetClips = new ArrayList<>();
 
@@ -120,6 +228,14 @@ public class AssetClipController {
 		return assetClips;
 	}
 
+	/**
+	 * 
+	 * @return
+	 * @throws SQLException
+	 *             If an SQL Exception occurs.
+	 * @throws ClassNotFoundException
+	 *             If the SQLite JDBC driver was not found.
+	 */
 	private List<AssetClip> getAll() throws SQLException, ClassNotFoundException {
 		List<AssetClip> assetClips = new ArrayList<>();
 
@@ -141,6 +257,15 @@ public class AssetClipController {
 		return assetClips;
 	}
 
+	/**
+	 * 
+	 * @param rs
+	 * @return
+	 * @throws SQLException
+	 *             If an SQL Exception occurs.
+	 * @throws ClassNotFoundException
+	 *             If the SQLite JDBC driver was not found.
+	 */
 	private AssetClip createAssetClip(ResultSet rs) throws SQLException, ClassNotFoundException {
 		logger.info("Creating Asset Clip...");
 

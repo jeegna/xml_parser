@@ -18,10 +18,20 @@ public class ClipController {
 
 	private DatabaseController db;
 
+	/**
+	 * @param db
+	 */
 	public ClipController(DatabaseController db) {
 		this.db = db;
 	}
 
+	/**
+	 * @param clips
+	 * @throws SQLException
+	 *             If an SQL Exception occurs.
+	 * @throws ClassNotFoundException
+	 *             If the SQLite JDBC driver was not found.
+	 */
 	public void addClips(List<Clip> clips) throws SQLException, ClassNotFoundException {
 		logger.info("Adding Clips...");
 		Connection conn = db.getConnection();
@@ -45,41 +55,105 @@ public class ClipController {
 		conn.close();
 	}
 
+	/**
+	 * @return
+	 * @throws SQLException
+	 *             If an SQL Exception occurs.
+	 * @throws ClassNotFoundException
+	 *             If the SQLite JDBC driver was not found.
+	 */
 	public List<Clip> getClips() throws SQLException, ClassNotFoundException {
 		logger.info("Getting all Clips from database...");
 		return getAll();
 	}
 
+	/**
+	 * @param id
+	 * @return
+	 * @throws SQLException
+	 *             If an SQL Exception occurs.
+	 * @throws ClassNotFoundException
+	 *             If the SQLite JDBC driver was not found.
+	 */
 	public List<Clip> getClipsById(String id) throws SQLException, ClassNotFoundException {
 		logger.info("Getting Clip with id " + id);
 		return get(DatabaseController.ID, id);
 	}
 
+	/**
+	 * @param key
+	 * @return
+	 * @throws SQLException
+	 *             If an SQL Exception occurs.
+	 * @throws ClassNotFoundException
+	 *             If the SQLite JDBC driver was not found.
+	 */
 	public List<Clip> getClipsByName(String key) throws SQLException, ClassNotFoundException {
 		logger.info("Getting Clips with name like " + key);
 		return get(DatabaseController.NAME, key);
 	}
 
+	/**
+	 * @param key
+	 * @return
+	 * @throws SQLException
+	 *             If an SQL Exception occurs.
+	 * @throws ClassNotFoundException
+	 *             If the SQLite JDBC driver was not found.
+	 */
 	public List<Clip> getClipsByOffset(String key) throws SQLException, ClassNotFoundException {
 		logger.info("Getting Clips with offset like " + key);
 		return get(DatabaseController.OFFSET, key);
 	}
 
+	/**
+	 * @param key
+	 * @return
+	 * @throws SQLException
+	 *             If an SQL Exception occurs.
+	 * @throws ClassNotFoundException
+	 *             If the SQLite JDBC driver was not found.
+	 */
 	public List<Clip> getClipsByDuration(String key) throws SQLException, ClassNotFoundException {
 		logger.info("Getting Clips with duration like " + key);
 		return get(DatabaseController.DURATION, key);
 	}
 
+	/**
+	 * @param key
+	 * @return
+	 * @throws SQLException
+	 *             If an SQL Exception occurs.
+	 * @throws ClassNotFoundException
+	 *             If the SQLite JDBC driver was not found.
+	 */
 	public List<Clip> getClipsByStart(String key) throws SQLException, ClassNotFoundException {
 		logger.info("Getting Clips with start like " + key);
 		return get(DatabaseController.START, key);
 	}
 
+	/**
+	 * @param key
+	 * @return
+	 * @throws SQLException
+	 *             If an SQL Exception occurs.
+	 * @throws ClassNotFoundException
+	 *             If the SQLite JDBC driver was not found.
+	 */
 	public List<Clip> getClipsByTcFormat(String key) throws SQLException, ClassNotFoundException {
 		logger.info("Getting Clips with TC formats like " + key);
 		return get(DatabaseController.TC_FORMAT, key);
 	}
 
+	/**
+	 * @param col
+	 * @param key
+	 * @return
+	 * @throws SQLException
+	 *             If an SQL Exception occurs.
+	 * @throws ClassNotFoundException
+	 *             If the SQLite JDBC driver was not found.
+	 */
 	private List<Clip> get(String col, String key) throws SQLException, ClassNotFoundException {
 		List<Clip> clips = new ArrayList<>();
 
@@ -103,6 +177,13 @@ public class ClipController {
 		return clips;
 	}
 
+	/**
+	 * @return
+	 * @throws SQLException
+	 *             If an SQL Exception occurs.
+	 * @throws ClassNotFoundException
+	 *             If the SQLite JDBC driver was not found.
+	 */
 	private List<Clip> getAll() throws SQLException, ClassNotFoundException {
 		List<Clip> clips = new ArrayList<>();
 
@@ -124,6 +205,12 @@ public class ClipController {
 		return clips;
 	}
 
+	/**
+	 * @param rs
+	 * @return
+	 * @throws SQLException
+	 *             If an SQL Exception occurs.
+	 */
 	private Clip createClip(ResultSet rs) throws SQLException {
 		logger.info("Creating Clip...");
 
