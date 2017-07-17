@@ -22,9 +22,10 @@ public class Video extends Element implements Comparable<Video>, Serializable {
 	private StringProperty name;
 	private IntegerProperty lane;
 	private StringProperty offset;
-	private Asset asset;
 	private StringProperty duration;
 	private StringProperty start;
+	private StringProperty tcFormat;
+	private Asset asset;
 
 	public Video() {
 		id = new SimpleIntegerProperty();
@@ -34,6 +35,7 @@ public class Video extends Element implements Comparable<Video>, Serializable {
 		asset = new Asset();
 		duration = new SimpleStringProperty();
 		start = new SimpleStringProperty();
+		tcFormat = new SimpleStringProperty();
 	}
 
 	/**
@@ -217,6 +219,37 @@ public class Video extends Element implements Comparable<Video>, Serializable {
 	}
 
 	/**
+	 * Gets the tcFormat property
+	 *
+	 * @return The tcFormat property
+	 */
+	public StringProperty tcFormatProperty() {
+		return tcFormat;
+	}
+
+	/**
+	 * Gets the tcFormat
+	 *
+	 * @return The tcFormat
+	 */
+	public String getTcFormat() {
+		return tcFormat.get();
+	}
+
+	/**
+	 * Sets the tcFormat
+	 *
+	 * @param tcFormat
+	 *            The new tcFormat to set
+	 */
+	public void setTcFormat(String tcFormat) {
+		if (tcFormat == null) {
+			tcFormat = "";
+		}
+		this.tcFormat.set(tcFormat);
+	}
+
+	/**
 	 * Gets the Asset
 	 *
 	 * @return The Asset
@@ -245,8 +278,8 @@ public class Video extends Element implements Comparable<Video>, Serializable {
 	 */
 	@Override
 	public String toString() {
-		return String.format("Video[ref=%s, duration=%s, name=%s, start=%s, lane=%s, offset=%s]", asset, duration.get(),
-				name.get(), start.get(), lane.get(), offset.get());
+		return String.format("Video[id=%s, name=%s, duration=%s, start=%s, lane=%s, offset=%s, tcFormat=%s, asset=%s]",
+				id.get(), name.get(), duration.get(), start.get(), lane.get(), offset.get(), tcFormat.get(), asset);
 	}
 
 	/*

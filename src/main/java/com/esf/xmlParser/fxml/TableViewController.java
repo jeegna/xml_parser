@@ -256,6 +256,7 @@ public class TableViewController {
 
 		// Create columns
 		TableColumn<Audio, Number> columnId = new TableColumn<>(resources.getString("colId"));
+		TableColumn<Audio, String> columnName = new TableColumn<>(resources.getString("colName"));
 		TableColumn<Audio, String> columnRole = new TableColumn<>(resources.getString("colRole"));
 		TableColumn<Audio, Number> columnLane = new TableColumn<>(resources.getString("colLane"));
 		TableColumn<Audio, String> columnStart = new TableColumn<>(resources.getString("colStart"));
@@ -264,9 +265,11 @@ public class TableViewController {
 		TableColumn<Audio, String> columnSrc = new TableColumn<>(resources.getString("colRef"));
 		TableColumn<Audio, String> columnSrcChannel = new TableColumn<>(resources.getString("colSrcCh"));
 		TableColumn<Audio, Number> columnSrcID = new TableColumn<>(resources.getString("colSrcId"));
+		TableColumn<Audio, String> columnTcFormat = new TableColumn<>(resources.getString("colTcFormat"));
 
 		// Set cell values
 		columnId.setCellValueFactory(cellData -> cellData.getValue().idProperty());
+		columnName.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
 		columnRole.setCellValueFactory(cellData -> cellData.getValue().roleProperty());
 		columnLane.setCellValueFactory(cellData -> cellData.getValue().laneProperty());
 		columnStart.setCellValueFactory(cellData -> cellData.getValue().startProperty());
@@ -275,9 +278,11 @@ public class TableViewController {
 		columnSrc.setCellValueFactory(cellData -> cellData.getValue().getAsset().srcProperty());
 		columnSrcChannel.setCellValueFactory(cellData -> cellData.getValue().srcChProperty());
 		columnSrcID.setCellValueFactory(cellData -> cellData.getValue().srcIdProperty());
+		columnTcFormat.setCellValueFactory(cellData -> cellData.getValue().tcFormatProperty());
 
 		ObservableList<TableColumn<Audio, ?>> columns = table.getColumns();
 		columns.add(columnId);
+		columns.add(columnName);
 		columns.add(columnRole);
 		columns.add(columnLane);
 		columns.add(columnStart);
@@ -286,6 +291,7 @@ public class TableViewController {
 		columns.add(columnSrc);
 		columns.add(columnSrcChannel);
 		columns.add(columnSrcID);
+		columns.add(columnTcFormat);
 	}
 
 	private void createClipsTable() {
@@ -386,6 +392,7 @@ public class TableViewController {
 		TableColumn<Video, String> columnDuration = new TableColumn<>(resources.getString("colDuration"));
 		TableColumn<Video, String> columnOffset = new TableColumn<>(resources.getString("colOffset"));
 		TableColumn<Video, String> columnSrc = new TableColumn<>(resources.getString("colRef"));
+		TableColumn<Video, String> columnTcFormat = new TableColumn<>(resources.getString("colTcFormat"));
 
 		// Set cell values
 		columnId.setCellValueFactory(cellData -> cellData.getValue().idProperty());
@@ -395,6 +402,7 @@ public class TableViewController {
 		columnDuration.setCellValueFactory(cellData -> cellData.getValue().durationProperty());
 		columnOffset.setCellValueFactory(cellData -> cellData.getValue().offsetProperty());
 		columnSrc.setCellValueFactory(cellData -> cellData.getValue().getAsset().srcProperty());
+		columnTcFormat.setCellValueFactory(cellData -> cellData.getValue().tcFormatProperty());
 
 		ObservableList<TableColumn<Video, ?>> columns = table.getColumns();
 		columns.add(columnId);
@@ -404,6 +412,7 @@ public class TableViewController {
 		columns.add(columnDuration);
 		columns.add(columnOffset);
 		columns.add(columnSrc);
+		columns.add(columnTcFormat);
 	}
 
 	/**

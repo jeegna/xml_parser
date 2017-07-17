@@ -14,11 +14,12 @@ import javafx.beans.property.StringProperty;
  * @version 2017/04/15
  * @since 1.8
  */
-public class Audio implements Comparable<Audio>, Serializable {
+public class Audio extends Element implements Comparable<Audio>, Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	private IntegerProperty id;
+	private StringProperty name;
 	private Asset asset;
 	private IntegerProperty lane;
 	private StringProperty role;
@@ -27,9 +28,11 @@ public class Audio implements Comparable<Audio>, Serializable {
 	private StringProperty start;
 	private StringProperty srcCh;
 	private IntegerProperty srcID;
+	private StringProperty tcFormat;
 
 	public Audio() {
 		id = new SimpleIntegerProperty();
+		name = new SimpleStringProperty();
 		asset = new Asset();
 		lane = new SimpleIntegerProperty();
 		role = new SimpleStringProperty();
@@ -38,6 +41,7 @@ public class Audio implements Comparable<Audio>, Serializable {
 		start = new SimpleStringProperty();
 		srcCh = new SimpleStringProperty();
 		srcID = new SimpleIntegerProperty();
+		tcFormat = new SimpleStringProperty();
 	}
 
 	/**
@@ -66,6 +70,37 @@ public class Audio implements Comparable<Audio>, Serializable {
 	 */
 	public void setId(int id) {
 		this.id.set(id);
+	}
+
+	/**
+	 * Gets the name property
+	 *
+	 * @return The name property
+	 */
+	public StringProperty nameProperty() {
+		return name;
+	}
+
+	/**
+	 * Gets the name
+	 *
+	 * @return The name
+	 */
+	public String getName() {
+		return name.get();
+	}
+
+	/**
+	 * Sets the name
+	 *
+	 * @param name
+	 *            The new name to set
+	 */
+	public void setName(String name) {
+		if (name == null) {
+			name = "";
+		}
+		this.name.set(name);
 	}
 
 	/**
@@ -301,6 +336,37 @@ public class Audio implements Comparable<Audio>, Serializable {
 		this.lane.set(lane);
 	}
 
+	/**
+	 * Gets the tcFormat property
+	 *
+	 * @return The tcFormat property
+	 */
+	public StringProperty tcFormatProperty() {
+		return tcFormat;
+	}
+
+	/**
+	 * Gets the tcFormat
+	 *
+	 * @return The tcFormat
+	 */
+	public String getTcFormat() {
+		return tcFormat.get();
+	}
+
+	/**
+	 * Sets the tcFormat
+	 *
+	 * @param tcFormat
+	 *            The new tcFormat to set
+	 */
+	public void setTcFormat(String tcFormat) {
+		if (tcFormat == null) {
+			tcFormat = "";
+		}
+		this.tcFormat.set(tcFormat);
+	}
+
 	/*
 	 * (non-Javadoc)
 	 *
@@ -308,8 +374,10 @@ public class Audio implements Comparable<Audio>, Serializable {
 	 */
 	@Override
 	public String toString() {
-		return String.format("Video[ref=%s, lane=%s, duration=%s, start=%s, role=%s, offset=%s, srcCh=%s, srcId=%s]",
-				asset, lane.get(), duration.get(), start.get(), role.get(), offset.get(), srcCh.get(), srcID.get());
+		return String.format(
+				"Audio[id=%s, name=%s,lane=%s, duration=%s, start=%s, role=%s, offset=%s, srcCh=%s, srcId=%s, tcFormat=%s, asset=%s]",
+				id.get(), name.get(), lane.get(), duration.get(), start.get(), role.get(), offset.get(), srcCh.get(),
+				srcID.get(), tcFormat.get(), asset);
 	}
 
 	/*
@@ -337,7 +405,7 @@ public class Audio implements Comparable<Audio>, Serializable {
 		if (o == null || !(o instanceof Audio)) {
 			return false;
 		}
-		
+
 		Audio audio = (Audio) o;
 		return id.get() == audio.getId();
 	}

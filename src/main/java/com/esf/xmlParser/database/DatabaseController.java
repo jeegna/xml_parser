@@ -653,6 +653,7 @@ public class DatabaseController {
 				"CREATE TABLE " + AUDIOS + " (" +
 					ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
 					ASSET_ID + " TEXT," +
+					NAME + " TEXT," +
 					LANE + " INTEGER," +
 					ROLE + " TEXT," +
 					OFFSET + " TEXT," +
@@ -660,6 +661,7 @@ public class DatabaseController {
 					START + " TEXT," +
 					SOURCE_CHANNEL + " TEXT," +
 					SOURCE_ID + " INTEGER," +
+					TC_FORMAT + " TEXT," +
 					"FOREIGN KEY(" + ASSET_ID + ") REFERENCES " + ASSETS + "(" + ID + ")" +
 				");"
 		);
@@ -682,6 +684,7 @@ public class DatabaseController {
 					ASSET_ID + " TEXT," +
 					DURATION + " TEXT," +
 					START + " TEXT," +
+					TC_FORMAT + " TEXT," +
 					"FOREIGN KEY(" + ASSET_ID + ") REFERENCES " + ASSETS + "(" + ID + ")" +
 				");"
 		);

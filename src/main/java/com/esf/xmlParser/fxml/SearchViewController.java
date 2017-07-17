@@ -32,6 +32,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.layout.AnchorPane;
 import javafx.util.Callback;
 
 public class SearchViewController {
@@ -39,11 +40,23 @@ public class SearchViewController {
 	@FXML
 	private ResourceBundle resources;
 
+	// Borderpane sections
+	@FXML
+	private AnchorPane anchorPaneTop;
+	@FXML
+	private AnchorPane anchorPaneLeft;
+	@FXML
+	private AnchorPane anchorPaneRight;
+	@FXML
+	private AnchorPane anchorPaneBottom;
+
 	// Search bar
 	@FXML
 	private ComboBox<Element> comboBoxSearch;
 	@FXML
 	private Button buttonSearch;
+	@FXML
+	private Button buttonAdvancedSearch;
 
 	@FXML
 	private CheckBox checkBoxAsset;
@@ -283,6 +296,14 @@ public class SearchViewController {
 	}
 
 	@FXML
+	private void buttonAdvancedSearchClick(ActionEvent event) {
+		boolean b = !anchorPaneBottom.isVisible();
+		anchorPaneLeft.setVisible(b);
+		anchorPaneRight.setVisible(b);
+		anchorPaneBottom.setVisible(b);
+	}
+
+	@FXML
 	private void buttonResetClick(ActionEvent event) {
 		checkComboBoxAssets.getCheckModel().clearChecks();
 		checkComboBoxAssetClips.getCheckModel().clearChecks();
@@ -340,8 +361,7 @@ public class SearchViewController {
 				ObservableList<Element> items = comboBoxSearch.getItems();
 				items.addAll(assets);
 				items.addAll(assetClips);
-				// FIXME Add Audio's to search results
-//				items.addAll(audios);
+				items.addAll(audios);
 				items.addAll(clips);
 				items.addAll(effects);
 				items.addAll(formats);

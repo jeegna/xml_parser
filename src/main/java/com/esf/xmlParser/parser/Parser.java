@@ -109,113 +109,6 @@ public class Parser {
 	}
 
 	/**
-	 * Gets all information of &lt;asset&gt; tags from the document.
-	 * 
-	 * @return A List of Asset objects with the information from the document.
-	 */
-	public List<Asset> getAssets() {
-		logger.info("Getting assets...");
-
-		NodeList assets = doc.getElementsByTagName(ASSET);
-		List<Asset> list = new ArrayList<Asset>();
-
-		for (int i = 0; i < assets.getLength(); i++) {
-
-			Node node = assets.item(i);
-
-			if (node.getNodeType() == Node.ELEMENT_NODE) {
-
-				Element element = (Element) node;
-
-				Asset asset = new Asset();
-				asset.setId(validateString(element.getAttribute(ID)));
-
-				String hasAudio = element.getAttribute(HAS_AUDIO);
-				asset.setHasAudio(hasAudio != null && hasAudio.equals("1"));
-
-				String hasVideo = element.getAttribute(HAS_VIDEO);
-				asset.setHasVideo(hasVideo != null && hasVideo.equals("1"));
-
-				asset.setName(validateString(element.getAttribute(NAME)));
-				asset.setUid(validateString(element.getAttribute(UID)));
-				asset.setSrc(validateString(element.getAttribute(SOURCE)));
-				asset.setAudioSources(validateNumber(element.getAttribute(AUDIO_SOURCES)));
-				asset.setAudioChannels(validateNumber(element.getAttribute(AUDIO_CHANNELS)));
-				asset.setAudioRate(validateNumber(element.getAttribute(AUDIO_RATE)));
-
-				String duration = validateString(element.getAttribute(DURATION));
-				String start = element.getAttribute(START);
-				asset.setDuration(getTime(duration));
-				asset.setStart(getTime(start));
-
-				// Find corresponding format element.
-				String formatId = validateString(element.getAttribute(FORMAT));
-				Format format = new Format();
-				format.setId(formatId);
-				asset.setFormat(format);
-
-				list.add(asset);
-			}
-		}
-
-		return list;
-	}
-
-	/**
-	 * Gets all information of &lt;asset-clip&gt; tags from the document.
-	 * 
-	 * @return A List of AssetClip objects with the information from the
-	 *         document.
-	 */
-	public List<AssetClip> getAssetClips() {
-		logger.info("Getting asset clips...");
-
-		NodeList assetClips = doc.getElementsByTagName(ASSET_CLIP);
-
-		List<AssetClip> list = new ArrayList<AssetClip>();
-
-		for (int i = 0; i < assetClips.getLength(); i++) {
-
-			Node node = assetClips.item(i);
-
-			if (node.getNodeType() == Node.ELEMENT_NODE) {
-
-				Element element = (Element) node;
-
-				AssetClip assetClip = new AssetClip();
-
-				assetClip.setName(validateString(element.getAttribute(NAME)));
-				assetClip.setLane(validateNumber(element.getAttribute(LANE)));
-				assetClip.setRole(validateString(element.getAttribute(AUDIO_ROLE)));
-				assetClip.setTcFormat(validateString(element.getAttribute(TC_FORMAT)));
-
-				String duration = validateString(element.getAttribute(DURATION));
-				String offset = element.getAttribute(OFFSET);
-				String start = element.getAttribute(START);
-				assetClip.setDuration(getTime(duration));
-				assetClip.setOffset(getTime(offset));
-				assetClip.setStart(getTime(start));
-
-				// Find corresponding asset element's source file.
-				String ref = validateString(element.getAttribute(REFERENCE));
-				Asset asset = new Asset();
-				asset.setId(ref);
-				assetClip.setAsset(asset);
-
-				// Find corresponding format element.
-				String formatId = validateString(element.getAttribute(FORMAT));
-				Format format = new Format();
-				format.setId(formatId);
-				assetClip.setFormat(format);
-
-				list.add(assetClip);
-			}
-		}
-
-		return list;
-	}
-
-	/**
 	 * Gets an XML parsable Document from the given XML file name and path.
 	 * 
 	 * @param file
@@ -248,43 +141,47 @@ public class Parser {
 	}
 
 	/**
-	 * Gets all information of &lt;video&gt; tags from the document.
+	 * Gets all information of &lt;asset&gt; tags from the document.
 	 * 
-	 * @return A List of Video objects with the information from the document.
+	 * @return A List of Asset objects with the information from the document.
 	 */
-	public List<Video> getVideos() {
-		logger.info("Getting videos...");
+	public List<Asset> getAssets() {
+		logger.info("Getting assets...");
 
-		NodeList videos = doc.getElementsByTagName(VIDEO);
-		List<Video> list = new ArrayList<Video>();
+		NodeList assets = doc.getElementsByTagName(ASSET);
+		List<Asset> list = new ArrayList<Asset>();
 
-		for (int i = 0; i < videos.getLength(); i++) {
+		for (int i = 0; i < assets.getLength(); i++) {
 
-			Node node = videos.item(i);
+			Node node = assets.item(i);
 
 			if (node.getNodeType() == Node.ELEMENT_NODE) {
+				list.add(createAsset(node));
+			}
+		}
 
-				Element element = (Element) node;
+		return list;
+	}
 
-				Video video = new Video();
+	/**
+	 * Gets all information of &lt;asset-clip&gt; tags from the document.
+	 * 
+	 * @return A List of AssetClip objects with the information from the
+	 *         document.
+	 */
+	public List<AssetClip> getAssetClips() {
+		logger.info("Getting asset clips...");
 
-				video.setName(validateString(element.getAttribute(NAME)));
-				video.setLane(validateNumber(element.getAttribute(LANE)));
+		NodeList assetClips = doc.getElementsByTagName(ASSET_CLIP);
 
-				String duration = validateString(element.getAttribute(DURATION));
-				String start = validateString(element.getAttribute(START));
-				String offset = validateString(element.getAttribute(OFFSET));
-				video.setDuration(getTime(duration));
-				video.setStart(getTime(start));
-				video.setOffset(getTime(offset));
+		List<AssetClip> list = new ArrayList<AssetClip>();
 
-				// Find corresponding asset element.
-				String ref = validateString(element.getAttribute(REFERENCE));
-				Asset asset = new Asset();
-				asset.setId(ref);
-				video.setAsset(asset);
+		for (int i = 0; i < assetClips.getLength(); i++) {
 
-				list.add(video);
+			Node node = assetClips.item(i);
+
+			if (node.getNodeType() == Node.ELEMENT_NODE) {
+				list.add(createAssetClip(node));
 			}
 		}
 
@@ -307,100 +204,7 @@ public class Parser {
 			Node node = audios.item(i);
 
 			if (node.getNodeType() == Node.ELEMENT_NODE) {
-
-				Element element = (Element) node;
-
-				Audio audio = new Audio();
-
-				audio.setLane(validateNumber(element.getAttribute(LANE)));
-				audio.setRole(validateString(element.getAttribute(ROLE)));
-				audio.setOffset(validateString(element.getAttribute(OFFSET)));
-				audio.setSrcCh(validateString(element.getAttribute(SRC_CH)));
-				audio.setSrcId(validateNumber(element.getAttribute(SRC_ID)));
-
-				String duration = validateString(element.getAttribute(DURATION));
-				String start = validateString(element.getAttribute(START));
-				String offset = validateString(element.getAttribute(OFFSET));
-				audio.setDuration(getTime(duration));
-				audio.setStart(getTime(start));
-				audio.setOffset(getTime(offset));
-
-				// Find corresponding asset element's sourcc file.
-				String ref = validateString(element.getAttribute(REFERENCE));
-				Asset asset = new Asset();
-				asset.setId(ref);
-				audio.setAsset(asset);
-
-				list.add(audio);
-			}
-		}
-
-		return list;
-	}
-
-	/**
-	 * Gets all information of &lt;format&gt; tags from the document.
-	 * 
-	 * @return A List of Format objects with the information from the document.
-	 */
-	public List<Format> getFormats() {
-		logger.info("Getting formats...");
-
-		NodeList formats = doc.getElementsByTagName(FORMAT);
-		List<Format> list = new ArrayList<Format>();
-
-		for (int i = 0; i < formats.getLength(); i++) {
-
-			Node node = formats.item(i);
-
-			if (node.getNodeType() == Node.ELEMENT_NODE) {
-
-				Element element = (Element) node;
-
-				Format format = new Format();
-
-				format.setId(validateString(element.getAttribute(ID)));
-				format.setName(validateString(element.getAttribute(NAME)));
-				format.setWidth(validateNumber(element.getAttribute(WIDTH)));
-				format.setHeight(validateNumber(element.getAttribute(HEIGHT)));
-
-				String frameDuration = validateString(element.getAttribute(FRAME_DURATION));
-				format.setFrameDuration(getFrameRate(frameDuration));
-
-				list.add(format);
-			}
-		}
-
-		return list;
-	}
-
-	/**
-	 * Gets all information of &lt;effect&gt; tags from the document.
-	 * 
-	 * @return A List of Effect objects with the information from the document.
-	 */
-	public List<Effect> getEffects() {
-		logger.info("Getting effects...");
-
-		NodeList effects = doc.getElementsByTagName(EFFECT);
-		List<Effect> list = new ArrayList<Effect>();
-
-		for (int i = 0; i < effects.getLength(); i++) {
-
-			Node node = effects.item(i);
-
-			if (node.getNodeType() == Node.ELEMENT_NODE) {
-
-				Element element = (Element) node;
-
-				Effect effect = new Effect();
-
-				effect.setId(validateString(element.getAttribute(ID)));
-				effect.setName(validateString(element.getAttribute(NAME)));
-				effect.setUid(validateString(element.getAttribute(UID)));
-				effect.setSrc(validateString(element.getAttribute(SOURCE)));
-
-				list.add(effect);
+				list.add(createAudio(node));
 			}
 		}
 
@@ -423,30 +227,345 @@ public class Parser {
 			Node node = clips.item(i);
 
 			if (node.getNodeType() == Node.ELEMENT_NODE) {
-
-				Element element = (Element) node;
-
-				Clip clip = new Clip();
-
-				clip.setName(validateString(element.getAttribute(NAME)));
-				clip.setTcFormat(validateString(element.getAttribute(TC_FORMAT)));
-
-				String duration = validateString(element.getAttribute(DURATION));
-				String start = validateString(element.getAttribute(START));
-				String offset = validateString(element.getAttribute(OFFSET));
-				clip.setDuration(getTime(duration));
-				clip.setStart(getTime(start));
-				clip.setOffset(getTime(offset));
-
-				list.add(clip);
+				list.add(createClip(node));
 			}
 		}
 
 		return list;
 	}
 
+	/**
+	 * Gets all information of &lt;effect&gt; tags from the document.
+	 * 
+	 * @return A List of Effect objects with the information from the document.
+	 */
+	public List<Effect> getEffects() {
+		logger.info("Getting effects...");
+
+		NodeList effects = doc.getElementsByTagName(EFFECT);
+		List<Effect> list = new ArrayList<Effect>();
+
+		for (int i = 0; i < effects.getLength(); i++) {
+
+			Node node = effects.item(i);
+
+			if (node.getNodeType() == Node.ELEMENT_NODE) {
+				list.add(createEffect(node));
+			}
+		}
+
+		return list;
+	}
+
+	/**
+	 * Gets all information of &lt;format&gt; tags from the document.
+	 * 
+	 * @return A List of Format objects with the information from the document.
+	 */
+	public List<Format> getFormats() {
+		logger.info("Getting formats...");
+
+		NodeList formats = doc.getElementsByTagName(FORMAT);
+		List<Format> list = new ArrayList<Format>();
+
+		for (int i = 0; i < formats.getLength(); i++) {
+
+			Node node = formats.item(i);
+
+			if (node.getNodeType() == Node.ELEMENT_NODE) {
+				list.add(createFormat(node));
+			}
+		}
+
+		return list;
+	}
+
+	/**
+	 * Gets all information of &lt;video&gt; tags from the document.
+	 * 
+	 * @return A List of Video objects with the information from the document.
+	 */
+	public List<Video> getVideos() {
+		logger.info("Getting videos...");
+
+		NodeList videos = doc.getElementsByTagName(VIDEO);
+		List<Video> list = new ArrayList<Video>();
+
+		for (int i = 0; i < videos.getLength(); i++) {
+
+			Node node = videos.item(i);
+
+			if (node.getNodeType() == Node.ELEMENT_NODE) {
+				list.add(createVideo(node));
+			}
+		}
+
+		return list;
+	}
+
+	/**
+	 * Creates an Asset entity from the given node from the XML file.
+	 * 
+	 * @param node
+	 *            The Node which holds the Asset's information.
+	 * @return The Asset with it's corresponding information. Please note any
+	 *         linked entities, such as Format, Asset, or Effect are not
+	 *         complete entities. The field only contains the linked entity's id
+	 *         number.
+	 */
+	private Asset createAsset(Node node) {
+		Element element = (Element) node;
+
+		Asset asset = new Asset();
+		asset.setId(validateString(element.getAttribute(ID)));
+
+		String hasAudio = element.getAttribute(HAS_AUDIO);
+		asset.setHasAudio(hasAudio != null && hasAudio.equals("1"));
+
+		String hasVideo = element.getAttribute(HAS_VIDEO);
+		asset.setHasVideo(hasVideo != null && hasVideo.equals("1"));
+
+		asset.setName(validateString(element.getAttribute(NAME)));
+		asset.setUid(validateString(element.getAttribute(UID)));
+		asset.setSrc(validateString(element.getAttribute(SOURCE)));
+		asset.setAudioSources(validateNumber(element.getAttribute(AUDIO_SOURCES)));
+		asset.setAudioChannels(validateNumber(element.getAttribute(AUDIO_CHANNELS)));
+		asset.setAudioRate(validateNumber(element.getAttribute(AUDIO_RATE)));
+
+		String duration = validateString(element.getAttribute(DURATION));
+		String start = element.getAttribute(START);
+		asset.setDuration(getTime(duration));
+		asset.setStart(getTime(start));
+
+		// Find corresponding format element.
+		String formatId = validateString(element.getAttribute(FORMAT));
+		Format format = new Format();
+		format.setId(formatId);
+		asset.setFormat(format);
+
+		return asset;
+	}
+
+	/**
+	 * Creates an AssetClip entity from the given node from the XML file.
+	 * 
+	 * @param node
+	 *            The Node which holds the AssetClip's information.
+	 * @return The AssetClip with it's corresponding information. Please note
+	 *         any linked entities, such as Format, Asset, or Effect are not
+	 *         complete entities. The field only contains the linked entity's id
+	 *         number.
+	 */
+	private AssetClip createAssetClip(Node node) {
+		Element element = (Element) node;
+
+		AssetClip assetClip = new AssetClip();
+
+		assetClip.setName(validateString(element.getAttribute(NAME)));
+		assetClip.setLane(validateNumber(element.getAttribute(LANE)));
+		assetClip.setRole(validateString(element.getAttribute(AUDIO_ROLE)));
+		assetClip.setTcFormat(validateString(element.getAttribute(TC_FORMAT)));
+
+		String duration = validateString(element.getAttribute(DURATION));
+		String offset = element.getAttribute(OFFSET);
+		String start = element.getAttribute(START);
+		assetClip.setDuration(getTime(duration));
+		assetClip.setOffset(getTime(offset));
+		assetClip.setStart(getTime(start));
+
+		// Find corresponding asset element's source file.
+		String ref = validateString(element.getAttribute(REFERENCE));
+		Asset asset = new Asset();
+		asset.setId(ref);
+		assetClip.setAsset(asset);
+
+		// Find corresponding format element.
+		String formatId = validateString(element.getAttribute(FORMAT));
+		Format format = new Format();
+		format.setId(formatId);
+		assetClip.setFormat(format);
+
+		return assetClip;
+	}
+
+	/**
+	 * Creates an Audio entity from the given node from the XML file.
+	 * 
+	 * @param node
+	 *            The Node which holds the Audio information.
+	 * @return The Audio with it's corresponding information. Please note any
+	 *         linked entities, such as Format, Asset, or Effect are not
+	 *         complete entities. The field only contains the linked entity's id
+	 *         number.
+	 */
+	private Audio createAudio(Node node) {
+		Element element = (Element) node;
+
+		Audio audio = new Audio();
+
+		audio.setLane(validateNumber(element.getAttribute(LANE)));
+		audio.setRole(validateString(element.getAttribute(ROLE)));
+		audio.setOffset(validateString(element.getAttribute(OFFSET)));
+		audio.setSrcCh(validateString(element.getAttribute(SRC_CH)));
+		audio.setSrcId(validateNumber(element.getAttribute(SRC_ID)));
+
+		String duration = validateString(element.getAttribute(DURATION));
+		String start = validateString(element.getAttribute(START));
+		String offset = validateString(element.getAttribute(OFFSET));
+		audio.setDuration(getTime(duration));
+		audio.setStart(getTime(start));
+		audio.setOffset(getTime(offset));
+
+		// Find corresponding asset element's sourcc file.
+		String ref = validateString(element.getAttribute(REFERENCE));
+		Asset asset = new Asset();
+		asset.setId(ref);
+		audio.setAsset(asset);
+
+		// Find parent Clip node
+		Node parent = node;
+		boolean foundClip = false;
+		do {
+			parent = parent.getParentNode();
+			String name = parent.getNodeName();
+			if (name == CLIP) {
+				foundClip = true;
+			}
+		} while (!foundClip);
+		Clip clip = createClip(parent);
+		audio.setName(clip.getName());
+		audio.setTcFormat(clip.getTcFormat());
+
+		return audio;
+	}
+
+	/**
+	 * Creates a Clip entity from the given node from the XML file.
+	 * 
+	 * @param node
+	 *            The Node which holds the Clip's information.
+	 * @return The Clip with it's corresponding information. Please note any
+	 *         linked entities, such as Format, Asset, or Effect are not
+	 *         complete entities. The field only contains the linked entity's id
+	 *         number.
+	 */
+	private Clip createClip(Node node) {
+		Element element = (Element) node;
+
+		Clip clip = new Clip();
+
+		clip.setName(validateString(element.getAttribute(NAME)));
+		clip.setTcFormat(validateString(element.getAttribute(TC_FORMAT)));
+
+		String duration = validateString(element.getAttribute(DURATION));
+		String start = validateString(element.getAttribute(START));
+		String offset = validateString(element.getAttribute(OFFSET));
+		clip.setDuration(getTime(duration));
+		clip.setStart(getTime(start));
+		clip.setOffset(getTime(offset));
+
+		return clip;
+	}
+
+	/**
+	 * Creates an Effect entity from the given node from the XML file.
+	 * 
+	 * @param node
+	 *            The Node which holds the Effect information.
+	 * @return The Effect with it's corresponding information. Please note any
+	 *         linked entities, such as Format, Asset, or Effect are not
+	 *         complete entities. The field only contains the linked entity's id
+	 *         number.
+	 */
+	private Effect createEffect(Node node) {
+		Element element = (Element) node;
+
+		Effect effect = new Effect();
+
+		effect.setId(validateString(element.getAttribute(ID)));
+		effect.setName(validateString(element.getAttribute(NAME)));
+		effect.setUid(validateString(element.getAttribute(UID)));
+		effect.setSrc(validateString(element.getAttribute(SOURCE)));
+
+		return effect;
+	}
+
+	/**
+	 * Creates a Format entity from the given node from the XML file.
+	 * 
+	 * @param node
+	 *            The Node which holds the Format's information.
+	 * @return The Format with it's corresponding information. Please note any
+	 *         linked entities, such as Format, Asset, or Effect are not
+	 *         complete entities. The field only contains the linked entity's id
+	 *         number.
+	 */
+	private Format createFormat(Node node) {
+		Element element = (Element) node;
+
+		Format format = new Format();
+
+		format.setId(validateString(element.getAttribute(ID)));
+		format.setName(validateString(element.getAttribute(NAME)));
+		format.setWidth(validateNumber(element.getAttribute(WIDTH)));
+		format.setHeight(validateNumber(element.getAttribute(HEIGHT)));
+
+		String frameDuration = validateString(element.getAttribute(FRAME_DURATION));
+		format.setFrameDuration(getFrameRate(frameDuration));
+
+		return format;
+	}
+
+	/**
+	 * Creates a Video entity from the given node from the XML file.
+	 * 
+	 * @param node
+	 *            The Node which holds the Video's information.
+	 * @return The Video with it's corresponding information. Please note any
+	 *         linked entities, such as Format, Asset, or Effect are not
+	 *         complete entities. The field only contains the linked entity's id
+	 *         number.
+	 */
+	private Video createVideo(Node node) {
+		Element element = (Element) node;
+
+		Video video = new Video();
+
+		video.setName(validateString(element.getAttribute(NAME)));
+		video.setLane(validateNumber(element.getAttribute(LANE)));
+
+		String duration = validateString(element.getAttribute(DURATION));
+		String start = validateString(element.getAttribute(START));
+		String offset = validateString(element.getAttribute(OFFSET));
+		video.setDuration(getTime(duration));
+		video.setStart(getTime(start));
+		video.setOffset(getTime(offset));
+
+		// Find corresponding asset element.
+		String ref = validateString(element.getAttribute(REFERENCE));
+		Asset asset = new Asset();
+		asset.setId(ref);
+		video.setAsset(asset);
+		
+		// Find parent Clip node
+//		Node parent = node;
+//		boolean foundClip = false;
+//		do {
+//			parent = parent.getParentNode();
+//			String name = parent.getNodeName();
+//			if (name == CLIP) {
+//				foundClip = true;
+//			}
+//		} while (!foundClip);
+//		Clip clip = createClip(parent);
+//		video.setName(clip.getName());
+//		video.setTcFormat(clip.getTcFormat());
+
+
+		return video;
+	}
+
 	private String getTime(String s) {
-		// logger.info("Original time: " + s);
 		String time = "0";
 
 		if (s != null && !s.isEmpty()) {
@@ -465,17 +584,13 @@ public class Parser {
 				BigDecimal quotient = numerator.divide(denominator, 2, RoundingMode.HALF_UP);
 
 				time = convertToTimeStamp(quotient);
-
-				// logger.info("time: " + time);
 			}
 		}
 
-		// logger.info("New time: " + time);
 		return time;
 	}
 
 	private String getFrameRate(String s) {
-		// logger.info("Original frame duration: " + s);
 		String time = "0";
 
 		if (s != null && !s.isEmpty()) {
@@ -499,7 +614,6 @@ public class Parser {
 			time += " fps";
 		}
 
-		// logger.info("New frame rate: " + time);
 		return time;
 	}
 

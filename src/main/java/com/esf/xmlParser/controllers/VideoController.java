@@ -27,7 +27,7 @@ public class VideoController {
 		logger.info("Adding Videos...");
 		Connection conn = db.getConnection();
 
-		PreparedStatement ps = conn.prepareStatement("INSERT INTO VIDEOS VALUES (null, ?, ?, ?, ?, ?, ?);");
+		PreparedStatement ps = conn.prepareStatement("INSERT INTO VIDEOS VALUES (null, ?, ?, ?, ?, ?, ?, ?);");
 		for (Video video : videos) {
 			logger.info("Adding " + video);
 			ps.setString(1, video.getName());
@@ -36,6 +36,7 @@ public class VideoController {
 			ps.setString(4, video.getAsset().getId());
 			ps.setString(5, video.getDuration());
 			ps.setString(6, video.getStart());
+			ps.setString(7, video.getTcFormat());
 			ps.addBatch();
 		}
 
@@ -80,6 +81,11 @@ public class VideoController {
 	public List<Video> getVideosByStart(String key) throws SQLException, ClassNotFoundException {
 		logger.info("Getting Videos with start like " + key);
 		return get(DatabaseController.START, key);
+	}
+
+	public List<Video> getVideosByTcFormat(String key) throws SQLException, ClassNotFoundException {
+		logger.info("Getting Videos with TC format like " + key);
+		return get(DatabaseController.TC_FORMAT, key);
 	}
 
 	private List<Video> get(String col, String key) throws SQLException, ClassNotFoundException {
@@ -136,6 +142,7 @@ public class VideoController {
 		video.setLane(rs.getInt(DatabaseController.LANE));
 		video.setOffset(rs.getString(DatabaseController.OFFSET));
 		video.setStart(rs.getString(DatabaseController.START));
+		video.setTcFormat(rs.getString(DatabaseController.TC_FORMAT));
 
 		List<Asset> assets = db.getAssetsById(rs.getString(DatabaseController.ASSET_ID));
 		Asset asset = null;
