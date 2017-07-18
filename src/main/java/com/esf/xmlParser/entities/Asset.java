@@ -10,7 +10,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 /**
- * Represents an Asset tag in FCPXML
+ * Represents an Asset tag in FCPXML.
  *
  * @author Jeegna Patel
  * @version 2017/04/15
@@ -24,7 +24,6 @@ public class Asset extends Element implements Comparable<Asset>, Serializable {
 	private StringProperty duration;
 	private BooleanProperty hasVideo;
 	private BooleanProperty hasAudio;
-	private StringProperty name;
 	private StringProperty uid;
 	private StringProperty src;
 	private StringProperty start;
@@ -33,12 +32,14 @@ public class Asset extends Element implements Comparable<Asset>, Serializable {
 	private IntegerProperty audioChannels;
 	private IntegerProperty audioRate;
 
+	/**
+	 * Instantiates a new asset clip entity.
+	 */
 	public Asset() {
 		id = new SimpleStringProperty();
 		duration = new SimpleStringProperty();
 		hasVideo = new SimpleBooleanProperty();
 		hasAudio = new SimpleBooleanProperty();
-		name = new SimpleStringProperty();
 		uid = new SimpleStringProperty();
 		src = new SimpleStringProperty();
 		start = new SimpleStringProperty();
@@ -49,56 +50,56 @@ public class Asset extends Element implements Comparable<Asset>, Serializable {
 	}
 
 	/**
-	 * Gets the id property
+	 * Gets the id property.
 	 *
-	 * @return The id property
+	 * @return The id property.
 	 */
 	public StringProperty idProperty() {
 		return id;
 	}
 
 	/**
-	 * Gets the id
+	 * Gets the id.
 	 *
-	 * @return The id
+	 * @return The id.
 	 */
 	public String getId() {
 		return id.get();
 	}
 
 	/**
-	 * Sets the id
+	 * Sets the id.
 	 *
 	 * @param id
-	 *            The new id to set
+	 *            The new id to set.
 	 */
 	public void setId(String id) {
 		this.id.set(id);
 	}
 
 	/**
-	 * Gets the duration property
+	 * Gets the duration property.
 	 *
-	 * @return The duration property
+	 * @return The duration property.
 	 */
 	public StringProperty durationProperty() {
 		return duration;
 	}
 
 	/**
-	 * Gets the duration
+	 * Gets the duration.
 	 *
-	 * @return The duration
+	 * @return The duration.
 	 */
 	public String getDuration() {
 		return duration.get();
 	}
 
 	/**
-	 * Sets the duration
+	 * Sets the duration.
 	 *
 	 * @param duration
-	 *            The new duration to set
+	 *            The new duration to set.
 	 */
 	public void setDuration(String duration) {
 		if (duration == null) {
@@ -108,115 +109,84 @@ public class Asset extends Element implements Comparable<Asset>, Serializable {
 	}
 
 	/**
-	 * Gets the hasVideo property
+	 * Gets the has video property.
 	 *
-	 * @return The hasVideo property
+	 * @return The has video property.
 	 */
 	public BooleanProperty hasVideoProperty() {
 		return hasVideo;
 	}
 
 	/**
-	 * Gets the hasVideo
+	 * Gets the has video.
 	 *
-	 * @return The hasVideo
+	 * @return The has video.
 	 */
 	public boolean hasVideo() {
 		return hasVideo.get();
 	}
 
 	/**
-	 * Sets the hasVideo
+	 * Sets the has video.
 	 *
 	 * @param hasVideo
-	 *            The new hasVideo to set
+	 *            The new has video to set.
 	 */
 	public void setHasVideo(boolean hasVideo) {
 		this.hasVideo.set(hasVideo);
 	}
 
 	/**
-	 * Gets the hasAudio property
+	 * Gets the has audio property.
 	 *
-	 * @return The hasAudio property
+	 * @return The has audio property.
 	 */
 	public BooleanProperty hasAudioProperty() {
 		return hasAudio;
 	}
 
 	/**
-	 * Gets the hasAudio
+	 * Gets the has audio.
 	 *
-	 * @return The hasAudio
+	 * @return The has audio.
 	 */
 	public boolean hasAudio() {
 		return hasAudio.get();
 	}
 
 	/**
-	 * Sets the hasAudio
+	 * Sets the has audio.
 	 *
 	 * @param hasAudio
-	 *            The new hasAudio to set
+	 *            The new hasAaudio to set.
 	 */
 	public void setHasAudio(boolean hasAudio) {
 		this.hasAudio.set(hasAudio);
 	}
 
 	/**
-	 * Gets the name property
+	 * Gets the UID property.
 	 *
-	 * @return The name property
-	 */
-	public StringProperty nameProperty() {
-		return name;
-	}
-
-	/**
-	 * Gets the name
-	 *
-	 * @return The name
-	 */
-	public String getName() {
-		return name.get();
-	}
-
-	/**
-	 * Sets the name
-	 *
-	 * @param name
-	 *            The new name to set
-	 */
-	public void setName(String name) {
-		if (name == null) {
-			name = "";
-		}
-		this.name.set(name);
-	}
-
-	/**
-	 * Gets the uid property
-	 *
-	 * @return The uid property
+	 * @return The UID property.
 	 */
 	public StringProperty uidProperty() {
 		return uid;
 	}
 
 	/**
-	 * Gets the uid
+	 * Gets the UID.
 	 *
-	 * @return The uid
+	 * @return The UID.
 	 */
 	public String getUid() {
 		return uid.get();
 	}
 
 	/**
-	 * Sets the uid
+	 * Sets the UID.
 	 *
 	 * @param uid
-	 *            The new uid to set
+	 *            The new UID to set.
 	 */
 	public void setUid(String uid) {
 		if (uid == null) {
@@ -226,28 +196,28 @@ public class Asset extends Element implements Comparable<Asset>, Serializable {
 	}
 
 	/**
-	 * Gets the src property
+	 * Gets the source property.
 	 *
-	 * @return The src property
+	 * @return The source property.
 	 */
 	public StringProperty srcProperty() {
 		return src;
 	}
 
 	/**
-	 * Gets the src
+	 * Gets the source.
 	 *
-	 * @return The src
+	 * @return The source.
 	 */
 	public String getSrc() {
 		return src.get();
 	}
 
 	/**
-	 * Sets the src
+	 * Sets the source.
 	 *
 	 * @param src
-	 *            The new src to set
+	 *            The new source to set.
 	 */
 	public void setSrc(String src) {
 		if (src == null) {
@@ -257,28 +227,28 @@ public class Asset extends Element implements Comparable<Asset>, Serializable {
 	}
 
 	/**
-	 * Gets the start property
+	 * Gets the start property.
 	 *
-	 * @return The start property
+	 * @return The start property.
 	 */
 	public StringProperty startProperty() {
 		return start;
 	}
 
 	/**
-	 * Gets the start
+	 * Gets the start.
 	 *
-	 * @return The start
+	 * @return The start.
 	 */
 	public String getStart() {
 		return start.get();
 	}
 
 	/**
-	 * Sets the start
+	 * Sets the start time.
 	 *
 	 * @param start
-	 *            The new start to set
+	 *            The new start to set.
 	 */
 	public void setStart(String start) {
 		if (start == null) {
@@ -288,19 +258,19 @@ public class Asset extends Element implements Comparable<Asset>, Serializable {
 	}
 
 	/**
-	 * Gets the Format
+	 * Gets the Format.
 	 *
-	 * @return The Format
+	 * @return The Format.
 	 */
 	public Format getFormat() {
 		return format;
 	}
 
 	/**
-	 * Sets the Format
+	 * Sets the Format.
 	 *
 	 * @param format
-	 *            The new Format to set
+	 *            The new Format to set.
 	 */
 	public void setFormat(Format format) {
 		if (format == null) {
@@ -310,84 +280,84 @@ public class Asset extends Element implements Comparable<Asset>, Serializable {
 	}
 
 	/**
-	 * Gets the audioSources property
+	 * Gets the audio sources property.
 	 *
-	 * @return The audioSources property
+	 * @return The audio sources property.
 	 */
 	public IntegerProperty audioSourcesProperty() {
 		return audioSources;
 	}
 
 	/**
-	 * Gets the audioSources
+	 * Gets the audio sources.
 	 *
-	 * @return The audioSources
+	 * @return The audio sources.
 	 */
 	public int getAudioSources() {
 		return audioSources.get();
 	}
 
 	/**
-	 * Sets the audioSources
+	 * Sets the audio sources.
 	 *
 	 * @param audioSources
-	 *            The new audioSources to set
+	 *            The new audio sources to set.
 	 */
 	public void setAudioSources(int audioSources) {
 		this.audioSources.set(audioSources);
 	}
 
 	/**
-	 * Gets the audioChannels property
+	 * Gets the audio channels property.
 	 *
-	 * @return The audioChannels property
+	 * @return The audio channels property.
 	 */
 	public IntegerProperty audioChannelsProperty() {
 		return audioChannels;
 	}
 
 	/**
-	 * Gets the audioChannels
+	 * Gets the audio channels.
 	 *
-	 * @return The audioChannels
+	 * @return The audio channels.
 	 */
 	public int getAudioChannels() {
 		return audioChannels.get();
 	}
 
 	/**
-	 * Sets the audioChannels
+	 * Sets the audio channels.
 	 *
 	 * @param audioChannels
-	 *            The new audioChannels to set
+	 *            The new audio channels to set.
 	 */
 	public void setAudioChannels(int audioChannels) {
 		this.audioChannels.set(audioChannels);
 	}
 
 	/**
-	 * Gets the audioRate property
+	 * Gets the audio rate property.
 	 *
-	 * @return The audioRate property
+	 * @return The audio rate property.
 	 */
 	public IntegerProperty audioRateProperty() {
 		return audioRate;
 	}
 
 	/**
-	 * Gets the audioRate
+	 * Gets the audio rate.
 	 *
-	 * @return The audioRate
+	 * @return The audio rate.
 	 */
 	public int getAudioRate() {
 		return audioRate.get();
 	}
 
 	/**
-	 * Sets the audioRate
+	 * Sets the audio rate.
 	 *
 	 * @param audioRate
-	 *            The new audioRate to set
+	 *            The new audio rate to set.
 	 */
 	public void setAudioRate(int audioRate) {
 		this.audioRate.set(audioRate);
@@ -401,9 +371,10 @@ public class Asset extends Element implements Comparable<Asset>, Serializable {
 	@Override
 	public String toString() {
 		return String.format(
-				"Asset[id=%s, duration=%s, hasVideo=%s, hasAudio=%s, name=%s, uid=%s, src=%s, start=%s, format=%s, audioSources=%s, audioChannels=%s, audioRate=%s]",
-				id.get(), duration.get(), hasVideo.get(), hasAudio.get(), name.get(), uid.get(), src.get(), start.get(),
-				format, audioSources.get(), audioChannels.get(), audioRate.get());
+				getClass().getSimpleName()
+						+ " [id=%s, duration=%s, hasVideo=%s, hasAudio=%s, name=%s, uid=%s, src=%s, start=%s, format=%s, audioSources=%s, audioChannels=%s, audioRate=%s]",
+				getId(), getDuration(), hasVideo(), hasAudio(), getName(), getUid(), getSrc(), getStart(), getFormat(),
+				getAudioSources(), getAudioChannels(), getAudioRate());
 	}
 
 	/*
@@ -418,7 +389,7 @@ public class Asset extends Element implements Comparable<Asset>, Serializable {
 			return 1;
 		}
 
-		return Integer.compare(Integer.parseInt(id.get().substring(1)), (Integer.parseInt(o.id.get().substring(1))));
+		return Integer.compare(Integer.parseInt(getId().substring(1)), (Integer.parseInt(o.getId().substring(1))));
 	}
 
 	/*
@@ -434,6 +405,6 @@ public class Asset extends Element implements Comparable<Asset>, Serializable {
 
 		Asset asset = (Asset) o;
 
-		return id.get().equals(asset.id.get());
+		return getId().equals(asset.getId());
 	}
 }

@@ -8,7 +8,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 /**
- * Represents an AssetClip in FCPXML
+ * Represents an AssetClip in FCPXML.
  *
  * @author Jeegna Patel
  * @version 2017/04/15
@@ -20,7 +20,6 @@ public class AssetClip extends Element implements Comparable<AssetClip>, Seriali
 
 	private IntegerProperty id;
 	private Asset asset;
-	private StringProperty name;
 	private IntegerProperty lane;
 	private StringProperty offset;
 	private StringProperty duration;
@@ -29,10 +28,12 @@ public class AssetClip extends Element implements Comparable<AssetClip>, Seriali
 	private Format format;
 	private StringProperty tcFormat;
 
+	/**
+	 * Instantiates a new asset clip entity.
+	 */
 	public AssetClip() {
 		id = new SimpleIntegerProperty();
 		asset = new Asset();
-		name = new SimpleStringProperty();
 		lane = new SimpleIntegerProperty();
 		offset = new SimpleStringProperty();
 		duration = new SimpleStringProperty();
@@ -43,47 +44,47 @@ public class AssetClip extends Element implements Comparable<AssetClip>, Seriali
 	}
 
 	/**
-	 * Gets the id property
+	 * Gets the id property.
 	 *
-	 * @return The id property
+	 * @return The id property.
 	 */
 	public IntegerProperty idProperty() {
 		return id;
 	}
 
 	/**
-	 * Gets the id
+	 * Gets the id.
 	 *
-	 * @return The id
+	 * @return The id.
 	 */
 	public int getId() {
 		return id.get();
 	}
 
 	/**
-	 * Sets the id
+	 * Sets the id.
 	 *
 	 * @param id
-	 *            The new id to set
+	 *            The new id to set.
 	 */
 	public void setId(int id) {
 		this.id.set(id);
 	}
 
 	/**
-	 * Gets the Asset
+	 * Gets the Asset.
 	 *
-	 * @return The Asset
+	 * @return The Asset.
 	 */
 	public Asset getAsset() {
 		return asset;
 	}
 
 	/**
-	 * Sets the Aseet
+	 * Sets the Asset.
 	 *
 	 * @param asset
-	 *            The new Asset to set
+	 *            The new Asset to set.
 	 */
 	public void setAsset(Asset asset) {
 		if (asset == null) {
@@ -93,87 +94,56 @@ public class AssetClip extends Element implements Comparable<AssetClip>, Seriali
 	}
 
 	/**
-	 * Gets the name property
+	 * Gets the lane property.
 	 *
-	 * @return The name property
-	 */
-	public StringProperty nameProperty() {
-		return name;
-	}
-
-	/**
-	 * Gets the name
-	 *
-	 * @return The name
-	 */
-	public String getName() {
-		return name.get();
-	}
-
-	/**
-	 * Sets the name
-	 *
-	 * @param name
-	 *            The new name to set
-	 */
-	public void setName(String name) {
-		if (name == null) {
-			name = "";
-		}
-		this.name.set(name);
-	}
-
-	/**
-	 * Gets the lane property
-	 *
-	 * @return The lane property
+	 * @return The lane property.
 	 */
 	public IntegerProperty laneProperty() {
 		return lane;
 	}
 
 	/**
-	 * Gets the lane
+	 * Gets the lane.
 	 *
-	 * @return The lane
+	 * @return The lane.
 	 */
 	public int getLane() {
 		return lane.get();
 	}
 
 	/**
-	 * Sets the lane
+	 * Sets the lane.
 	 *
 	 * @param lane
-	 *            The new lane to set
+	 *            The new lane to set.
 	 */
 	public void setLane(int lane) {
 		this.lane.set(lane);
 	}
 
 	/**
-	 * Gets the offset property
+	 * Gets the offset property.
 	 *
-	 * @return The offset property
+	 * @return The offset property.
 	 */
 	public StringProperty offsetProperty() {
 		return offset;
 	}
 
 	/**
-	 * Gets the offset
+	 * Gets the offset.
 	 *
-	 * @return The offset
+	 * @return The offset.
 	 */
 	public String getOffset() {
 		return offset.get();
 	}
 
 	/**
-	 * Sets the offset
+	 * Sets the offset.
 	 *
 	 * @param offset
-	 *            The new offset to set
+	 *            The new offset to set.
 	 */
 	public void setOffset(String offset) {
 		if (offset == null) {
@@ -183,28 +153,28 @@ public class AssetClip extends Element implements Comparable<AssetClip>, Seriali
 	}
 
 	/**
-	 * Gets the duration property
+	 * Gets the duration property.
 	 *
-	 * @return The duration property
+	 * @return The duration property.
 	 */
 	public StringProperty durationProperty() {
 		return duration;
 	}
 
 	/**
-	 * Gets the duration
+	 * Gets the duration.
 	 *
-	 * @return The duration
+	 * @return The duration.
 	 */
 	public String getDuration() {
 		return duration.get();
 	}
 
 	/**
-	 * Sets the duration
+	 * Sets the duration.
 	 *
 	 * @param duration
-	 *            The new duration to set
+	 *            The new duration to set.
 	 */
 	public void setDuration(String duration) {
 		if (duration == null) {
@@ -214,28 +184,28 @@ public class AssetClip extends Element implements Comparable<AssetClip>, Seriali
 	}
 
 	/**
-	 * Gets the start property
+	 * Gets the start property.
 	 *
-	 * @return The start property
+	 * @return The start property.
 	 */
 	public StringProperty startProperty() {
 		return start;
 	}
 
 	/**
-	 * Gets the start
+	 * Gets the start.
 	 *
-	 * @return The start
+	 * @return The start.
 	 */
 	public String getStart() {
 		return start.get();
 	}
 
 	/**
-	 * Sets the start
+	 * Sets the start.
 	 *
 	 * @param start
-	 *            The new start to set
+	 *            The new start to set.
 	 */
 	public void setStart(String start) {
 		if (start == null) {
@@ -245,28 +215,28 @@ public class AssetClip extends Element implements Comparable<AssetClip>, Seriali
 	}
 
 	/**
-	 * Gets the role property
+	 * Gets the role property.
 	 *
-	 * @return The role property
+	 * @return The role property.
 	 */
 	public StringProperty roleProperty() {
 		return role;
 	}
 
 	/**
-	 * Gets the role
+	 * Gets the role.
 	 *
-	 * @return The role
+	 * @return The role.
 	 */
 	public String getRole() {
 		return role.get();
 	}
 
 	/**
-	 * Sets the role
+	 * Sets the role.
 	 *
 	 * @param role
-	 *            The new role to set
+	 *            The new role to set.
 	 */
 	public void setRole(String role) {
 		if (role == null) {
@@ -276,19 +246,19 @@ public class AssetClip extends Element implements Comparable<AssetClip>, Seriali
 	}
 
 	/**
-	 * Gets the Format
+	 * Gets the Format.
 	 *
-	 * @return The Format
+	 * @return The Format.
 	 */
 	public Format getFormat() {
 		return format;
 	}
 
 	/**
-	 * Sets the Format
+	 * Sets the Format.
 	 *
 	 * @param format
-	 *            The new Format to set
+	 *            The new Format to set.
 	 */
 	public void setFormat(Format format) {
 		if (format == null) {
@@ -298,28 +268,28 @@ public class AssetClip extends Element implements Comparable<AssetClip>, Seriali
 	}
 
 	/**
-	 * Gets the tcFormat property
+	 * Gets the TC format property.
 	 *
-	 * @return The tcFormat property
+	 * @return The TC format property.
 	 */
 	public StringProperty tcFormatProperty() {
 		return tcFormat;
 	}
 
 	/**
-	 * Gets the tcFormat
+	 * Gets the TC format.
 	 *
-	 * @return The tcFormat
+	 * @return The TC format.
 	 */
 	public String getTcFormat() {
 		return tcFormat.get();
 	}
 
 	/**
-	 * Sets the tcFormat
+	 * Sets the TC format.
 	 *
 	 * @param tcFormat
-	 *            The new tcFormat to set
+	 *            The new TC format to set.
 	 */
 	public void setTcFormat(String tcFormat) {
 		if (tcFormat == null) {
@@ -336,9 +306,10 @@ public class AssetClip extends Element implements Comparable<AssetClip>, Seriali
 	@Override
 	public String toString() {
 		return String.format(
-				"AssetClip[asset=%s, name=%s, lane=%s, duration=%s, start=%s, role=%s, offset=%s, format=%s, tcFormat=%s]",
-				asset, name.get(), lane.get(), duration.get(), start.get(), role.get(), offset.get(), format,
-				tcFormat.get());
+				getClass().getSimpleName()
+						+ " [asset=%s, name=%s, lane=%s, duration=%s, start=%s, role=%s, offset=%s, format=%s, tcFormat=%s]",
+				getAsset(), getName(), getLane(), getDuration(), getStart(), getRole(), getOffset(), getFormat(),
+				getTcFormat());
 	}
 
 	/*
@@ -352,8 +323,7 @@ public class AssetClip extends Element implements Comparable<AssetClip>, Seriali
 			return 1;
 		}
 
-		return Integer.compare(Integer.parseInt(asset.getId().substring(1)),
-				(Integer.parseInt(o.asset.getId().substring(1))));
+		return Integer.compare(getId(), o.getId());
 	}
 
 	/*
@@ -369,6 +339,6 @@ public class AssetClip extends Element implements Comparable<AssetClip>, Seriali
 
 		AssetClip assetClip = (AssetClip) o;
 
-		return id.get() == assetClip.getId();
+		return getId() == assetClip.getId();
 	}
 }

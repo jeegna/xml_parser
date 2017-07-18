@@ -8,7 +8,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 /**
- * Represents a Format tag in FCPXML
+ * Represents a Format tag in FCPXML.
  *
  * @author Jeegna Patel
  * @version 2017/07/04
@@ -19,157 +19,127 @@ public class Format extends Element implements Comparable<Format>, Serializable 
 	private static final long serialVersionUID = 1L;
 
 	private StringProperty id;
-	private StringProperty name;
 	private IntegerProperty width;
 	private IntegerProperty height;
 	private StringProperty frameDuration;
 
+	/**
+	 * Instantiates a new format entity.
+	 */
 	public Format() {
 		id = new SimpleStringProperty();
-		name = new SimpleStringProperty();
 		width = new SimpleIntegerProperty();
 		height = new SimpleIntegerProperty();
 		frameDuration = new SimpleStringProperty();
 	}
 
 	/**
-	 * Gets the id property
+	 * Gets the id property.
 	 *
-	 * @return The id property
+	 * @return The id property.
 	 */
 	public StringProperty idProperty() {
 		return id;
 	}
 
 	/**
-	 * Gets the id
+	 * Gets the id.
 	 * 
-	 * @return The id
+	 * @return The id.
 	 */
 	public String getId() {
 		return id.get();
 	}
 
 	/**
-	 * Sets the id
+	 * Sets the id.
 	 * 
 	 * @param id
-	 *            The new id to set
+	 *            The new id to set.
 	 */
 	public void setId(String id) {
 		this.id.set(id);
 	}
 
 	/**
-	 * Gets the name property
+	 * Gets the width property.
 	 *
-	 * @return The name property
-	 */
-	public StringProperty nameProperty() {
-		return name;
-	}
-
-	/**
-	 * Gets the name
-	 * 
-	 * @return The name
-	 */
-	public String getName() {
-		return name.get();
-	}
-
-	/**
-	 * Sets the name
-	 * 
-	 * @param name
-	 *            The new name to set
-	 */
-	public void setName(String name) {
-		if (name == null) {
-			name = "";
-		}
-		this.name.set(name);
-	}
-
-	/**
-	 * Gets the width property
-	 *
-	 * @return The width property
+	 * @return The width property.
 	 */
 	public IntegerProperty widthProperty() {
 		return width;
 	}
 
 	/**
-	 * Gets the width
+	 * Gets the width.
 	 * 
-	 * @return The width
+	 * @return The width.
 	 */
 	public int getWidth() {
 		return width.get();
 	}
 
 	/**
-	 * Sets the width
+	 * Sets the width.
 	 * 
 	 * @param width
-	 *            The new width to set
+	 *            The new width to set.
 	 */
 	public void setWidth(int width) {
 		this.width.set(width);
 	}
 
 	/**
-	 * Gets the height property
+	 * Gets the height property.
 	 *
-	 * @return The height property
+	 * @return The height property.
 	 */
 	public IntegerProperty heightProperty() {
 		return height;
 	}
 
 	/**
-	 * Gets the height
+	 * Gets the height.
 	 * 
-	 * @return The height
+	 * @return The height.
 	 */
 	public int getHeight() {
 		return height.get();
 	}
 
 	/**
-	 * Sets the height
+	 * Sets the height.
 	 * 
 	 * @param height
-	 *            The new height to set
+	 *            The new height to set.
 	 */
 	public void setHeight(int height) {
 		this.height.set(height);
 	}
 
 	/**
-	 * Gets the frame duration property
+	 * Gets the frame duration property.
 	 *
-	 * @return The frame duration property
+	 * @return The frame duration property.
 	 */
 	public StringProperty frameDurationProperty() {
 		return frameDuration;
 	}
 
 	/**
-	 * Gets the frame duration
+	 * Gets the frame duration.
 	 * 
-	 * @return The frame duration
+	 * @return The frame duration.
 	 */
 	public String getFrameDuration() {
 		return frameDuration.get();
 	}
 
 	/**
-	 * Sets the frame duration
+	 * Sets the frame duration.
 	 * 
 	 * @param frameDuration
-	 *            The new frame duration to set
+	 *            The new frame duration to set.
 	 */
 	public void setFrameDuration(String frameDuration) {
 		if (frameDuration == null) {
@@ -185,8 +155,8 @@ public class Format extends Element implements Comparable<Format>, Serializable 
 	 */
 	@Override
 	public String toString() {
-		return String.format("Format[id=%s, name=%s, width=%s, height=%s, frameDuration=%s]", id.get(), name.get(),
-				width.get(), height.get(), frameDuration.get());
+		return String.format(getClass().getSimpleName() + " [id=%s, name=%s, width=%s, height=%s, frameDuration=%s]",
+				getId(), getName(), getWidth(), getHeight(), getFrameDuration());
 	}
 
 	/*
@@ -200,7 +170,7 @@ public class Format extends Element implements Comparable<Format>, Serializable 
 			return 1;
 		}
 
-		return Integer.compare(Integer.parseInt(id.get().substring(1)), (Integer.parseInt(o.id.get().substring(1))));
+		return Integer.compare(Integer.parseInt(getId().substring(1)), (Integer.parseInt(o.getId().substring(1))));
 	}
 
 	/*
@@ -216,6 +186,6 @@ public class Format extends Element implements Comparable<Format>, Serializable 
 
 		Format format = (Format) o;
 
-		return id.get().equals(format.id.get());
+		return getId().equals(format.getId());
 	}
 }

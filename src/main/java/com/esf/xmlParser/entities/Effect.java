@@ -6,7 +6,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 /**
- * Represents an Effect tag in FCPXML
+ * Represents an Effect tag in FCPXML.
  *
  * @author Jeegna Patel
  * @version 2017/07/04
@@ -17,99 +17,69 @@ public class Effect extends Element implements Comparable<Effect>, Serializable 
 	private static final long serialVersionUID = 1L;
 
 	private StringProperty id;
-	private StringProperty name;
 	private StringProperty uid;
 	private StringProperty src;
 
+	/**
+	 * Instantiates a new audio entity.
+	 */
 	public Effect() {
 		id = new SimpleStringProperty();
-		name = new SimpleStringProperty();
 		uid = new SimpleStringProperty();
 		src = new SimpleStringProperty();
 	}
 
 	/**
-	 * Gets the id property
+	 * Gets the id property.
 	 *
-	 * @return The id property
+	 * @return The id property.
 	 */
 	public StringProperty idProperty() {
 		return id;
 	}
 
 	/**
-	 * Gets the id
+	 * Gets the id.
 	 * 
-	 * @return The id
+	 * @return The id.
 	 */
 	public String getId() {
 		return id.get();
 	}
 
 	/**
-	 * Sets the id
+	 * Sets the id.
 	 * 
 	 * @param id
-	 *            The new id to set
+	 *            The new id to set.
 	 */
 	public void setId(String id) {
 		this.id.set(id);
 	}
 
 	/**
-	 * Gets the name property
+	 * Gets the UID property.
 	 *
-	 * @return The name property
-	 */
-	public StringProperty nameProperty() {
-		return name;
-	}
-
-	/**
-	 * Gets the name
-	 * 
-	 * @return The name
-	 */
-	public String getName() {
-		return name.get();
-	}
-
-	/**
-	 * Sets the name
-	 * 
-	 * @param name
-	 *            The new name to set
-	 */
-	public void setName(String name) {
-		if (name == null) {
-			name = "";
-		}
-		this.name.set(name);
-	}
-
-	/**
-	 * Gets the uid property
-	 *
-	 * @return The uid property
+	 * @return The UID property.
 	 */
 	public StringProperty uidProperty() {
 		return uid;
 	}
 
 	/**
-	 * Gest the UID
+	 * Gets the UID.
 	 * 
-	 * @return The UID
+	 * @return The UID.
 	 */
 	public String getUid() {
 		return uid.get();
 	}
 
 	/**
-	 * Sets the UID
+	 * Sets the UID.
 	 * 
 	 * @param uid
-	 *            The new UID to set
+	 *            The new UID to set.
 	 */
 	public void setUid(String uid) {
 		if (uid == null) {
@@ -119,28 +89,28 @@ public class Effect extends Element implements Comparable<Effect>, Serializable 
 	}
 
 	/**
-	 * Gets the src property
+	 * Gets the source property.
 	 *
-	 * @return The src property
+	 * @return The source property.
 	 */
 	public StringProperty srcProperty() {
 		return src;
 	}
 
 	/**
-	 * Gets the src
+	 * Gets the source.
 	 * 
-	 * @return The src
+	 * @return The source.
 	 */
 	public String getSrc() {
 		return src.get();
 	}
 
 	/**
-	 * Sets the src
+	 * Sets the source.
 	 * 
 	 * @param src
-	 *            The new src to set
+	 *            The new source to set.
 	 */
 	public void setSrc(String src) {
 		if (src == null) {
@@ -156,7 +126,8 @@ public class Effect extends Element implements Comparable<Effect>, Serializable 
 	 */
 	@Override
 	public String toString() {
-		return String.format("Video[id=%s, name=%s, uid=%s, src=%s]", id.get(), name.get(), uid.get(), src.get());
+		return String.format(getClass().getSimpleName() + " [id=%s, name=%s, uid=%s, src=%s]", getId(), getName(),
+				getUid(), getSrc());
 	}
 
 	/*
@@ -170,7 +141,7 @@ public class Effect extends Element implements Comparable<Effect>, Serializable 
 			return 1;
 		}
 
-		return Integer.compare(Integer.parseInt(id.get().substring(1)), (Integer.parseInt(o.id.get().substring(1))));
+		return Integer.compare(Integer.parseInt(getId().substring(1)), (Integer.parseInt(o.getId().substring(1))));
 	}
 
 	/*
@@ -186,6 +157,6 @@ public class Effect extends Element implements Comparable<Effect>, Serializable 
 
 		Effect effect = (Effect) o;
 
-		return id.get().equals(effect.id.get());
+		return getId().equals(effect.getId());
 	}
 }

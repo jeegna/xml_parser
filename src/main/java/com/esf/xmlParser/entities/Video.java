@@ -8,7 +8,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 /**
- * Represents a Video in FCPXML
+ * Represents a Video in FCPXML.
  *
  * @author Jeegna Patel
  * @version 2017/04/15
@@ -19,7 +19,6 @@ public class Video extends Element implements Comparable<Video>, Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private IntegerProperty id;
-	private StringProperty name;
 	private IntegerProperty lane;
 	private StringProperty offset;
 	private StringProperty duration;
@@ -27,9 +26,11 @@ public class Video extends Element implements Comparable<Video>, Serializable {
 	private StringProperty tcFormat;
 	private Asset asset;
 
+	/**
+	 * Instantiates a new video entity.
+	 */
 	public Video() {
 		id = new SimpleIntegerProperty();
-		name = new SimpleStringProperty();
 		lane = new SimpleIntegerProperty();
 		offset = new SimpleStringProperty();
 		asset = new Asset();
@@ -39,56 +40,56 @@ public class Video extends Element implements Comparable<Video>, Serializable {
 	}
 
 	/**
-	 * Gets the id property
+	 * Gets the id property.
 	 *
-	 * @return The id property
+	 * @return The id property.
 	 */
 	public IntegerProperty idProperty() {
 		return id;
 	}
 
 	/**
-	 * Gets the id
+	 * Gets the id.
 	 *
-	 * @return The id
+	 * @return The id.
 	 */
 	public int getId() {
 		return id.get();
 	}
 
 	/**
-	 * Sets the id
+	 * Sets the id.
 	 *
 	 * @param id
-	 *            The new id to set
+	 *            The new id to set.
 	 */
 	public void setId(int id) {
 		this.id.set(id);
 	}
 
 	/**
-	 * Gets the duration property
+	 * Gets the duration property.
 	 *
-	 * @return The duration property
+	 * @return The duration property.
 	 */
 	public StringProperty durationProperty() {
 		return duration;
 	}
 
 	/**
-	 * Gets the duration
+	 * Gets the duration.
 	 *
-	 * @return The duration
+	 * @return The duration.
 	 */
 	public String getDuration() {
 		return duration.get();
 	}
 
 	/**
-	 * Sets the duration
+	 * Sets the duration.
 	 *
 	 * @param duration
-	 *            The new duration to set
+	 *            The new duration to set.
 	 */
 	public void setDuration(String duration) {
 		if (duration == null) {
@@ -98,59 +99,28 @@ public class Video extends Element implements Comparable<Video>, Serializable {
 	}
 
 	/**
-	 * Gets the name property
+	 * Gets the start property.
 	 *
-	 * @return The name property
-	 */
-	public StringProperty nameProperty() {
-		return name;
-	}
-
-	/**
-	 * Gets the name
-	 *
-	 * @return The name
-	 */
-	public String getName() {
-		return name.get();
-	}
-
-	/**
-	 * Sets the name
-	 *
-	 * @param name
-	 *            The new name to set
-	 */
-	public void setName(String name) {
-		if (name == null) {
-			name = "";
-		}
-		this.name.set(name);
-	}
-
-	/**
-	 * Gets the start property
-	 *
-	 * @return The start property
+	 * @return The start property.
 	 */
 	public StringProperty startProperty() {
 		return start;
 	}
 
 	/**
-	 * Gets the start
+	 * Gets the start.
 	 *
-	 * @return The start
+	 * @return The start.
 	 */
 	public String getStart() {
 		return start.get();
 	}
 
 	/**
-	 * Sets the start
+	 * Sets the start.
 	 *
 	 * @param start
-	 *            The new start to set
+	 *            The new start to set.
 	 */
 	public void setStart(String start) {
 		if (start == null) {
@@ -160,56 +130,56 @@ public class Video extends Element implements Comparable<Video>, Serializable {
 	}
 
 	/**
-	 * Gets the lane property
+	 * Gets the lane property.
 	 *
-	 * @return The lane property
+	 * @return The lane property.
 	 */
 	public IntegerProperty laneProperty() {
 		return lane;
 	}
 
 	/**
-	 * Gets the lane
+	 * Gets the lane.
 	 *
-	 * @return The lane
+	 * @return The lane.
 	 */
 	public int getLane() {
 		return lane.get();
 	}
 
 	/**
-	 * Sets the lane
+	 * Sets the lane.
 	 *
 	 * @param lane
-	 *            The new lane to set
+	 *            The new lane to set.
 	 */
 	public void setLane(int lane) {
 		this.lane.set(lane);
 	}
 
 	/**
-	 * Gets the offset property
+	 * Gets the offset property.
 	 *
-	 * @return The offset property
+	 * @return The offset property.
 	 */
 	public StringProperty offsetProperty() {
 		return offset;
 	}
 
 	/**
-	 * Gets the offset
+	 * Gets the offset.
 	 *
-	 * @return The offset
+	 * @return The offset.
 	 */
 	public String getOffset() {
 		return offset.get();
 	}
 
 	/**
-	 * Sets the offset
+	 * Sets the offset.
 	 *
 	 * @param offset
-	 *            The new offset to set
+	 *            The new offset to set.
 	 */
 	public void setOffset(String offset) {
 		if (offset == null) {
@@ -219,28 +189,28 @@ public class Video extends Element implements Comparable<Video>, Serializable {
 	}
 
 	/**
-	 * Gets the tcFormat property
+	 * Gets the TC format property.
 	 *
-	 * @return The tcFormat property
+	 * @return The TC format property.
 	 */
 	public StringProperty tcFormatProperty() {
 		return tcFormat;
 	}
 
 	/**
-	 * Gets the tcFormat
+	 * Gets the TC format.
 	 *
-	 * @return The tcFormat
+	 * @return The TC format.
 	 */
 	public String getTcFormat() {
 		return tcFormat.get();
 	}
 
 	/**
-	 * Sets the tcFormat
+	 * Sets the TC format.
 	 *
 	 * @param tcFormat
-	 *            The new tcFormat to set
+	 *            The new TC format to set.
 	 */
 	public void setTcFormat(String tcFormat) {
 		if (tcFormat == null) {
@@ -250,19 +220,19 @@ public class Video extends Element implements Comparable<Video>, Serializable {
 	}
 
 	/**
-	 * Gets the Asset
+	 * Gets the Asset.
 	 *
-	 * @return The Asset
+	 * @return The Asset.
 	 */
 	public Asset getAsset() {
 		return asset;
 	}
 
 	/**
-	 * Sets the Asset
+	 * Sets the Asset.
 	 *
 	 * @param asset
-	 *            The new Asset to set
+	 *            The new Asset to set.
 	 */
 	public void setAsset(Asset asset) {
 		if (asset == null) {
@@ -278,8 +248,10 @@ public class Video extends Element implements Comparable<Video>, Serializable {
 	 */
 	@Override
 	public String toString() {
-		return String.format("Video[id=%s, name=%s, duration=%s, start=%s, lane=%s, offset=%s, tcFormat=%s, asset=%s]",
-				id.get(), name.get(), duration.get(), start.get(), lane.get(), offset.get(), tcFormat.get(), asset);
+		return String.format(
+				getClass().getSimpleName()
+						+ " [id=%s, name=%s, duration=%s, start=%s, lane=%s, offset=%s, tcFormat=%s, asset=%s]",
+				getId(), getName(), getDuration(), getStart(), getLane(), getOffset(), getTcFormat(), getAsset());
 	}
 
 	/*
@@ -293,8 +265,7 @@ public class Video extends Element implements Comparable<Video>, Serializable {
 			return 1;
 		}
 
-		return Integer.compare(Integer.parseInt(asset.getId().substring(1)),
-				(Integer.parseInt(o.asset.getId().substring(1))));
+		return Integer.compare(getId(), o.getId());
 	}
 
 	/*
@@ -309,6 +280,6 @@ public class Video extends Element implements Comparable<Video>, Serializable {
 		}
 
 		Video video = (Video) obj;
-		return id.get() == video.getId();
+		return getId() == video.getId();
 	}
 }
