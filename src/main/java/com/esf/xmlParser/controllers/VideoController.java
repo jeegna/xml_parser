@@ -199,13 +199,13 @@ public class VideoController {
 	}
 
 	/**
-	 * Gets the.
+	 * Gets the video whose given column matches the given key.
 	 *
 	 * @param col
-	 *            the col
+	 *            The column name to check.
 	 * @param key
-	 *            the key
-	 * @return the list
+	 *            The key.
+	 * @return A list of videos.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -235,9 +235,9 @@ public class VideoController {
 	}
 
 	/**
-	 * Gets the all.
+	 * Gets all the videos in the database.
 	 *
-	 * @return The all.
+	 * @return A list of all videos.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException

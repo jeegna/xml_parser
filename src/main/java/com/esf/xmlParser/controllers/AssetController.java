@@ -221,11 +221,13 @@ public class AssetController {
 	}
 
 	/**
-	 * Gets the assets by id.
+	 * Gets the asset whose given column matches the given key.
 	 *
+	 * @param col
+	 *            The column name to check.
 	 * @param key
-	 *            the key
-	 * @return A list of assets whose id field matches the given key.
+	 *            The key.
+	 * @return A list of assets.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -255,9 +257,9 @@ public class AssetController {
 	}
 
 	/**
-	 * Gets all assets in the database
+	 * Gets all the assets in the database.
 	 *
-	 * @return A list of all assets in the database.
+	 * @return A list of all assets.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException

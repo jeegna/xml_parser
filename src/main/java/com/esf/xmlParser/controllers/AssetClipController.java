@@ -219,13 +219,13 @@ public class AssetClipController {
 	}
 
 	/**
-	 * Gets the.
+	 * Gets the asset clip whose given column matches the given key.
 	 *
 	 * @param col
-	 *            the col
+	 *            The column name to check.
 	 * @param key
-	 *            the key
-	 * @return the list
+	 *            The key.
+	 * @return A list of asset clips.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -255,9 +255,9 @@ public class AssetClipController {
 	}
 
 	/**
-	 * Gets the all.
+	 * Gets all the asset clips in the database.
 	 *
-	 * @return The all.
+	 * @return A list of all asset clips.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException

@@ -250,13 +250,13 @@ public class AudioController {
 	}
 
 	/**
-	 * Gets the.
+	 * Gets the audio whose given column matches the given key.
 	 *
 	 * @param col
-	 *            the col
+	 *            The column name to check.
 	 * @param key
-	 *            the key
-	 * @return the list
+	 *            The key.
+	 * @return A list of audios.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -286,9 +286,9 @@ public class AudioController {
 	}
 
 	/**
-	 * Gets the all.
+	 * Gets all the audios in the database.
 	 *
-	 * @return The all.
+	 * @return A list of all audios.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
