@@ -22,6 +22,14 @@ import javafx.scene.control.TabPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 
+/**
+ * The SearchView controller class. This class is linked to SearchContrller.fxml
+ * and provides handler methods for the view.
+ * 
+ * @author Jeegna Patel
+ * @version
+ * @since 1.8
+ */
 public class TableViewController {
 
 	@FXML
@@ -65,6 +73,13 @@ public class TableViewController {
 
 	private final Logger logger = Logger.getLogger(this.getClass().getName());
 
+	/**
+	 * Selects an element in the table. This method will display the tabs which
+	 * contains the element and highlight it in its table.
+	 *
+	 * @param element
+	 *            The element that was selected.
+	 */
 	public void selectItem(Element element) {
 		String name = element.getClass().getSimpleName();
 		switch (name) {
@@ -81,10 +96,10 @@ public class TableViewController {
 			tableAssetClips.scrollTo(assetClip);
 			break;
 		case "Audio":
-			// tabPane.getSelectionModel().select(tabAudios);
-			// Audio audio = (Audio) element;
-			// tableAudios.getSelectionModel().select(audio);
-			// tableAudios.scrollTo(audio);
+			tabPane.getSelectionModel().select(tabAudios);
+			Audio audio = (Audio) element;
+			tableAudios.getSelectionModel().select(audio);
+			tableAudios.scrollTo(audio);
 			break;
 		case "Clip":
 			tabPane.getSelectionModel().select(tabClips);
@@ -113,6 +128,24 @@ public class TableViewController {
 		}
 	}
 
+	/**
+	 * Populate the tables with the given lists of entities.
+	 *
+	 * @param assets
+	 *            The assets.
+	 * @param assetClips
+	 *            The asset clips.
+	 * @param audios
+	 *            The audios.
+	 * @param clips
+	 *            The clips.
+	 * @param effects
+	 *            The effects.
+	 * @param formats
+	 *            The formats.
+	 * @param videos
+	 *            The videos.
+	 */
 	public void populateTables(List<Asset> assets, List<AssetClip> assetClips, List<Audio> audios, List<Clip> clips,
 			List<Effect> effects, List<Format> formats, List<Video> videos) {
 
@@ -128,6 +161,9 @@ public class TableViewController {
 		populateVideosTable(FXCollections.observableList(videos));
 	}
 
+	/**
+	 * Creates the tables.
+	 */
 	private void createTables() {
 		logger.info("Creating all tables...");
 		createAssetsTable();
@@ -139,6 +175,9 @@ public class TableViewController {
 		createVideosTable();
 	}
 
+	/**
+	 * Creates the assets table.
+	 */
 	private void createAssetsTable() {
 		logger.info("Creating assets table...");
 		TableView<Asset> table = tableAssets;
@@ -202,6 +241,9 @@ public class TableViewController {
 		columns.add(columnUID);
 	}
 
+	/**
+	 * Creates the asset clips table.
+	 */
 	private void createAssetClipsTable() {
 		logger.info("Creating asset clips table...");
 		TableView<AssetClip> table = tableAssetClips;
@@ -209,7 +251,7 @@ public class TableViewController {
 		resetTable(table);
 		table.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
-		// Create columns
+		// Create columns.
 		TableColumn<AssetClip, Number> columnId = new TableColumn<>(resources.getString("colId"));
 		TableColumn<AssetClip, String> columnRef = new TableColumn<>(resources.getString("colRef"));
 		TableColumn<AssetClip, String> columnName = new TableColumn<>(resources.getString("colName"));
@@ -224,7 +266,7 @@ public class TableViewController {
 		TableColumn<AssetClip, String> columnFrameDuration = new TableColumn<>(resources.getString("colFrameRate"));
 		TableColumn<AssetClip, String> columnTcFormat = new TableColumn<>(resources.getString("colTcFormat"));
 
-		// Set cell values
+		// Set cell values.
 		columnId.setCellValueFactory(cellData -> cellData.getValue().idProperty());
 		columnRef.setCellValueFactory(cellData -> cellData.getValue().getAsset().srcProperty());
 		columnName.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
@@ -255,6 +297,9 @@ public class TableViewController {
 		columns.add(columnRef);
 	}
 
+	/**
+	 * Creates the audios table.
+	 */
 	private void createAudiosTable() {
 		logger.info("Creating audios table...");
 		TableView<Audio> table = tableAudios;
@@ -262,7 +307,7 @@ public class TableViewController {
 		resetTable(table);
 		table.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
-		// Create columns
+		// Create columns.
 		TableColumn<Audio, Number> columnId = new TableColumn<>(resources.getString("colId"));
 		TableColumn<Audio, String> columnName = new TableColumn<>(resources.getString("colName"));
 		TableColumn<Audio, String> columnRole = new TableColumn<>(resources.getString("colRole"));
@@ -275,7 +320,7 @@ public class TableViewController {
 		TableColumn<Audio, Number> columnSrcID = new TableColumn<>(resources.getString("colSrcId"));
 		TableColumn<Audio, String> columnTcFormat = new TableColumn<>(resources.getString("colTcFormat"));
 
-		// Set cell values
+		// Set cell values.
 		columnId.setCellValueFactory(cellData -> cellData.getValue().idProperty());
 		columnName.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
 		columnRole.setCellValueFactory(cellData -> cellData.getValue().roleProperty());
@@ -302,6 +347,9 @@ public class TableViewController {
 		columns.add(columnTcFormat);
 	}
 
+	/**
+	 * Creates the clips table.
+	 */
 	private void createClipsTable() {
 		logger.info("Creating clips table...");
 		TableView<Clip> table = tableClips;
@@ -309,7 +357,7 @@ public class TableViewController {
 		resetTable(table);
 		table.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
-		// Create columns
+		// Create columns.
 		TableColumn<Clip, Number> columnId = new TableColumn<>(resources.getString("colId"));
 		TableColumn<Clip, String> columnName = new TableColumn<>(resources.getString("colName"));
 		TableColumn<Clip, String> columnOffset = new TableColumn<>(resources.getString("colOffset"));
@@ -317,7 +365,7 @@ public class TableViewController {
 		TableColumn<Clip, String> columnStart = new TableColumn<>(resources.getString("colStart"));
 		TableColumn<Clip, String> columnTcFormat = new TableColumn<>(resources.getString("colTcFormat"));
 
-		// Set cell values
+		// Set cell values.
 		columnId.setCellValueFactory(cellData -> cellData.getValue().idProperty());
 		columnName.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
 		columnOffset.setCellValueFactory(cellData -> cellData.getValue().offsetProperty());
@@ -334,6 +382,9 @@ public class TableViewController {
 		columns.add(columnTcFormat);
 	}
 
+	/**
+	 * Creates the effects table.
+	 */
 	private void createEffectsTable() {
 		logger.info("Creating effects table...");
 		TableView<Effect> table = tableEffects;
@@ -364,6 +415,9 @@ public class TableViewController {
 		columns.add(columnUid);
 	}
 
+	/**
+	 * Creates the formats table.
+	 */
 	private void createFormatsTable() {
 		logger.info("Creating formats table...");
 		TableView<Format> table = tableFormats;
@@ -371,14 +425,14 @@ public class TableViewController {
 		resetTable(table);
 		table.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
-		// Create columns
+		// Create columns.
 		TableColumn<Format, String> columnId = new TableColumn<>(resources.getString("colId"));
 		TableColumn<Format, String> columnName = new TableColumn<>(resources.getString("colName"));
 		TableColumn<Format, Number> columnWidth = new TableColumn<>(resources.getString("colWidth"));
 		TableColumn<Format, Number> columnHeight = new TableColumn<>(resources.getString("colHeight"));
 		TableColumn<Format, String> columnFrameDuration = new TableColumn<>(resources.getString("colFrameRate"));
 
-		// Set cell values
+		// Set cell values.
 		columnId.setCellValueFactory(cellData -> cellData.getValue().idProperty());
 		columnName.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
 		columnWidth.setCellValueFactory(cellData -> cellData.getValue().widthProperty());
@@ -397,6 +451,9 @@ public class TableViewController {
 		columns.add(columnFrameDuration);
 	}
 
+	/**
+	 * Creates the videos table.
+	 */
 	private void createVideosTable() {
 		logger.info("Creating videos table...");
 		TableView<Video> table = tableVideos;
@@ -404,7 +461,7 @@ public class TableViewController {
 		resetTable(table);
 		table.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
-		// Create columns
+		// Create columns.
 		TableColumn<Video, Number> columnId = new TableColumn<>(resources.getString("colId"));
 		TableColumn<Video, String> columnName = new TableColumn<>(resources.getString("colName"));
 		TableColumn<Video, Number> columnLane = new TableColumn<>(resources.getString("colLane"));
@@ -414,7 +471,7 @@ public class TableViewController {
 		TableColumn<Video, String> columnSrc = new TableColumn<>(resources.getString("colRef"));
 		TableColumn<Video, String> columnTcFormat = new TableColumn<>(resources.getString("colTcFormat"));
 
-		// Set cell values
+		// Set cell values.
 		columnId.setCellValueFactory(cellData -> cellData.getValue().idProperty());
 		columnName.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
 		columnLane.setCellValueFactory(cellData -> cellData.getValue().laneProperty());
@@ -436,11 +493,11 @@ public class TableViewController {
 	}
 
 	/**
-	 * Populates the asset table
+	 * Populates the asset table.
 	 *
 	 * @param list
 	 *            The list of @{code Asset} objects with which to populate the
-	 *            table
+	 *            table,
 	 */
 	private void populateAssetsTable(ObservableList<Asset> list) {
 		logger.info("Populating assets table...");
@@ -454,11 +511,11 @@ public class TableViewController {
 	}
 
 	/**
-	 * Populates the asset clip table
+	 * Populates the asset clip table.
 	 *
 	 * @param list
 	 *            The list of @{code AssetClip} objects with which to populate
-	 *            the table
+	 *            the table.
 	 */
 	private void populateAssetClipsTable(ObservableList<AssetClip> list) {
 		logger.info("Populating asset clips table...");
@@ -472,11 +529,11 @@ public class TableViewController {
 	}
 
 	/**
-	 * Populates the audio table
+	 * Populates the audio table.
 	 *
 	 * @param list
 	 *            The list of @{code Audio} objects with which to populate the
-	 *            table
+	 *            table.
 	 */
 	private void populateAudiosTable(ObservableList<Audio> list) {
 		logger.info("Populating audios table...");
@@ -490,11 +547,11 @@ public class TableViewController {
 	}
 
 	/**
-	 * Populates the audio table
+	 * Populates the audio table.
 	 *
 	 * @param list
 	 *            The list of @{code Audio} objects with which to populate the
-	 *            table
+	 *            table.
 	 */
 	private void populateClipsTable(ObservableList<Clip> list) {
 		logger.info("Populating clips table...");
@@ -508,11 +565,11 @@ public class TableViewController {
 	}
 
 	/**
-	 * Populates the effect table
+	 * Populates the effect table.
 	 *
 	 * @param list
 	 *            The list of @{code Effect} objects with which to populate the
-	 *            table
+	 *            table.
 	 */
 	private void populateEffectsTable(ObservableList<Effect> list) {
 		logger.info("Populating effects table...");
@@ -526,11 +583,11 @@ public class TableViewController {
 	}
 
 	/**
-	 * Populates the format table
+	 * Populates the format table.
 	 *
 	 * @param list
 	 *            The list of @{code Format} objects with which to populate the
-	 *            table
+	 *            table.
 	 */
 	private void populateFormatsTable(ObservableList<Format> list) {
 		logger.info("Populating formats table...");
@@ -544,11 +601,11 @@ public class TableViewController {
 	}
 
 	/**
-	 * Populates the video table
+	 * Populates the video table.
 	 *
 	 * @param list
 	 *            The list of @{code Video} objects with which to populate the
-	 *            table
+	 *            table.
 	 */
 	private void populateVideosTable(ObservableList<Video> list) {
 		logger.info("Populating videos table...");
@@ -563,7 +620,9 @@ public class TableViewController {
 
 	/**
 	 * Removes all data in the table, but leaves the columns.
-	 * 
+	 *
+	 * @param <T>
+	 *            The type of the table.
 	 * @param table
 	 *            The table to clear.
 	 */
@@ -574,7 +633,9 @@ public class TableViewController {
 
 	/**
 	 * Removes the given table's columns and data.
-	 * 
+	 *
+	 * @param <T>
+	 *            The type of the table.
 	 * @param table
 	 *            The table to reset.
 	 */

@@ -22,6 +22,7 @@ import com.esf.xmlParser.entities.Format;
 import com.esf.xmlParser.entities.Video;
 import com.esf.xmlParser.parser.Parser;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
@@ -31,12 +32,14 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 
 /**
+ * The Main controller class. This class is linked to MainContrller.fxml and
+ * provides handler methods for the view.
+ *
  * @author Jeegna Patel
  * @version 2017/04/08
  * @since 1.8
@@ -69,13 +72,17 @@ public class MainController {
 
 	private TableViewController tableViewController;
 	private SearchViewController searchViewController;
+
 	private DatabaseController db;
 
+	/**
+	 * Initialize the application.
+	 */
 	@FXML
 	private void initialize() {
 		logger.info("Start application");
 
-		// Initialize fxml controllers.
+		// Initialize FXML controllers.
 		initializeTableView();
 		initializeSearchView();
 	}
@@ -101,7 +108,7 @@ public class MainController {
 	}
 
 	/**
-	 * Closes the application
+	 * Closes the application.
 	 */
 	private void close() {
 		logger.info("Bye!");
@@ -109,17 +116,17 @@ public class MainController {
 	}
 
 	/**
-	 * Opens a file chooser window for .fcpxml files and gets the selected file
+	 * Opens a file chooser window for FCPXML files and gets the selected file.
 	 *
 	 * @return The file the user has selected, or {@code null} if no file was
-	 *         chosen
+	 *         chosen.
 	 */
 	private File getFileFromFileChooser() {
 		FileChooser fileChooser = new FileChooser();
 
 		fileChooser.setTitle(resources.getString("openFile"));
 
-		// Set file type filter to only accept .fcpxml.
+		// Set file type filter to only accept FCPXML.
 		ExtensionFilter filter = new ExtensionFilter(resources.getString("fileType"), "*.fcpxml");
 		fileChooser.getExtensionFilters().add(filter);
 		fileChooser.setSelectedExtensionFilter(filter);
@@ -132,6 +139,9 @@ public class MainController {
 		return fileChooser.showOpenDialog(borderPane.getScene().getWindow());
 	}
 
+	/**
+	 * Initialize search view.
+	 */
 	private void initializeSearchView() {
 		try {
 			FXMLLoader loader = new FXMLLoader();
@@ -169,10 +179,11 @@ public class MainController {
 	/**
 	 * Loads the file contents into a database and populates the JavaFX tables
 	 * with the data.
-	 * 
+	 *
 	 * @throws ClassNotFoundException
 	 *             If the JDBC driver is not found.
 	 * @throws SQLException
+	 *             If an SQLException occurs.
 	 * @throws ParserConfigurationException
 	 *             If a DocumentBuilder cannot be created which satisfies the
 	 *             configuration requested.
@@ -206,27 +217,52 @@ public class MainController {
 		formats = db.getFormats();
 		videos = db.getVideos();
 
-		// Populate tables with file contents, and give controllers to SearchViewController.
+		// Populate tables with file contents, and give controllers to
+		// SearchViewController.
 		tableViewController.populateTables(assets, assetClips, audios, clips, effects, formats, videos);
 		searchViewController.setDatabaseController(db);
 		searchViewController.setTableViewController(tableViewController);
 	}
 
+	/**
+	 * Handles the about menu item click.
+	 * 
+	 * @param event
+	 *            The event.
+	 */
 	@FXML
-	private void menuItemAbout() {
+	private void menuItemAbout(ActionEvent event) {
 
 	}
 
+	/**
+	 * Handles the choose file menu item click.
+	 * 
+	 * @param event
+	 *            The event.
+	 */
 	@FXML
-	private void menuItemChooseFile() {
+	private void menuItemChooseFile(ActionEvent event) {
 		selectFile();
 	}
 
+	/**
+	 * Handles the close menu item click.
+	 * 
+	 * @param event
+	 *            The event.
+	 */
 	@FXML
-	private void menuItemClose() {
+	private void menuItemClose(ActionEvent event) {
 		close();
 	}
 
+	/**
+	 * Sets the file.
+	 *
+	 * @param file
+	 *            The new file.
+	 */
 	private void setFile(File file) {
 		if (file != null) {
 			filePath = file.getAbsolutePath();

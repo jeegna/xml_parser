@@ -17,18 +17,32 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
 /**
+ * The Main class of the application.
+ *
  * @author Jeegna Patel
  * @version 2017/04/08
  * @since 1.8
  */
 public class Main extends Application {
 
+	/** The logger. */
 	private final Logger logger = Logger.getLogger(this.getClass().getName());
 
+	/**
+	 * The main method.
+	 *
+	 * @param args
+	 *            The arguments
+	 */
 	public static void main(String[] args) {
 		launch(args);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javafx.application.Application#start(javafx.stage.Stage)
+	 */
 	@Override
 	public void start(Stage primaryStage) throws IOException {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Main.fxml"));

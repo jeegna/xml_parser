@@ -35,12 +35,20 @@ import javafx.scene.control.ListView;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Callback;
 
+/**
+ * The SearchView controller class. This class is linked to SearchContrller.fxml
+ * and provides handler methods for the view.
+ * 
+ * @author Jeegna Patel
+ * @version
+ * @since 1.8
+ */
 public class SearchViewController {
 
 	@FXML
 	private ResourceBundle resources;
 
-	// Borderpane sections
+	// BorderPane sections
 	@FXML
 	private AnchorPane anchorPaneTop;
 	@FXML
@@ -57,7 +65,6 @@ public class SearchViewController {
 	private Button buttonSearch;
 	@FXML
 	private Button buttonAdvancedSearch;
-
 	@FXML
 	private CheckBox checkBoxAsset;
 	@FXML
@@ -97,6 +104,7 @@ public class SearchViewController {
 	private final Logger logger = Logger.getLogger(this.getClass().getName());
 
 	private TableViewController tableViewController;
+
 	private DatabaseController db;
 
 	private Set<String> assetStatements;
@@ -107,6 +115,9 @@ public class SearchViewController {
 	private Set<String> formatStatements;
 	private Set<String> videoStatements;
 
+	/**
+	 * Initializes the search view.
+	 */
 	public void initializeSearchBar() {
 		assetStatements = new HashSet<>();
 		assetClipStatements = new HashSet<>();
@@ -142,6 +153,9 @@ public class SearchViewController {
 		checkDefaults();
 	}
 
+	/**
+	 * Initialize all check box items.
+	 */
 	private void initializeItems() {
 		String id = resources.getString("id");
 		String name = resources.getString("name");
@@ -182,6 +196,9 @@ public class SearchViewController {
 		checkBoxVideo.setUserData(checkComboBoxVideos);
 	}
 
+	/**
+	 * Adds the event handlers.
+	 */
 	private void addEventHandlers() {
 		checkComboBoxAssets.getCheckModel().getCheckedItems().addListener(new ListChangeListener<String>() {
 			@Override
@@ -275,6 +292,15 @@ public class SearchViewController {
 		});
 	}
 
+	/**
+	 * Converts the given column name to the proper database format, then adds
+	 * it to the specified list.
+	 *
+	 * @param list
+	 *            The list to which to add the column names.
+	 * @param additions
+	 *            The column names to add.
+	 */
 	private void addQueryToList(Set<String> list, List<? extends String> additions) {
 		for (String addition : additions) {
 			String column = convertString(addition);
@@ -282,9 +308,16 @@ public class SearchViewController {
 
 			list.add(column);
 		}
-		System.out.println(list);
 	}
 
+	/**
+	 * Removes the given column name from the specified list.
+	 *
+	 * @param list
+	 *            The list from which to remove the column names.
+	 * @param removals
+	 *            The column names to remove.
+	 */
 	private void removeQueryFromList(Set<String> list, List<? extends String> removals) {
 		for (String removal : removals) {
 			String column = convertString(removal);
@@ -292,9 +325,14 @@ public class SearchViewController {
 
 			list.remove(column);
 		}
-		System.out.println(list);
 	}
 
+	/**
+	 * Handles the advanced search button click.
+	 *
+	 * @param event
+	 *            The event.
+	 */
 	@FXML
 	private void buttonAdvancedSearchClick(ActionEvent event) {
 		boolean b = !anchorPaneBottom.isVisible();
@@ -303,6 +341,12 @@ public class SearchViewController {
 		anchorPaneBottom.setVisible(b);
 	}
 
+	/**
+	 * Handles the reset button click.
+	 *
+	 * @param event
+	 *            The event.
+	 */
 	@FXML
 	private void buttonResetClick(ActionEvent event) {
 		checkComboBoxAssets.getCheckModel().clearChecks();
@@ -316,6 +360,12 @@ public class SearchViewController {
 		checkDefaults();
 	}
 
+	/**
+	 * Handles the select all check box check.
+	 *
+	 * @param event
+	 *            The event.
+	 */
 	@FXML
 	private void checkBoxSelectAllCheck(ActionEvent event) {
 		boolean b = !checkBoxSelectAll.isSelected();
@@ -335,6 +385,9 @@ public class SearchViewController {
 		checkBoxVideo.fire();
 	}
 
+	/**
+	 * Check default values for check combo box items.
+	 */
 	private void checkDefaults() {
 		checkComboBoxAssets.getCheckModel().check(1);
 		checkComboBoxAssetClips.getCheckModel().check(1);
@@ -344,8 +397,14 @@ public class SearchViewController {
 		checkComboBoxVideos.getCheckModel().check(1);
 	}
 
+	/**
+	 * Handles search button click.
+	 * 
+	 * @param event
+	 *            The event.
+	 */
 	@FXML
-	private void buttonSearchClick() {
+	private void buttonSearchClick(ActionEvent event) {
 		if (db != null && comboBoxSearch.getValue() != null) {
 			String query = "%" + comboBoxSearch.getValue().getName() + "%";
 
@@ -373,6 +432,12 @@ public class SearchViewController {
 		}
 	}
 
+	/**
+	 * Handles the entity check box check.
+	 *
+	 * @param event
+	 *            The event.
+	 */
 	@FXML
 	private void checkBoxClick(ActionEvent event) {
 		CheckBox checkBox = (CheckBox) event.getSource();
@@ -387,6 +452,12 @@ public class SearchViewController {
 		}
 	}
 
+	/**
+	 * Handles the entity property combo box item check.
+	 *
+	 * @param event
+	 *            The event.
+	 */
 	@FXML
 	private void comboBoxItemSelected(ActionEvent event) {
 		Element element = comboBoxSearch.getValue();
@@ -395,14 +466,34 @@ public class SearchViewController {
 		}
 	}
 
+	/**
+	 * Sets the table view controller.
+	 *
+	 * @param tableViewController
+	 *            The new table view controller.
+	 */
 	public void setTableViewController(TableViewController tableViewController) {
 		this.tableViewController = tableViewController;
 	}
 
+	/**
+	 * Sets the database controller.
+	 *
+	 * @param db
+	 *            The new database controller.
+	 */
 	public void setDatabaseController(DatabaseController db) {
 		this.db = db;
 	}
 
+	/**
+	 * Convert string.
+	 *
+	 * @param s
+	 *            The displayable column name to convert into its database
+	 *            equivalent.
+	 * @return The database equivalent of the given column name.
+	 */
 	private String convertString(String s) {
 		String converted = null;
 

@@ -28,20 +28,22 @@ import com.esf.xmlParser.entities.Format;
 import com.esf.xmlParser.entities.Video;
 
 /**
- * A Parser for fcpxml files
+ * A Parser for FCPSML files.
  * 
  * @author Jeegna Patel
+ * @version
+ * @since 1.8
  */
 public class Parser {
 
 	private final Logger logger = Logger.getLogger(this.getClass().getName());
 
-	// Attributes for resources (asset, format, effect)
+	// Attributes for resources (asset, format, effect).
 	private static final String ID = "id";
 	private static final String UID = "uid";
 	private static final String NAME = "name";
 
-	// Common attributes
+	// Common attributes.
 	private static final String SOURCE = "src";
 	private static final String LANE = "lane";
 	private static final String DURATION = "duration";
@@ -50,7 +52,7 @@ public class Parser {
 	private static final String START = "start";
 	private static final String ROLE = "role";
 
-	// Attributes unique to asset tag
+	// Attributes unique to asset tag.
 	private static final String ASSET = "asset";
 	private static final String HAS_AUDIO = "hasAudio";
 	private static final String HAS_VIDEO = "hasVideo";
@@ -58,29 +60,29 @@ public class Parser {
 	private static final String AUDIO_CHANNELS = "audioChannels";
 	private static final String AUDIO_RATE = "audioRate";
 
-	// Attributes unique to video tag
+	// Attributes unique to video tag.
 	private static final String VIDEO = "video";
 
-	// Attributes unique to audio tag
+	// Attributes unique to audio tag.
 	private static final String AUDIO = "audio";
 	private static final String SRC_CH = "srcCh";
 	private static final String SRC_ID = "srcID";
 
-	// Attributes unique to asset-clip
+	// Attributes unique to asset clip tag.
 	private static final String ASSET_CLIP = "asset-clip";
 	private static final String AUDIO_ROLE = "audioRole";
 	private static final String TC_FORMAT = "tcFormat";
 
-	// Attributes unique to format
+	// Attributes unique to format tag.
 	private static final String FORMAT = "format";
 	private static final String WIDTH = "width";
 	private static final String HEIGHT = "height";
 	private static final String FRAME_DURATION = "frameDuration";
 
-	// Attributes unique to effect
+	// Attributes unique to effect tag.
 	private static final String EFFECT = "effect";
 
-	// Attributes unique to clip
+	// Attributes unique to clip tag.
 	private static final String CLIP = "clip";
 
 	private Document doc;
@@ -90,7 +92,7 @@ public class Parser {
 	 * 
 	 * @param file
 	 *            The absolute path of the file from which to get an XML
-	 *            parsable Document.
+	 *            Document.
 	 * 
 	 * @throws IOException
 	 *             If any IO errors occur.
@@ -100,6 +102,7 @@ public class Parser {
 	 *             If a DocumentBuilder cannot be created which satisfies the
 	 *             configuration requested.
 	 * @throws SQLException
+	 *             If an SQLException occurs.
 	 * @throws ClassNotFoundException
 	 *             If the JDBC driver is not found.
 	 */
@@ -109,13 +112,13 @@ public class Parser {
 	}
 
 	/**
-	 * Gets an XML parsable Document from the given XML file name and path.
+	 * Gets an XML Document from the given XML file name and path.
 	 * 
 	 * @param file
 	 *            The absolute path of the file from which to get an XML
-	 *            parsable Document.
+	 *            Document.
 	 * 
-	 * @return An XML parsable Document from the given file name and path.
+	 * @return An XML Document from the given file name and path.
 	 * 
 	 * @throws IOException
 	 *             If any IO errors occur.
@@ -422,7 +425,7 @@ public class Parser {
 		asset.setId(ref);
 		audio.setAsset(asset);
 
-		// Find parent Clip node
+		// Find parent Clip node.
 		Node parent = node;
 		boolean foundClip = false;
 		do {
@@ -552,7 +555,7 @@ public class Parser {
 		asset.setId(ref);
 		video.setAsset(asset);
 
-		// Find parent Clip node
+		// Find parent Clip node.
 		Node parent = node;
 		boolean foundClip = false;
 		do {
@@ -656,7 +659,7 @@ public class Parser {
 	 * Parses the given string to milliseconds.
 	 * 
 	 * @param s
-	 *            The string to convert to milliseconds
+	 *            The string to convert to milliseconds.
 	 * @return The time in milliseconds.
 	 */
 	private String getTime(String s) {
