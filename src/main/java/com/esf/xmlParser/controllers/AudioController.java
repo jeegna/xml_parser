@@ -19,10 +19,8 @@ import com.esf.xmlParser.entities.Audio;
  */
 public class AudioController {
 
-	/** The logger. */
 	private final Logger logger = Logger.getLogger(this.getClass().getName());
 
-	/** The db. */
 	private DatabaseController db;
 
 	/**

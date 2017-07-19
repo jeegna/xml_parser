@@ -20,10 +20,8 @@ import com.esf.xmlParser.entities.Format;
  */
 public class AssetClipController {
 
-	/** The logger. */
 	private final Logger logger = Logger.getLogger(this.getClass().getName());
 
-	/** The db. */
 	private DatabaseController db;
 
 	/**

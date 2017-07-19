@@ -19,10 +19,8 @@ import com.esf.xmlParser.entities.Format;
  */
 public class AssetController {
 
-	/** The logger. */
 	private final Logger logger = Logger.getLogger(this.getClass().getName());
 
-	/** The db. */
 	private DatabaseController db;
 
 	/**

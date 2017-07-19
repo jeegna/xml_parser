@@ -18,10 +18,8 @@ import com.esf.xmlParser.entities.Format;
  */
 public class FormatController {
 
-	/** The logger. */
 	private final Logger logger = Logger.getLogger(this.getClass().getName());
 
-	/** The db. */
 	private DatabaseController db;
 
 	/**
