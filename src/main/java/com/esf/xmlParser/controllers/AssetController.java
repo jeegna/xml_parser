@@ -13,9 +13,13 @@ import com.esf.xmlParser.database.DatabaseController;
 import com.esf.xmlParser.entities.Asset;
 import com.esf.xmlParser.entities.Format;
 
-// TODO: Auto-generated Javadoc
 /**
- * The Class AssetController.
+ * The Asset controller class. This class offers database access methods for
+ * Asset entities.
+ * 
+ * @author Jeegna Patel
+ * @version
+ * @since 1.8
  */
 public class AssetController {
 
@@ -27,7 +31,7 @@ public class AssetController {
 	 * Instantiates a new asset controller.
 	 *
 	 * @param db
-	 *            the db
+	 *            The database controller to use.
 	 */
 	public AssetController(DatabaseController db) {
 		this.db = db;
@@ -37,7 +41,7 @@ public class AssetController {
 	 * Adds the assets.
 	 *
 	 * @param assets
-	 *            the assets
+	 *            A list of assets to add.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -75,9 +79,9 @@ public class AssetController {
 	}
 
 	/**
-	 * Gets the assets.
-	 *
-	 * @return The assets.
+	 * Gets all the assets in the database.
+	 * 
+	 * @return A list of all assets in the database.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -92,8 +96,8 @@ public class AssetController {
 	 * Gets the assets by id.
 	 *
 	 * @param key
-	 *            the key
-	 * @return The assets by id.
+	 *            The key.
+	 * @return A list of assets whose id matches the key.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -108,8 +112,8 @@ public class AssetController {
 	 * Gets the assets by name.
 	 *
 	 * @param key
-	 *            the key
-	 * @return The assets by name.
+	 *            The key.
+	 * @return A list of assets whose name matches the key.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -124,8 +128,8 @@ public class AssetController {
 	 * Gets the assets by duration.
 	 *
 	 * @param key
-	 *            the key
-	 * @return The assets by duration.
+	 *            The key.
+	 * @return A list of assets whose duration matches the key.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -140,8 +144,8 @@ public class AssetController {
 	 * Gets the assets by has audio.
 	 *
 	 * @param key
-	 *            the key
-	 * @return The assets by has audio.
+	 *            The key.
+	 * @return A list of assets whose has audio matches the key.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -156,8 +160,8 @@ public class AssetController {
 	 * Gets the assets by has video.
 	 *
 	 * @param key
-	 *            the key
-	 * @return The assets by has video.
+	 *            The key.
+	 * @return A list of assets whose has video matches the key.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -173,7 +177,7 @@ public class AssetController {
 	 *
 	 * @param key
 	 *            the key
-	 * @return The assets by UID.
+	 * @return A list of assets whose UID field matches the given key.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -185,11 +189,11 @@ public class AssetController {
 	}
 
 	/**
-	 * Gets the assets by src.
+	 * Gets the assets by source.
 	 *
 	 * @param key
-	 *            the key
-	 * @return The assets by src.
+	 *            The key.
+	 * @return A list of assets whose source matches the key.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -204,8 +208,8 @@ public class AssetController {
 	 * Gets the assets by start.
 	 *
 	 * @param key
-	 *            the key
-	 * @return The assets by start.
+	 *            The key.
+	 * @return A list of assets whose start matches the key.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -217,13 +221,11 @@ public class AssetController {
 	}
 
 	/**
-	 * Gets the.
+	 * Gets the assets by id.
 	 *
-	 * @param col
-	 *            the col
 	 * @param key
 	 *            the key
-	 * @return the list
+	 * @return A list of assets whose id field matches the given key.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -253,9 +255,9 @@ public class AssetController {
 	}
 
 	/**
-	 * Gets the all.
+	 * Gets all assets in the database
 	 *
-	 * @return The all.
+	 * @return A list of all assets in the database.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -283,11 +285,13 @@ public class AssetController {
 	}
 
 	/**
-	 * Creates the asset.
+	 * Creates an Asset object. This method parses the data in the ResultSet to
+	 * create the entity. It will also call upon Format's findById method to add
+	 * the Format.
 	 *
 	 * @param rs
-	 *            the rs
-	 * @return the asset
+	 *            The ResultSet containing the information of the Asset.
+	 * @return The created asset.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException

@@ -12,9 +12,13 @@ import java.util.logging.Logger;
 import com.esf.xmlParser.database.DatabaseController;
 import com.esf.xmlParser.entities.Clip;
 
-// TODO: Auto-generated Javadoc
 /**
- * The Class ClipController.
+ * The Clip controller class. This class offers database access methods for Clip
+ * entities.
+ * 
+ * @author Jeegna Patel
+ * @version
+ * @since 1.8
  */
 public class ClipController {
 
@@ -26,7 +30,7 @@ public class ClipController {
 	 * Instantiates a new clip controller.
 	 *
 	 * @param db
-	 *            the db
+	 *            The database controller to use.
 	 */
 	public ClipController(DatabaseController db) {
 		this.db = db;
@@ -36,7 +40,7 @@ public class ClipController {
 	 * Adds the clips.
 	 *
 	 * @param clips
-	 *            the clips
+	 *            A list of clips to add.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -66,9 +70,9 @@ public class ClipController {
 	}
 
 	/**
-	 * Gets the clips.
-	 *
-	 * @return The clips.
+	 * Gets all the clips in the database.
+	 * 
+	 * @return A list of all clips in the database.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -82,9 +86,9 @@ public class ClipController {
 	/**
 	 * Gets the clips by id.
 	 *
-	 * @param id
-	 *            the id
-	 * @return The clips by id.
+	 * @param key
+	 *            The key.
+	 * @return A list of clips whose id matches the key.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -99,8 +103,8 @@ public class ClipController {
 	 * Gets the clips by name.
 	 *
 	 * @param key
-	 *            the key
-	 * @return The clips by name.
+	 *            The key.
+	 * @return A list of clips whose name matches the key.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -115,8 +119,8 @@ public class ClipController {
 	 * Gets the clips by offset.
 	 *
 	 * @param key
-	 *            the key
-	 * @return The clips by offset.
+	 *            The key.
+	 * @return A list of clips whose offset matches the key.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -131,8 +135,8 @@ public class ClipController {
 	 * Gets the clips by duration.
 	 *
 	 * @param key
-	 *            the key
-	 * @return The clips by duration.
+	 *            The key.
+	 * @return A list of clips whose duration matches the key.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -147,8 +151,8 @@ public class ClipController {
 	 * Gets the clips by start.
 	 *
 	 * @param key
-	 *            the key
-	 * @return The clips by start.
+	 *            The key.
+	 * @return A list of clips whose start matches the key.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -160,11 +164,11 @@ public class ClipController {
 	}
 
 	/**
-	 * Gets the clips by tc format.
+	 * Gets the clips by TC format.
 	 *
 	 * @param key
-	 *            the key
-	 * @return The clips by tc format.
+	 *            The key.
+	 * @return A list of clips whose TC format matches the key.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -242,13 +246,16 @@ public class ClipController {
 	}
 
 	/**
-	 * Creates the clip.
+	 * Creates a Clip object. This method parses the data in the ResultSet to
+	 * create the entity.
 	 *
 	 * @param rs
-	 *            the rs
-	 * @return the clip
+	 *            The ResultSet containing the information of the Clip.
+	 * @return The created clip.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
+	 * @throws ClassNotFoundException
+	 *             If the SQLite JDBC driver was not found.
 	 */
 	private Clip createClip(ResultSet rs) throws SQLException {
 		logger.info("Creating Clip...");

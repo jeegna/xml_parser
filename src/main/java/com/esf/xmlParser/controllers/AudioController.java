@@ -13,9 +13,13 @@ import com.esf.xmlParser.database.DatabaseController;
 import com.esf.xmlParser.entities.Asset;
 import com.esf.xmlParser.entities.Audio;
 
-// TODO: Auto-generated Javadoc
 /**
- * The Class AudioController.
+ * The Audio controller class. This class offers database access methods for
+ * Audio entities.
+ * 
+ * @author Jeegna Patel
+ * @version
+ * @since 1.8
  */
 public class AudioController {
 
@@ -27,7 +31,7 @@ public class AudioController {
 	 * Instantiates a new audio controller.
 	 *
 	 * @param db
-	 *            the db
+	 *            The database controller to use.
 	 */
 	public AudioController(DatabaseController db) {
 		this.db = db;
@@ -37,7 +41,7 @@ public class AudioController {
 	 * Adds the audios.
 	 *
 	 * @param audios
-	 *            the audios
+	 *            A list of audios to add.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -72,9 +76,9 @@ public class AudioController {
 	}
 
 	/**
-	 * Gets the audios.
-	 *
-	 * @return The audios.
+	 * Gets all the audios in the database.
+	 * 
+	 * @return A list of all audios in the database.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -89,8 +93,8 @@ public class AudioController {
 	 * Gets the audios by id.
 	 *
 	 * @param key
-	 *            the key
-	 * @return The audios by id.
+	 *            The key.
+	 * @return A list of audios whose id matches the key.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -105,8 +109,8 @@ public class AudioController {
 	 * Gets the audios by name.
 	 *
 	 * @param key
-	 *            the key
-	 * @return The audios by name.
+	 *            The key.
+	 * @return A list of audios whose name matches the key.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -121,8 +125,8 @@ public class AudioController {
 	 * Gets the audios by lane.
 	 *
 	 * @param key
-	 *            the key
-	 * @return The audios by lane.
+	 *            The key.
+	 * @return A list of audios whose lane matches the key.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -137,8 +141,8 @@ public class AudioController {
 	 * Gets the audios by role.
 	 *
 	 * @param key
-	 *            the key
-	 * @return The audios by role.
+	 *            The key.
+	 * @return A list of audios whose role matches the key.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -153,8 +157,8 @@ public class AudioController {
 	 * Gets the audios by offset.
 	 *
 	 * @param key
-	 *            the key
-	 * @return The audios by offset.
+	 *            The key.
+	 * @return A list of audios whose offset matches the key.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -169,8 +173,8 @@ public class AudioController {
 	 * Gets the audios by duration.
 	 *
 	 * @param key
-	 *            the key
-	 * @return The audios by duration.
+	 *            The key.
+	 * @return A list of audios whose duration matches the key.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -185,8 +189,8 @@ public class AudioController {
 	 * Gets the audios by start.
 	 *
 	 * @param key
-	 *            the key
-	 * @return The audios by start.
+	 *            The key.
+	 * @return A list of audios whose start matches the key.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -198,11 +202,11 @@ public class AudioController {
 	}
 
 	/**
-	 * Gets the audios by src ch.
+	 * Gets the audios by source channel.
 	 *
 	 * @param key
-	 *            the key
-	 * @return The audios by src ch.
+	 *            The key.
+	 * @return A list of audios whose source channel matches the key.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -214,11 +218,11 @@ public class AudioController {
 	}
 
 	/**
-	 * Gets the audios by src id.
+	 * Gets the audios by source id.
 	 *
 	 * @param key
-	 *            the key
-	 * @return The audios by src id.
+	 *            The key.
+	 * @return A list of audios whose source id matches the key.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -230,11 +234,11 @@ public class AudioController {
 	}
 
 	/**
-	 * Gets the audios by tc format.
+	 * Gets the audios by TC format.
 	 *
 	 * @param key
-	 *            the key
-	 * @return The audios by tc format.
+	 *            The key.
+	 * @return A list of audios whose TC format matches the key.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -312,11 +316,13 @@ public class AudioController {
 	}
 
 	/**
-	 * Creates the audio.
+	 * Creates an Audio object. This method parses the data in the ResultSet to
+	 * create the entity. It will also call upon Asset's findById method to add
+	 * the Asset.
 	 *
 	 * @param rs
-	 *            the rs
-	 * @return the audio
+	 *            The ResultSet containing the information of the Audio.
+	 * @return The created audio.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException

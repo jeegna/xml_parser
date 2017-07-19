@@ -12,9 +12,13 @@ import java.util.logging.Logger;
 import com.esf.xmlParser.database.DatabaseController;
 import com.esf.xmlParser.entities.Effect;
 
-// TODO: Auto-generated Javadoc
 /**
- * The Class EffectController.
+ * The Effect controller class. This class offers database access methods for
+ * Effect entities.
+ * 
+ * @author Jeegna Patel
+ * @version
+ * @since 1.8
  */
 public class EffectController {
 
@@ -26,7 +30,7 @@ public class EffectController {
 	 * Instantiates a new effect controller.
 	 *
 	 * @param db
-	 *            the db
+	 *            The database controller to use.
 	 */
 	public EffectController(DatabaseController db) {
 		this.db = db;
@@ -36,7 +40,7 @@ public class EffectController {
 	 * Adds the effects.
 	 *
 	 * @param effects
-	 *            the effects
+	 *            A list of effects to add.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -65,9 +69,9 @@ public class EffectController {
 	}
 
 	/**
-	 * Gets the effects.
-	 *
-	 * @return The effects.
+	 * Gets all the effects in the database.
+	 * 
+	 * @return A list of all effects in the database.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -82,8 +86,8 @@ public class EffectController {
 	 * Gets the effects by id.
 	 *
 	 * @param key
-	 *            the key
-	 * @return The effects by id.
+	 *            The key.
+	 * @return A list of effects whose id matches the key.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -98,8 +102,8 @@ public class EffectController {
 	 * Gets the effects by name.
 	 *
 	 * @param key
-	 *            the key
-	 * @return The effects by name.
+	 *            The key.
+	 * @return A list of effects whose name matches the key.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -111,11 +115,11 @@ public class EffectController {
 	}
 
 	/**
-	 * Gets the effects by uid.
+	 * Gets the effects by UID.
 	 *
 	 * @param key
-	 *            the key
-	 * @return The effects by uid.
+	 *            The key.
+	 * @return A list of effects whose UID matches the key.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -127,11 +131,11 @@ public class EffectController {
 	}
 
 	/**
-	 * Gets the effects by src.
+	 * Gets the effects by source.
 	 *
 	 * @param key
-	 *            the key
-	 * @return The effects by src.
+	 *            The key.
+	 * @return A list of effects whose source matches the key.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -209,13 +213,16 @@ public class EffectController {
 	}
 
 	/**
-	 * Creates the effect.
+	 * Creates an Effect object. This method parses the data in the ResultSet to
+	 * create the entity.
 	 *
 	 * @param rs
-	 *            the rs
-	 * @return the effect
+	 *            The ResultSet containing the information of the Effect.
+	 * @return The created effect.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
+	 * @throws ClassNotFoundException
+	 *             If the SQLite JDBC driver was not found.
 	 */
 	private Effect createEffect(ResultSet rs) throws SQLException {
 		logger.info("Creating Effect...");

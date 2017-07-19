@@ -13,9 +13,13 @@ import com.esf.xmlParser.entities.Video;
 import com.esf.xmlParser.database.DatabaseController;
 import com.esf.xmlParser.entities.Asset;
 
-// TODO: Auto-generated Javadoc
 /**
- * The Class VideoController.
+ * The Video controller class. This class offers database access methods for
+ * Video entities.
+ * 
+ * @author Jeegna Patel
+ * @version
+ * @since 1.8
  */
 public class VideoController {
 
@@ -27,7 +31,7 @@ public class VideoController {
 	 * Instantiates a new video controller.
 	 *
 	 * @param db
-	 *            the db
+	 *            The database controller to use.
 	 */
 	public VideoController(DatabaseController db) {
 		this.db = db;
@@ -37,7 +41,7 @@ public class VideoController {
 	 * Adds the videos.
 	 *
 	 * @param videos
-	 *            the videos
+	 *            A list of videos to add.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -69,9 +73,9 @@ public class VideoController {
 	}
 
 	/**
-	 * Gets the videos.
-	 *
-	 * @return The videos.
+	 * Gets all the videos in the database.
+	 * 
+	 * @return A list of all videos in the database.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -86,8 +90,8 @@ public class VideoController {
 	 * Gets the videos by id.
 	 *
 	 * @param key
-	 *            the key
-	 * @return The videos by id.
+	 *            The key.
+	 * @return A list of videos whose id matches the key.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -102,8 +106,8 @@ public class VideoController {
 	 * Gets the videos by name.
 	 *
 	 * @param key
-	 *            the key
-	 * @return The videos by name.
+	 *            The key.
+	 * @return A list of videos whose name matches the key.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -118,8 +122,8 @@ public class VideoController {
 	 * Gets the videos by lane.
 	 *
 	 * @param key
-	 *            the key
-	 * @return The videos by lane.
+	 *            The key.
+	 * @return A list of videos whose lane matches the key.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -134,8 +138,8 @@ public class VideoController {
 	 * Gets the videos by offset.
 	 *
 	 * @param key
-	 *            the key
-	 * @return The videos by offset.
+	 *            The key.
+	 * @return A list of videos whose offset matches the key.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -150,8 +154,8 @@ public class VideoController {
 	 * Gets the videos by duration.
 	 *
 	 * @param key
-	 *            the key
-	 * @return The videos by duration.
+	 *            The key.
+	 * @return A list of videos whose duration matches the key.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -166,8 +170,8 @@ public class VideoController {
 	 * Gets the videos by start.
 	 *
 	 * @param key
-	 *            the key to use to search the start field.
-	 * @return All Video objects whose start field match the key.
+	 *            The key.
+	 * @return A list of videos whose start matches the key.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -179,11 +183,11 @@ public class VideoController {
 	}
 
 	/**
-	 * Gets the videos by tc format.
+	 * Gets the videos by TC format.
 	 *
 	 * @param key
-	 *            the key
-	 * @return The videos by tc format.
+	 *            The key.
+	 * @return A list of videos whose TC format matches the key.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -261,13 +265,13 @@ public class VideoController {
 	}
 
 	/**
-	 * Creates a Video object with the given information. This method parses the
-	 * data in the ResultSet to create a Video. It will also call upon Asset's
-	 * findById method to add the Asset.
+	 * Creates a Video object. This method parses the data in the ResultSet to
+	 * create a Video. It will also call upon Asset's findById method to add the
+	 * Asset.
 	 *
 	 * @param rs
 	 *            The ResultSet containing the information of the Video.
-	 * @return the video
+	 * @return The created video.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException

@@ -12,9 +12,13 @@ import java.util.logging.Logger;
 import com.esf.xmlParser.database.DatabaseController;
 import com.esf.xmlParser.entities.Format;
 
-// TODO: Auto-generated Javadoc
 /**
- * The Class FormatController.
+ * The Format controller class. This class offers database access methods for
+ * Format entities.
+ * 
+ * @author Jeegna Patel
+ * @version
+ * @since 1.8
  */
 public class FormatController {
 
@@ -26,7 +30,7 @@ public class FormatController {
 	 * Instantiates a new format controller.
 	 *
 	 * @param db
-	 *            the db
+	 *            The database controller to use.
 	 */
 	public FormatController(DatabaseController db) {
 		this.db = db;
@@ -36,7 +40,7 @@ public class FormatController {
 	 * Adds the formats.
 	 *
 	 * @param formats
-	 *            the formats
+	 *            A list of formats to add.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -66,9 +70,9 @@ public class FormatController {
 	}
 
 	/**
-	 * Gets the formats.
-	 *
-	 * @return The formats.
+	 * Gets all the formats in the database.
+	 * 
+	 * @return A list of all formats in the database.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -83,8 +87,8 @@ public class FormatController {
 	 * Gets the formats by id.
 	 *
 	 * @param key
-	 *            the key
-	 * @return The formats by id.
+	 *            The key.
+	 * @return A list of formats whose id matches the key.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -99,8 +103,8 @@ public class FormatController {
 	 * Gets the formats by name.
 	 *
 	 * @param key
-	 *            the key
-	 * @return The formats by name.
+	 *            The key.
+	 * @return A list of formats whose name matches the key.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -115,8 +119,8 @@ public class FormatController {
 	 * Gets the formats by width.
 	 *
 	 * @param key
-	 *            the key
-	 * @return The formats by width.
+	 *            The key.
+	 * @return A list of formats whose width matches the key.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -131,8 +135,8 @@ public class FormatController {
 	 * Gets the formats by height.
 	 *
 	 * @param key
-	 *            the key
-	 * @return The formats by height.
+	 *            The key.
+	 * @return A list of formats whose height matches the key.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -147,8 +151,8 @@ public class FormatController {
 	 * Gets the formats by frame rate.
 	 *
 	 * @param key
-	 *            the key
-	 * @return The formats by frame rate.
+	 *            The key.
+	 * @return A list of formats whose frame rate matches the key.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -226,13 +230,16 @@ public class FormatController {
 	}
 
 	/**
-	 * Creates the format.
+	 * Creates a Format object. This method parses the data in the ResultSet to
+	 * create the entity.
 	 *
 	 * @param rs
-	 *            the rs
-	 * @return the format
+	 *            The ResultSet containing the information of the Format.
+	 * @return The created format.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
+	 * @throws ClassNotFoundException
+	 *             If the SQLite JDBC driver was not found.
 	 */
 	private Format createFormat(ResultSet rs) throws SQLException {
 		logger.info("Creating Format...");
