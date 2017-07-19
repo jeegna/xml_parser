@@ -12,21 +12,33 @@ import java.util.logging.Logger;
 import com.esf.xmlParser.database.DatabaseController;
 import com.esf.xmlParser.entities.Clip;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class ClipController.
+ */
 public class ClipController {
 
+	/** The logger. */
 	private final Logger logger = Logger.getLogger(this.getClass().getName());
 
+	/** The db. */
 	private DatabaseController db;
 
 	/**
+	 * Instantiates a new clip controller.
+	 *
 	 * @param db
+	 *            the db
 	 */
 	public ClipController(DatabaseController db) {
 		this.db = db;
 	}
 
 	/**
+	 * Adds the clips.
+	 *
 	 * @param clips
+	 *            the clips
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -56,7 +68,9 @@ public class ClipController {
 	}
 
 	/**
-	 * @return
+	 * Gets the clips.
+	 *
+	 * @return The clips.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -68,8 +82,11 @@ public class ClipController {
 	}
 
 	/**
+	 * Gets the clips by id.
+	 *
 	 * @param id
-	 * @return
+	 *            the id
+	 * @return The clips by id.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -81,8 +98,11 @@ public class ClipController {
 	}
 
 	/**
+	 * Gets the clips by name.
+	 *
 	 * @param key
-	 * @return
+	 *            the key
+	 * @return The clips by name.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -94,8 +114,11 @@ public class ClipController {
 	}
 
 	/**
+	 * Gets the clips by offset.
+	 *
 	 * @param key
-	 * @return
+	 *            the key
+	 * @return The clips by offset.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -107,8 +130,11 @@ public class ClipController {
 	}
 
 	/**
+	 * Gets the clips by duration.
+	 *
 	 * @param key
-	 * @return
+	 *            the key
+	 * @return The clips by duration.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -120,8 +146,11 @@ public class ClipController {
 	}
 
 	/**
+	 * Gets the clips by start.
+	 *
 	 * @param key
-	 * @return
+	 *            the key
+	 * @return The clips by start.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -133,8 +162,11 @@ public class ClipController {
 	}
 
 	/**
+	 * Gets the clips by tc format.
+	 *
 	 * @param key
-	 * @return
+	 *            the key
+	 * @return The clips by tc format.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -146,9 +178,13 @@ public class ClipController {
 	}
 
 	/**
+	 * Gets the.
+	 *
 	 * @param col
+	 *            the col
 	 * @param key
-	 * @return
+	 *            the key
+	 * @return the list
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -178,7 +214,9 @@ public class ClipController {
 	}
 
 	/**
-	 * @return
+	 * Gets the all.
+	 *
+	 * @return The all.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -206,8 +244,11 @@ public class ClipController {
 	}
 
 	/**
+	 * Creates the clip.
+	 *
 	 * @param rs
-	 * @return
+	 *            the rs
+	 * @return the clip
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 */

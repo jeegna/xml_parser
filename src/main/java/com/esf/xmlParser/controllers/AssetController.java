@@ -13,21 +13,33 @@ import com.esf.xmlParser.database.DatabaseController;
 import com.esf.xmlParser.entities.Asset;
 import com.esf.xmlParser.entities.Format;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class AssetController.
+ */
 public class AssetController {
 
+	/** The logger. */
 	private final Logger logger = Logger.getLogger(this.getClass().getName());
 
+	/** The db. */
 	private DatabaseController db;
 
 	/**
+	 * Instantiates a new asset controller.
+	 *
 	 * @param db
+	 *            the db
 	 */
 	public AssetController(DatabaseController db) {
 		this.db = db;
 	}
 
 	/**
+	 * Adds the assets.
+	 *
 	 * @param assets
+	 *            the assets
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -65,7 +77,9 @@ public class AssetController {
 	}
 
 	/**
-	 * @return
+	 * Gets the assets.
+	 *
+	 * @return The assets.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -77,8 +91,11 @@ public class AssetController {
 	}
 
 	/**
+	 * Gets the assets by id.
+	 *
 	 * @param key
-	 * @return
+	 *            the key
+	 * @return The assets by id.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -90,8 +107,11 @@ public class AssetController {
 	}
 
 	/**
+	 * Gets the assets by name.
+	 *
 	 * @param key
-	 * @return
+	 *            the key
+	 * @return The assets by name.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -103,8 +123,11 @@ public class AssetController {
 	}
 
 	/**
+	 * Gets the assets by duration.
+	 *
 	 * @param key
-	 * @return
+	 *            the key
+	 * @return The assets by duration.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -116,8 +139,11 @@ public class AssetController {
 	}
 
 	/**
+	 * Gets the assets by has audio.
+	 *
 	 * @param key
-	 * @return
+	 *            the key
+	 * @return The assets by has audio.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -129,8 +155,11 @@ public class AssetController {
 	}
 
 	/**
+	 * Gets the assets by has video.
+	 *
 	 * @param key
-	 * @return
+	 *            the key
+	 * @return The assets by has video.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -142,8 +171,11 @@ public class AssetController {
 	}
 
 	/**
+	 * Gets the assets by UID.
+	 *
 	 * @param key
-	 * @return
+	 *            the key
+	 * @return The assets by UID.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -155,8 +187,11 @@ public class AssetController {
 	}
 
 	/**
+	 * Gets the assets by src.
+	 *
 	 * @param key
-	 * @return
+	 *            the key
+	 * @return The assets by src.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -168,8 +203,11 @@ public class AssetController {
 	}
 
 	/**
+	 * Gets the assets by start.
+	 *
 	 * @param key
-	 * @return
+	 *            the key
+	 * @return The assets by start.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -181,9 +219,13 @@ public class AssetController {
 	}
 
 	/**
+	 * Gets the.
+	 *
 	 * @param col
+	 *            the col
 	 * @param key
-	 * @return
+	 *            the key
+	 * @return the list
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -213,7 +255,9 @@ public class AssetController {
 	}
 
 	/**
-	 * @return
+	 * Gets the all.
+	 *
+	 * @return The all.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -241,8 +285,11 @@ public class AssetController {
 	}
 
 	/**
+	 * Creates the asset.
+	 *
 	 * @param rs
-	 * @return
+	 *            the rs
+	 * @return the asset
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException

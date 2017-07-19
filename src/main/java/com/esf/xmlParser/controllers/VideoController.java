@@ -13,6 +13,10 @@ import com.esf.xmlParser.entities.Video;
 import com.esf.xmlParser.database.DatabaseController;
 import com.esf.xmlParser.entities.Asset;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class VideoController.
+ */
 public class VideoController {
 
 	private final Logger logger = Logger.getLogger(this.getClass().getName());
@@ -20,14 +24,20 @@ public class VideoController {
 	private DatabaseController db;
 
 	/**
+	 * Instantiates a new video controller.
+	 *
 	 * @param db
+	 *            the db
 	 */
 	public VideoController(DatabaseController db) {
 		this.db = db;
 	}
 
 	/**
+	 * Adds the videos.
+	 *
 	 * @param videos
+	 *            the videos
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -59,7 +69,9 @@ public class VideoController {
 	}
 
 	/**
-	 * @return
+	 * Gets the videos.
+	 *
+	 * @return The videos.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -71,8 +83,11 @@ public class VideoController {
 	}
 
 	/**
+	 * Gets the videos by id.
+	 *
 	 * @param key
-	 * @return
+	 *            the key
+	 * @return The videos by id.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -84,8 +99,11 @@ public class VideoController {
 	}
 
 	/**
+	 * Gets the videos by name.
+	 *
 	 * @param key
-	 * @return
+	 *            the key
+	 * @return The videos by name.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -97,8 +115,11 @@ public class VideoController {
 	}
 
 	/**
+	 * Gets the videos by lane.
+	 *
 	 * @param key
-	 * @return
+	 *            the key
+	 * @return The videos by lane.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -110,8 +131,11 @@ public class VideoController {
 	}
 
 	/**
+	 * Gets the videos by offset.
+	 *
 	 * @param key
-	 * @return
+	 *            the key
+	 * @return The videos by offset.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -123,8 +147,11 @@ public class VideoController {
 	}
 
 	/**
+	 * Gets the videos by duration.
+	 *
 	 * @param key
-	 * @return
+	 *            the key
+	 * @return The videos by duration.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -136,8 +163,11 @@ public class VideoController {
 	}
 
 	/**
+	 * Gets the videos by start.
+	 *
 	 * @param key
-	 * @return
+	 *            the key to use to search the start field.
+	 * @return All Video objects whose start field match the key.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -149,8 +179,11 @@ public class VideoController {
 	}
 
 	/**
+	 * Gets the videos by tc format.
+	 *
 	 * @param key
-	 * @return
+	 *            the key
+	 * @return The videos by tc format.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -162,9 +195,13 @@ public class VideoController {
 	}
 
 	/**
+	 * Gets the.
+	 *
 	 * @param col
+	 *            the col
 	 * @param key
-	 * @return
+	 *            the key
+	 * @return the list
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -194,7 +231,9 @@ public class VideoController {
 	}
 
 	/**
-	 * @return
+	 * Gets the all.
+	 *
+	 * @return The all.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -222,8 +261,13 @@ public class VideoController {
 	}
 
 	/**
+	 * Creates a Video object with the given information. This method parses the
+	 * data in the ResultSet to create a Video. It will also call upon Asset's
+	 * findById method to add the Asset.
+	 *
 	 * @param rs
-	 * @return
+	 *            The ResultSet containing the information of the Video.
+	 * @return the video
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException

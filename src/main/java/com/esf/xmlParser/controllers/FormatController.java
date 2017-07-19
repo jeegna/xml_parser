@@ -12,21 +12,33 @@ import java.util.logging.Logger;
 import com.esf.xmlParser.database.DatabaseController;
 import com.esf.xmlParser.entities.Format;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class FormatController.
+ */
 public class FormatController {
 
+	/** The logger. */
 	private final Logger logger = Logger.getLogger(this.getClass().getName());
 
+	/** The db. */
 	private DatabaseController db;
 
 	/**
+	 * Instantiates a new format controller.
+	 *
 	 * @param db
+	 *            the db
 	 */
 	public FormatController(DatabaseController db) {
 		this.db = db;
 	}
 
 	/**
+	 * Adds the formats.
+	 *
 	 * @param formats
+	 *            the formats
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -56,7 +68,9 @@ public class FormatController {
 	}
 
 	/**
-	 * @return
+	 * Gets the formats.
+	 *
+	 * @return The formats.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -68,8 +82,11 @@ public class FormatController {
 	}
 
 	/**
+	 * Gets the formats by id.
+	 *
 	 * @param key
-	 * @return
+	 *            the key
+	 * @return The formats by id.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -81,8 +98,11 @@ public class FormatController {
 	}
 
 	/**
+	 * Gets the formats by name.
+	 *
 	 * @param key
-	 * @return
+	 *            the key
+	 * @return The formats by name.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -94,8 +114,11 @@ public class FormatController {
 	}
 
 	/**
+	 * Gets the formats by width.
+	 *
 	 * @param key
-	 * @return
+	 *            the key
+	 * @return The formats by width.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -107,8 +130,11 @@ public class FormatController {
 	}
 
 	/**
+	 * Gets the formats by height.
+	 *
 	 * @param key
-	 * @return
+	 *            the key
+	 * @return The formats by height.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -120,8 +146,11 @@ public class FormatController {
 	}
 
 	/**
+	 * Gets the formats by frame rate.
+	 *
 	 * @param key
-	 * @return
+	 *            the key
+	 * @return The formats by frame rate.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -133,9 +162,13 @@ public class FormatController {
 	}
 
 	/**
+	 * Gets the.
+	 *
 	 * @param col
+	 *            the col
 	 * @param key
-	 * @return
+	 *            the key
+	 * @return the list
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -165,7 +198,9 @@ public class FormatController {
 	}
 
 	/**
-	 * @return
+	 * Gets the all.
+	 *
+	 * @return The all.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -193,8 +228,11 @@ public class FormatController {
 	}
 
 	/**
+	 * Creates the format.
+	 *
 	 * @param rs
-	 * @return
+	 *            the rs
+	 * @return the format
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 */

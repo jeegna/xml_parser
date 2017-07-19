@@ -12,21 +12,33 @@ import java.util.logging.Logger;
 import com.esf.xmlParser.database.DatabaseController;
 import com.esf.xmlParser.entities.Effect;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class EffectController.
+ */
 public class EffectController {
 
+	/** The logger. */
 	private final Logger logger = Logger.getLogger(this.getClass().getName());
 
+	/** The db. */
 	private DatabaseController db;
 
 	/**
+	 * Instantiates a new effect controller.
+	 *
 	 * @param db
+	 *            the db
 	 */
 	public EffectController(DatabaseController db) {
 		this.db = db;
 	}
 
 	/**
+	 * Adds the effects.
+	 *
 	 * @param effects
+	 *            the effects
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -55,7 +67,9 @@ public class EffectController {
 	}
 
 	/**
-	 * @return
+	 * Gets the effects.
+	 *
+	 * @return The effects.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -67,8 +81,11 @@ public class EffectController {
 	}
 
 	/**
+	 * Gets the effects by id.
+	 *
 	 * @param key
-	 * @return
+	 *            the key
+	 * @return The effects by id.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -80,8 +97,11 @@ public class EffectController {
 	}
 
 	/**
+	 * Gets the effects by name.
+	 *
 	 * @param key
-	 * @return
+	 *            the key
+	 * @return The effects by name.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -93,8 +113,11 @@ public class EffectController {
 	}
 
 	/**
+	 * Gets the effects by uid.
+	 *
 	 * @param key
-	 * @return
+	 *            the key
+	 * @return The effects by uid.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -106,8 +129,11 @@ public class EffectController {
 	}
 
 	/**
+	 * Gets the effects by src.
+	 *
 	 * @param key
-	 * @return
+	 *            the key
+	 * @return The effects by src.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -119,9 +145,13 @@ public class EffectController {
 	}
 
 	/**
+	 * Gets the.
+	 *
 	 * @param col
+	 *            the col
 	 * @param key
-	 * @return
+	 *            the key
+	 * @return the list
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -151,7 +181,9 @@ public class EffectController {
 	}
 
 	/**
-	 * @return
+	 * Gets the all.
+	 *
+	 * @return The all.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -179,8 +211,11 @@ public class EffectController {
 	}
 
 	/**
+	 * Creates the effect.
+	 *
 	 * @param rs
-	 * @return
+	 *            the rs
+	 * @return the effect
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 */

@@ -2,8 +2,6 @@ package com.esf.xmlParser.database;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -26,6 +24,10 @@ import com.esf.xmlParser.entities.Effect;
 import com.esf.xmlParser.entities.Format;
 import com.esf.xmlParser.entities.Video;
 
+/**
+ * The DatabaseController class. This class offers methods for interacting with
+ * and creating the database.
+ */
 public class DatabaseController {
 
 	// Database table names
@@ -64,18 +66,11 @@ public class DatabaseController {
 
 	private String dbName;
 
-	private AssetClipController assetClipController;
-	private AssetController assetController;
-	private AudioController audioController;
-	private ClipController clipController;
-	private EffectController effectController;
-	private FormatController formatController;
-	private VideoController videoController;
-
 	private final Logger logger = Logger.getLogger(this.getClass().getName());
 
 	/**
-	 * 
+	 * Instantiates a new database controller.
+	 *
 	 * @param name
 	 *            The name of the SQLite database that should be created.
 	 */
@@ -95,19 +90,12 @@ public class DatabaseController {
 		}
 
 		this.dbName = name;
-		assetClipController = new AssetClipController(this);
-		assetController = new AssetController(this);
-		audioController = new AudioController(this);
-		clipController = new ClipController(this);
-		effectController = new EffectController(this);
-		formatController = new FormatController(this);
-		videoController = new VideoController(this);
 	}
 
 	/**
-	 * Creates a connection to an SQLite database
-	 * 
-	 * @param dbName
+	 * Creates a connection to an SQLite database.
+	 *
+	 * @return The connection.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -119,13 +107,22 @@ public class DatabaseController {
 	}
 
 	/**
+	 * Populates the database with the entities in the given lists.
+	 *
 	 * @param assets
+	 *            The list of assets
 	 * @param assetClips
+	 *            The list of asset clips
 	 * @param audios
+	 *            The list of audios
 	 * @param clips
+	 *            The list of clips
 	 * @param effects
+	 *            The list of effects
 	 * @param formats
+	 *            The list of formats
 	 * @param videos
+	 *            The list of videos
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -147,93 +144,126 @@ public class DatabaseController {
 	}
 
 	/**
+	 * Adds the assets.
+	 *
 	 * @param assets
-	 * @throws SQLException
-	 *             If an SQL Exception occurs.
+	 *            The assets to add.
 	 * @throws ClassNotFoundException
 	 *             If the SQLite JDBC driver was not found.
+	 * @throws SQLException
+	 *             If an SQL Exception occurs.
 	 */
 	public void addAssets(List<Asset> assets) throws ClassNotFoundException, SQLException {
+		AssetController assetController = new AssetController(this);
 		assetController.addAssets(assets);
 	}
 
 	/**
+	 * Adds the asset clips.
+	 *
 	 * @param assetClips
-	 * @throws SQLException
-	 *             If an SQL Exception occurs.
+	 *            The asset clips to add.
 	 * @throws ClassNotFoundException
 	 *             If the SQLite JDBC driver was not found.
+	 * @throws SQLException
+	 *             If an SQL Exception occurs.
 	 */
 	public void addAssetClips(List<AssetClip> assetClips) throws ClassNotFoundException, SQLException {
+		AssetClipController assetClipController = new AssetClipController(this);
 		assetClipController.addAssetClips(assetClips);
 	}
 
 	/**
+	 * Adds the audios.
+	 *
 	 * @param audios
-	 * @throws SQLException
-	 *             If an SQL Exception occurs.
+	 *            The audios to add.
 	 * @throws ClassNotFoundException
 	 *             If the SQLite JDBC driver was not found.
+	 * @throws SQLException
+	 *             If an SQL Exception occurs.
 	 */
 	public void addAudios(List<Audio> audios) throws ClassNotFoundException, SQLException {
+		AudioController audioController = new AudioController(this);
 		audioController.addAudios(audios);
 	}
 
 	/**
+	 * Adds the clips.
+	 *
 	 * @param clips
-	 * @throws SQLException
-	 *             If an SQL Exception occurs.
+	 *            The clips to add.
 	 * @throws ClassNotFoundException
 	 *             If the SQLite JDBC driver was not found.
+	 * @throws SQLException
+	 *             If an SQL Exception occurs.
 	 */
 	public void addClips(List<Clip> clips) throws ClassNotFoundException, SQLException {
+		ClipController clipController = new ClipController(this);
 		clipController.addClips(clips);
 	}
 
 	/**
+	 * Adds the effects.
+	 *
 	 * @param effects
-	 * @throws SQLException
-	 *             If an SQL Exception occurs.
+	 *            The effects to add.
 	 * @throws ClassNotFoundException
 	 *             If the SQLite JDBC driver was not found.
+	 * @throws SQLException
+	 *             If an SQL Exception occurs.
 	 */
 	public void addEffects(List<Effect> effects) throws ClassNotFoundException, SQLException {
+		EffectController effectController = new EffectController(this);
 		effectController.addEffects(effects);
 	}
 
 	/**
+	 * Adds the formats.
+	 *
 	 * @param formats
-	 * @throws SQLException
-	 *             If an SQL Exception occurs.
+	 *            The formats to add.
 	 * @throws ClassNotFoundException
 	 *             If the SQLite JDBC driver was not found.
+	 * @throws SQLException
+	 *             If an SQL Exception occurs.
 	 */
 	public void addFormats(List<Format> formats) throws ClassNotFoundException, SQLException {
+		FormatController formatController = new FormatController(this);
 		formatController.addFormats(formats);
 	}
 
 	/**
+	 * Adds the videos.
+	 *
 	 * @param videos
-	 * @throws SQLException
-	 *             If an SQL Exception occurs.
+	 *            The videos to add.
 	 * @throws ClassNotFoundException
 	 *             If the SQLite JDBC driver was not found.
+	 * @throws SQLException
+	 *             If an SQL Exception occurs.
 	 */
 	public void addVideos(List<Video> videos) throws ClassNotFoundException, SQLException {
+		VideoController videoController = new VideoController(this);
 		videoController.addVideos(videos);
 	}
 
 	/**
+	 * Gets the assets whose column fields match the given key.
+	 *
 	 * @param columns
+	 *            The column names.
 	 * @param key
-	 * @return
-	 * @throws SQLException
-	 *             If an SQL Exception occurs.
+	 *            The key with which to match the column fields.
+	 * @return A list of assets matching the criteria.
 	 * @throws ClassNotFoundException
 	 *             If the SQLite JDBC driver was not found.
+	 * @throws SQLException
+	 *             If an SQL Exception occurs.
 	 */
 	public List<Asset> getAssetsFromQueryInfo(Set<String> columns, String key)
 			throws ClassNotFoundException, SQLException {
+		AssetController assetController = new AssetController(this);
 		List<Asset> list = new ArrayList<>();
 		for (String col : columns) {
 			switch (col) {
@@ -267,16 +297,21 @@ public class DatabaseController {
 	}
 
 	/**
+	 * Gets the asset clips whose column fields match the given key.
+	 *
 	 * @param columns
+	 *            The column names.
 	 * @param key
-	 * @return
-	 * @throws SQLException
-	 *             If an SQL Exception occurs.
+	 *            The key with which to match the column fields.
+	 * @return A list of asset clips matching the criteria.
 	 * @throws ClassNotFoundException
 	 *             If the SQLite JDBC driver was not found.
+	 * @throws SQLException
+	 *             If an SQL Exception occurs.
 	 */
 	public List<AssetClip> getAssetClipsFromQueryInfo(Set<String> columns, String key)
 			throws ClassNotFoundException, SQLException {
+		AssetClipController assetClipController = new AssetClipController(this);
 		List<AssetClip> list = new ArrayList<>();
 		for (String col : columns) {
 			switch (col) {
@@ -310,16 +345,21 @@ public class DatabaseController {
 	}
 
 	/**
+	 * Gets the audios whose column fields match the given key.
+	 *
 	 * @param columns
+	 *            The column names.
 	 * @param key
-	 * @return
-	 * @throws SQLException
-	 *             If an SQL Exception occurs.
+	 *            The key with which to match the column fields.
+	 * @return A list of audios matching the criteria.
 	 * @throws ClassNotFoundException
 	 *             If the SQLite JDBC driver was not found.
+	 * @throws SQLException
+	 *             If an SQL Exception occurs.
 	 */
 	public List<Audio> getAudiosFromQueryInfo(Set<String> columns, String key)
 			throws ClassNotFoundException, SQLException {
+		AudioController audioController = new AudioController(this);
 		List<Audio> list = new ArrayList<>();
 		for (String col : columns) {
 			switch (col) {
@@ -353,16 +393,21 @@ public class DatabaseController {
 	}
 
 	/**
+	 * Gets the clips whose column fields match the given key.
+	 *
 	 * @param columns
+	 *            The column names.
 	 * @param key
-	 * @return
-	 * @throws SQLException
-	 *             If an SQL Exception occurs.
+	 *            The key with which to match the column fields.
+	 * @return A list of clips matching the criteria.
 	 * @throws ClassNotFoundException
 	 *             If the SQLite JDBC driver was not found.
+	 * @throws SQLException
+	 *             If an SQL Exception occurs.
 	 */
 	public List<Clip> getClipsFromQueryInfo(Set<String> columns, String key)
 			throws ClassNotFoundException, SQLException {
+		ClipController clipController = new ClipController(this);
 		List<Clip> list = new ArrayList<>();
 		for (String col : columns) {
 			switch (col) {
@@ -390,16 +435,21 @@ public class DatabaseController {
 	}
 
 	/**
+	 * Gets the effects whose column fields match the given key.
+	 *
 	 * @param columns
+	 *            The column names.
 	 * @param key
-	 * @return
-	 * @throws SQLException
-	 *             If an SQL Exception occurs.
+	 *            The key with which to match the column fields.
+	 * @return A list of effects matching the criteria.
 	 * @throws ClassNotFoundException
 	 *             If the SQLite JDBC driver was not found.
+	 * @throws SQLException
+	 *             If an SQL Exception occurs.
 	 */
 	public List<Effect> getEffectsFromQueryInfo(Set<String> columns, String key)
 			throws ClassNotFoundException, SQLException {
+		EffectController effectController = new EffectController(this);
 		List<Effect> list = new ArrayList<>();
 		for (String col : columns) {
 			switch (col) {
@@ -421,16 +471,21 @@ public class DatabaseController {
 	}
 
 	/**
+	 * Gets the formats whose column fields match the given key.
+	 *
 	 * @param columns
+	 *            The column names.
 	 * @param key
-	 * @return
-	 * @throws SQLException
-	 *             If an SQL Exception occurs.
+	 *            The key with which to match the column fields.
+	 * @return A list of formats matching the criteria.
 	 * @throws ClassNotFoundException
 	 *             If the SQLite JDBC driver was not found.
+	 * @throws SQLException
+	 *             If an SQL Exception occurs.
 	 */
 	public List<Format> getFormatsFromQueryInfo(Set<String> columns, String key)
 			throws ClassNotFoundException, SQLException {
+		FormatController formatController = new FormatController(this);
 		List<Format> list = new ArrayList<>();
 		for (String col : columns) {
 			switch (col) {
@@ -455,16 +510,21 @@ public class DatabaseController {
 	}
 
 	/**
+	 * Gets the videos whose column fields match the given key.
+	 *
 	 * @param columns
+	 *            The column names.
 	 * @param key
-	 * @return
-	 * @throws SQLException
-	 *             If an SQL Exception occurs.
+	 *            The key with which to match the column fields.
+	 * @return A list of videos matching the criteria.
 	 * @throws ClassNotFoundException
 	 *             If the SQLite JDBC driver was not found.
+	 * @throws SQLException
+	 *             If an SQL Exception occurs.
 	 */
 	public List<Video> getVideosFromQueryInfo(Set<String> columns, String key)
 			throws ClassNotFoundException, SQLException {
+		VideoController videoController = new VideoController(this);
 		List<Video> list = new ArrayList<>();
 		for (String col : columns) {
 			switch (col) {
@@ -492,663 +552,166 @@ public class DatabaseController {
 	}
 
 	/**
-	 * @return
-	 * @throws SQLException
-	 *             If an SQL Exception occurs.
+	 * Gets the assets.
+	 *
+	 * @return The assets.
 	 * @throws ClassNotFoundException
 	 *             If the SQLite JDBC driver was not found.
+	 * @throws SQLException
+	 *             If an SQL Exception occurs.
 	 */
 	public List<Asset> getAssets() throws ClassNotFoundException, SQLException {
+		AssetController assetController = new AssetController(this);
 		return assetController.getAssets();
 	}
 
 	/**
+	 * Gets the assets by id.
+	 *
 	 * @param id
-	 * @return
-	 * @throws SQLException
-	 *             If an SQL Exception occurs.
+	 *            The id.
+	 * @return The assets whose id field matches the given id.
 	 * @throws ClassNotFoundException
 	 *             If the SQLite JDBC driver was not found.
+	 * @throws SQLException
+	 *             If an SQL Exception occurs.
 	 */
 	public List<Asset> getAssetsById(String id) throws ClassNotFoundException, SQLException {
+		AssetController assetController = new AssetController(this);
 		return assetController.getAssetsById(id);
 	}
 
 	/**
-	 * @param name
-	 * @return
-	 * @throws SQLException
-	 *             If an SQL Exception occurs.
+	 * Gets the asset clips.
+	 *
+	 * @return The asset clips.
 	 * @throws ClassNotFoundException
 	 *             If the SQLite JDBC driver was not found.
-	 */
-	public List<Asset> getAssetsByName(String name) throws ClassNotFoundException, SQLException {
-		return assetController.getAssetsByName(name);
-	}
-
-	/**
-	 * @param duration
-	 * @return
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
-	 * @throws ClassNotFoundException
-	 *             If the SQLite JDBC driver was not found.
-	 */
-	public List<Asset> getAssetsByDuration(String duration) throws ClassNotFoundException, SQLException {
-		return assetController.getAssetsByDuration(duration);
-	}
-
-	/**
-	 * @param hasAudio
-	 * @return
-	 * @throws SQLException
-	 *             If an SQL Exception occurs.
-	 * @throws ClassNotFoundException
-	 *             If the SQLite JDBC driver was not found.
-	 */
-	public List<Asset> getAssetsByHasAudio(String hasAudio) throws ClassNotFoundException, SQLException {
-		return assetController.getAssetsByHasAudio(hasAudio);
-	}
-
-	/**
-	 * @param hasVideo
-	 * @return
-	 * @throws SQLException
-	 *             If an SQL Exception occurs.
-	 * @throws ClassNotFoundException
-	 *             If the SQLite JDBC driver was not found.
-	 */
-	public List<Asset> getAssetsByHasVideo(String hasVideo) throws ClassNotFoundException, SQLException {
-		return assetController.getAssetsByHasVideo(hasVideo);
-	}
-
-	/**
-	 * @param src
-	 * @return
-	 * @throws SQLException
-	 *             If an SQL Exception occurs.
-	 * @throws ClassNotFoundException
-	 *             If the SQLite JDBC driver was not found.
-	 */
-	public List<Asset> getAssetsBySrc(String src) throws ClassNotFoundException, SQLException {
-		return assetController.getAssetsBySrc(src);
-	}
-
-	/**
-	 * @param start
-	 * @return
-	 * @throws SQLException
-	 *             If an SQL Exception occurs.
-	 * @throws ClassNotFoundException
-	 *             If the SQLite JDBC driver was not found.
-	 */
-	public List<Asset> getAssetsByStart(String start) throws ClassNotFoundException, SQLException {
-		return assetController.getAssetsByStart(start);
-	}
-
-	/**
-	 * @param uid
-	 * @return
-	 * @throws SQLException
-	 *             If an SQL Exception occurs.
-	 * @throws ClassNotFoundException
-	 *             If the SQLite JDBC driver was not found.
-	 */
-	public List<Asset> getAssetsByUID(String uid) throws ClassNotFoundException, SQLException {
-		return assetController.getAssetsByUID(uid);
-	}
-
-	/**
-	 * @return
-	 * @throws SQLException
-	 *             If an SQL Exception occurs.
-	 * @throws ClassNotFoundException
-	 *             If the SQLite JDBC driver was not found.
 	 */
 	public List<AssetClip> getAssetClips() throws ClassNotFoundException, SQLException {
+		AssetClipController assetClipController = new AssetClipController(this);
 		return assetClipController.getAssetClips();
 	}
 
 	/**
-	 * @param id
-	 * @return
-	 * @throws SQLException
-	 *             If an SQL Exception occurs.
+	 * Gets the audios.
+	 *
+	 * @return The audios.
 	 * @throws ClassNotFoundException
 	 *             If the SQLite JDBC driver was not found.
-	 */
-	public List<AssetClip> getAssetClipsById(String id) throws ClassNotFoundException, SQLException {
-		return assetClipController.getAssetClipsById(id);
-	}
-
-	/**
-	 * @param name
-	 * @return
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
-	 * @throws ClassNotFoundException
-	 *             If the SQLite JDBC driver was not found.
-	 */
-	public List<AssetClip> getAssetClipsByName(String name) throws ClassNotFoundException, SQLException {
-		return assetClipController.getAssetClipsByName(name);
-	}
-
-	/**
-	 * @param lane
-	 * @return
-	 * @throws SQLException
-	 *             If an SQL Exception occurs.
-	 * @throws ClassNotFoundException
-	 *             If the SQLite JDBC driver was not found.
-	 */
-	public List<AssetClip> getAssetClipsByLane(String lane) throws ClassNotFoundException, SQLException {
-		return assetClipController.getAssetClipsByLane(lane);
-	}
-
-	/**
-	 * @param offset
-	 * @return
-	 * @throws SQLException
-	 *             If an SQL Exception occurs.
-	 * @throws ClassNotFoundException
-	 *             If the SQLite JDBC driver was not found.
-	 */
-	public List<AssetClip> getAssetClipsByOffset(String offset) throws ClassNotFoundException, SQLException {
-		return assetClipController.getAssetClipsByOffset(offset);
-	}
-
-	/**
-	 * @param duration
-	 * @return
-	 * @throws SQLException
-	 *             If an SQL Exception occurs.
-	 * @throws ClassNotFoundException
-	 *             If the SQLite JDBC driver was not found.
-	 */
-	public List<AssetClip> getAssetClipsByDuration(String duration) throws ClassNotFoundException, SQLException {
-		return assetClipController.getAssetClipsByDuration(duration);
-	}
-
-	/**
-	 * @param start
-	 * @return
-	 * @throws SQLException
-	 *             If an SQL Exception occurs.
-	 * @throws ClassNotFoundException
-	 *             If the SQLite JDBC driver was not found.
-	 */
-	public List<AssetClip> getAssetClipsByStart(String start) throws ClassNotFoundException, SQLException {
-		return assetClipController.getAssetClipsByStart(start);
-	}
-
-	/**
-	 * @param role
-	 * @return
-	 * @throws SQLException
-	 *             If an SQL Exception occurs.
-	 * @throws ClassNotFoundException
-	 *             If the SQLite JDBC driver was not found.
-	 */
-	public List<AssetClip> getAssetClipsByRole(String role) throws ClassNotFoundException, SQLException {
-		return assetClipController.getAssetClipsByRole(role);
-	}
-
-	/**
-	 * @param tcFormat
-	 * @return
-	 * @throws SQLException
-	 *             If an SQL Exception occurs.
-	 * @throws ClassNotFoundException
-	 *             If the SQLite JDBC driver was not found.
-	 */
-	public List<AssetClip> getAssetClipsByTcFormat(String tcFormat) throws ClassNotFoundException, SQLException {
-		return assetClipController.getAssetClipsByTcFormat(tcFormat);
-	}
-
-	/**
-	 * @return
-	 * @throws SQLException
-	 *             If an SQL Exception occurs.
-	 * @throws ClassNotFoundException
-	 *             If the SQLite JDBC driver was not found.
 	 */
 	public List<Audio> getAudios() throws ClassNotFoundException, SQLException {
+		AudioController audioController = new AudioController(this);
 		return audioController.getAudios();
 	}
 
 	/**
-	 * @param id
-	 * @return
-	 * @throws SQLException
-	 *             If an SQL Exception occurs.
+	 * Gets the clips.
+	 *
+	 * @return The clips.
 	 * @throws ClassNotFoundException
 	 *             If the SQLite JDBC driver was not found.
-	 */
-	public List<Audio> getAudiosById(String id) throws ClassNotFoundException, SQLException {
-		return audioController.getAudiosById(id);
-	}
-
-	/**
-	 * @param lane
-	 * @return
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
-	 * @throws ClassNotFoundException
-	 *             If the SQLite JDBC driver was not found.
-	 */
-	public List<Audio> getAudiosByLane(String lane) throws ClassNotFoundException, SQLException {
-		return audioController.getAudiosByLane(lane);
-	}
-
-	/**
-	 * @param role
-	 * @return
-	 * @throws SQLException
-	 *             If an SQL Exception occurs.
-	 * @throws ClassNotFoundException
-	 *             If the SQLite JDBC driver was not found.
-	 */
-	public List<Audio> getAudiosByRole(String role) throws ClassNotFoundException, SQLException {
-		return audioController.getAudiosByRole(role);
-	}
-
-	/**
-	 * @param offset
-	 * @return
-	 * @throws SQLException
-	 *             If an SQL Exception occurs.
-	 * @throws ClassNotFoundException
-	 *             If the SQLite JDBC driver was not found.
-	 */
-	public List<Audio> getAudiosByOffset(String offset) throws ClassNotFoundException, SQLException {
-		return audioController.getAudiosByOffset(offset);
-	}
-
-	/**
-	 * @param duration
-	 * @return
-	 * @throws SQLException
-	 *             If an SQL Exception occurs.
-	 * @throws ClassNotFoundException
-	 *             If the SQLite JDBC driver was not found.
-	 */
-	public List<Audio> getAudiosByDuration(String duration) throws ClassNotFoundException, SQLException {
-		return audioController.getAudiosByDuration(duration);
-	}
-
-	/**
-	 * @param start
-	 * @return
-	 * @throws SQLException
-	 *             If an SQL Exception occurs.
-	 * @throws ClassNotFoundException
-	 *             If the SQLite JDBC driver was not found.
-	 */
-	public List<Audio> getAudiosByStart(String start) throws ClassNotFoundException, SQLException {
-		return audioController.getAudiosByStart(start);
-	}
-
-	/**
-	 * @param srcCh
-	 * @return
-	 * @throws SQLException
-	 *             If an SQL Exception occurs.
-	 * @throws ClassNotFoundException
-	 *             If the SQLite JDBC driver was not found.
-	 */
-	public List<Audio> getAudiosBySrcCh(String srcCh) throws ClassNotFoundException, SQLException {
-		return audioController.getAudiosBySrcCh(srcCh);
-	}
-
-	/**
-	 * @param srcId
-	 * @return
-	 * @throws SQLException
-	 *             If an SQL Exception occurs.
-	 * @throws ClassNotFoundException
-	 *             If the SQLite JDBC driver was not found.
-	 */
-	public List<Audio> getAudiosBySrcId(String srcId) throws ClassNotFoundException, SQLException {
-		return audioController.getAudiosBySrcId(srcId);
-	}
-
-	/**
-	 * @return
-	 * @throws SQLException
-	 *             If an SQL Exception occurs.
-	 * @throws ClassNotFoundException
-	 *             If the SQLite JDBC driver was not found.
 	 */
 	public List<Clip> getClips() throws ClassNotFoundException, SQLException {
+		ClipController clipController = new ClipController(this);
 		return clipController.getClips();
 	}
 
 	/**
-	 * @param id
-	 * @return
-	 * @throws SQLException
-	 *             If an SQL Exception occurs.
+	 * Gets the effects.
+	 *
+	 * @return The effects.
 	 * @throws ClassNotFoundException
 	 *             If the SQLite JDBC driver was not found.
-	 */
-	public List<Clip> getClipsById(String id) throws ClassNotFoundException, SQLException {
-		return clipController.getClipsById(id);
-	}
-
-	/**
-	 * @param name
-	 * @return
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
-	 * @throws ClassNotFoundException
-	 *             If the SQLite JDBC driver was not found.
-	 */
-	public List<Clip> getClipsByName(String name) throws ClassNotFoundException, SQLException {
-		return clipController.getClipsByName(name);
-	}
-
-	/**
-	 * @param offset
-	 * @return
-	 * @throws SQLException
-	 *             If an SQL Exception occurs.
-	 * @throws ClassNotFoundException
-	 *             If the SQLite JDBC driver was not found.
-	 */
-	public List<Clip> getClipsByOffset(String offset) throws ClassNotFoundException, SQLException {
-		return clipController.getClipsByOffset(offset);
-	}
-
-	/**
-	 * @param duration
-	 * @return
-	 * @throws SQLException
-	 *             If an SQL Exception occurs.
-	 * @throws ClassNotFoundException
-	 *             If the SQLite JDBC driver was not found.
-	 */
-	public List<Clip> getClipsByDuration(String duration) throws ClassNotFoundException, SQLException {
-		return clipController.getClipsByDuration(duration);
-	}
-
-	/**
-	 * @param start
-	 * @return
-	 * @throws SQLException
-	 *             If an SQL Exception occurs.
-	 * @throws ClassNotFoundException
-	 *             If the SQLite JDBC driver was not found.
-	 */
-	public List<Clip> getClipsByStart(String start) throws ClassNotFoundException, SQLException {
-		return clipController.getClipsByStart(start);
-	}
-
-	/**
-	 * @param tcFormat
-	 * @return
-	 * @throws SQLException
-	 *             If an SQL Exception occurs.
-	 * @throws ClassNotFoundException
-	 *             If the SQLite JDBC driver was not found.
-	 */
-	public List<Clip> getClipsByTcFormat(String tcFormat) throws ClassNotFoundException, SQLException {
-		return clipController.getClipsByTcFormat(tcFormat);
-	}
-
-	/**
-	 * @return
-	 * @throws SQLException
-	 *             If an SQL Exception occurs.
-	 * @throws ClassNotFoundException
-	 *             If the SQLite JDBC driver was not found.
 	 */
 	public List<Effect> getEffects() throws ClassNotFoundException, SQLException {
+		EffectController effectController = new EffectController(this);
 		return effectController.getEffects();
 	}
 
 	/**
+	 * Gets the effects by id.
+	 *
 	 * @param id
-	 * @return
-	 * @throws SQLException
-	 *             If an SQL Exception occurs.
+	 *            The id.
+	 * @return The effects whose id field matches the given id.
 	 * @throws ClassNotFoundException
 	 *             If the SQLite JDBC driver was not found.
+	 * @throws SQLException
+	 *             If an SQL Exception occurs.
 	 */
 	public List<Effect> getEffectsById(String id) throws ClassNotFoundException, SQLException {
+		EffectController effectController = new EffectController(this);
 		return effectController.getEffectsById(id);
 	}
 
 	/**
-	 * @param name
-	 * @return
-	 * @throws SQLException
-	 *             If an SQL Exception occurs.
+	 * Gets the formats.
+	 *
+	 * @return The formats.
 	 * @throws ClassNotFoundException
 	 *             If the SQLite JDBC driver was not found.
-	 */
-	public List<Effect> getEffectsByName(String name) throws ClassNotFoundException, SQLException {
-		return effectController.getEffectsByName(name);
-	}
-
-	/**
-	 * @param uid
-	 * @return
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
-	 * @throws ClassNotFoundException
-	 *             If the SQLite JDBC driver was not found.
-	 */
-	public List<Effect> getEffectsByUid(String uid) throws ClassNotFoundException, SQLException {
-		return effectController.getEffectsByUid(uid);
-	}
-
-	/**
-	 * @param src
-	 * @return
-	 * @throws SQLException
-	 *             If an SQL Exception occurs.
-	 * @throws ClassNotFoundException
-	 *             If the SQLite JDBC driver was not found.
-	 */
-	public List<Effect> getEffectsBySrc(String src) throws ClassNotFoundException, SQLException {
-		return effectController.getEffectsBySrc(src);
-	}
-
-	/**
-	 * @return
-	 * @throws SQLException
-	 *             If an SQL Exception occurs.
-	 * @throws ClassNotFoundException
-	 *             If the SQLite JDBC driver was not found.
 	 */
 	public List<Format> getFormats() throws ClassNotFoundException, SQLException {
+		FormatController formatController = new FormatController(this);
 		return formatController.getFormats();
 	}
 
 	/**
+	 * Gets the formats by id.
+	 *
 	 * @param id
-	 * @return
-	 * @throws SQLException
-	 *             If an SQL Exception occurs.
+	 *            The id.
+	 * @return The formats whose id field matches the given id.
 	 * @throws ClassNotFoundException
 	 *             If the SQLite JDBC driver was not found.
+	 * @throws SQLException
+	 *             If an SQL Exception occurs.
 	 */
 	public List<Format> getFormatsById(String id) throws ClassNotFoundException, SQLException {
+		FormatController formatController = new FormatController(this);
 		return formatController.getFormatsById(id);
 	}
 
 	/**
-	 * @param name
-	 * @return
-	 * @throws SQLException
-	 *             If an SQL Exception occurs.
+	 * Gets the videos.
+	 *
+	 * @return The videos.
 	 * @throws ClassNotFoundException
 	 *             If the SQLite JDBC driver was not found.
-	 */
-	public List<Format> getFormatsByName(String name) throws ClassNotFoundException, SQLException {
-		return formatController.getFormatsByName(name);
-	}
-
-	/**
-	 * @param width
-	 * @return
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
-	 * @throws ClassNotFoundException
-	 *             If the SQLite JDBC driver was not found.
-	 */
-	public List<Format> getFormatsByWidth(String width) throws ClassNotFoundException, SQLException {
-		return formatController.getFormatsByWidth(width);
-	}
-
-	/**
-	 * @param height
-	 * @return
-	 * @throws SQLException
-	 *             If an SQL Exception occurs.
-	 * @throws ClassNotFoundException
-	 *             If the SQLite JDBC driver was not found.
-	 */
-	public List<Format> getFormatsByHeight(String height) throws ClassNotFoundException, SQLException {
-		return formatController.getFormatsByHeight(height);
-	}
-
-	/**
-	 * @param fps
-	 * @return
-	 * @throws SQLException
-	 *             If an SQL Exception occurs.
-	 * @throws ClassNotFoundException
-	 *             If the SQLite JDBC driver was not found.
-	 */
-	public List<Format> getFormatsByFrameRate(String fps) throws ClassNotFoundException, SQLException {
-		return formatController.getFormatsByFrameRate(fps);
-	}
-
-	/**
-	 * @return
-	 * @throws SQLException
-	 *             If an SQL Exception occurs.
-	 * @throws ClassNotFoundException
-	 *             If the SQLite JDBC driver was not found.
 	 */
 	public List<Video> getVideos() throws ClassNotFoundException, SQLException {
+		VideoController videoController = new VideoController(this);
 		return videoController.getVideos();
 	}
 
 	/**
-	 * @param id
-	 * @return
-	 * @throws SQLException
-	 *             If an SQL Exception occurs.
-	 * @throws ClassNotFoundException
-	 *             If the SQLite JDBC driver was not found.
-	 */
-	public List<Video> getVideosById(String id) throws ClassNotFoundException, SQLException {
-		return videoController.getVideosById(id);
-	}
-
-	/**
-	 * @param name
-	 * @return
-	 * @throws SQLException
-	 *             If an SQL Exception occurs.
-	 * @throws ClassNotFoundException
-	 *             If the SQLite JDBC driver was not found.
-	 */
-	public List<Video> getVideosByName(String name) throws ClassNotFoundException, SQLException {
-		return videoController.getVideosByName(name);
-	}
-
-	/**
-	 * @param lane
-	 * @return
-	 * @throws SQLException
-	 *             If an SQL Exception occurs.
-	 * @throws ClassNotFoundException
-	 *             If the SQLite JDBC driver was not found.
-	 */
-	public List<Video> getVideosByLane(String lane) throws ClassNotFoundException, SQLException {
-		return videoController.getVideosByLane(lane);
-	}
-
-	/**
-	 * @param offset
-	 * @return
-	 * @throws SQLException
-	 *             If an SQL Exception occurs.
-	 * @throws ClassNotFoundException
-	 *             If the SQLite JDBC driver was not found.
-	 */
-	public List<Video> getVideosByOffset(String offset) throws ClassNotFoundException, SQLException {
-		return videoController.getVideosByOffset(offset);
-	}
-
-	/**
-	 * @param duration
-	 * @return
-	 * @throws SQLException
-	 *             If an SQL Exception occurs.
-	 * @throws ClassNotFoundException
-	 *             If the SQLite JDBC driver was not found.
-	 */
-	public List<Video> getVideosByDuration(String duration) throws ClassNotFoundException, SQLException {
-		return videoController.getVideosByDuration(duration);
-	}
-
-	/**
-	 * @param start
-	 * @return
-	 * @throws SQLException
-	 *             If an SQL Exception occurs.
-	 * @throws ClassNotFoundException
-	 *             If the SQLite JDBC driver was not found.
-	 */
-	public List<Video> getVideosByStart(String start) throws ClassNotFoundException, SQLException {
-		return videoController.getVideosByStart(start);
-	}
-
-	/**
-	 * @param queries
-	 * @param key
-	 * @throws SQLException
-	 *             If an SQL Exception occurs.
-	 * @throws ClassNotFoundException
-	 *             If the SQLite JDBC driver was not found.
-	 */
-	public void executeQueries(List<String> queries, String key) throws ClassNotFoundException, SQLException {
-		Connection conn = getConnection();
-
-		for (String query : queries) {
-			logger.info("Running query: " + query.replaceAll("[?]", "'" + key + "'"));
-			PreparedStatement ps = conn.prepareStatement(query);
-			ps.setString(1, key);
-
-			ResultSet rs = ps.executeQuery();
-			while (rs.next()) {
-				for (int i = 1; i < rs.getMetaData().getColumnCount(); i++) {
-					System.out.println(rs.getString(i));
-				}
-			}
-
-			ps.close();
-			rs.close();
-		}
-
-		conn.close();
-	}
-
-	/**
+	 * Creates the database tables.
+	 *
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
 	 *             If the SQLite JDBC driver was not found.
 	 */
 	private void createDatabaseTables() throws SQLException, ClassNotFoundException {
+		logger.info("Creating database tables...");
+
 		Connection conn = getConnection();
 		Statement stmt = conn.createStatement();
 
-		stmt.executeUpdate("DROP TABLE IF EXISTS " + VIDEOS+ ";");
+		stmt.executeUpdate("DROP TABLE IF EXISTS " + VIDEOS + ";");
 		stmt.executeUpdate("DROP TABLE IF EXISTS " + CLIPS + ";");
 		stmt.executeUpdate("DROP TABLE IF EXISTS " + AUDIOS + ";");
 		stmt.executeUpdate("DROP TABLE IF EXISTS " + ASSET_CLIPS + ";");

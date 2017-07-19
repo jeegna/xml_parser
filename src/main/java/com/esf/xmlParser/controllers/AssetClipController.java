@@ -14,10 +14,16 @@ import com.esf.xmlParser.entities.Asset;
 import com.esf.xmlParser.entities.AssetClip;
 import com.esf.xmlParser.entities.Format;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class AssetClipController.
+ */
 public class AssetClipController {
 
+	/** The logger. */
 	private final Logger logger = Logger.getLogger(this.getClass().getName());
 
+	/** The db. */
 	private DatabaseController db;
 
 	/**
@@ -84,9 +90,11 @@ public class AssetClipController {
 	}
 
 	/**
-	 * 
+	 * Gets the asset clips by id.
+	 *
 	 * @param key
-	 * @return
+	 *            the key
+	 * @return The asset clips by id.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -98,9 +106,11 @@ public class AssetClipController {
 	}
 
 	/**
-	 * 
+	 * Gets the asset clips by name.
+	 *
 	 * @param key
-	 * @return
+	 *            the key
+	 * @return The asset clips by name.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -112,9 +122,11 @@ public class AssetClipController {
 	}
 
 	/**
-	 * 
+	 * Gets the asset clips by lane.
+	 *
 	 * @param key
-	 * @return
+	 *            the key
+	 * @return The asset clips by lane.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -126,9 +138,11 @@ public class AssetClipController {
 	}
 
 	/**
-	 * 
+	 * Gets the asset clips by offset.
+	 *
 	 * @param key
-	 * @return
+	 *            the key
+	 * @return The asset clips by offset.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -140,9 +154,11 @@ public class AssetClipController {
 	}
 
 	/**
-	 * 
+	 * Gets the asset clips by duration.
+	 *
 	 * @param key
-	 * @return
+	 *            the key
+	 * @return The asset clips by duration.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -154,9 +170,11 @@ public class AssetClipController {
 	}
 
 	/**
-	 * 
+	 * Gets the asset clips by start.
+	 *
 	 * @param key
-	 * @return
+	 *            the key
+	 * @return The asset clips by start.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -168,9 +186,11 @@ public class AssetClipController {
 	}
 
 	/**
-	 * 
+	 * Gets the asset clips by role.
+	 *
 	 * @param key
-	 * @return
+	 *            the key
+	 * @return The asset clips by role.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -182,9 +202,11 @@ public class AssetClipController {
 	}
 
 	/**
-	 * 
+	 * Gets the asset clips by tc format.
+	 *
 	 * @param key
-	 * @return
+	 *            the key
+	 * @return The asset clips by tc format.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -196,10 +218,13 @@ public class AssetClipController {
 	}
 
 	/**
-	 * 
+	 * Gets the.
+	 *
 	 * @param col
+	 *            the col
 	 * @param key
-	 * @return
+	 *            the key
+	 * @return the list
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -229,8 +254,9 @@ public class AssetClipController {
 	}
 
 	/**
-	 * 
-	 * @return
+	 * Gets the all.
+	 *
+	 * @return The all.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -258,9 +284,11 @@ public class AssetClipController {
 	}
 
 	/**
-	 * 
+	 * Creates the asset clip.
+	 *
 	 * @param rs
-	 * @return
+	 *            the rs
+	 * @return the asset clip
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException

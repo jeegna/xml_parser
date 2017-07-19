@@ -13,21 +13,33 @@ import com.esf.xmlParser.database.DatabaseController;
 import com.esf.xmlParser.entities.Asset;
 import com.esf.xmlParser.entities.Audio;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class AudioController.
+ */
 public class AudioController {
 
+	/** The logger. */
 	private final Logger logger = Logger.getLogger(this.getClass().getName());
 
+	/** The db. */
 	private DatabaseController db;
 
 	/**
+	 * Instantiates a new audio controller.
+	 *
 	 * @param db
+	 *            the db
 	 */
 	public AudioController(DatabaseController db) {
 		this.db = db;
 	}
 
 	/**
+	 * Adds the audios.
+	 *
 	 * @param audios
+	 *            the audios
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -62,7 +74,9 @@ public class AudioController {
 	}
 
 	/**
-	 * @return
+	 * Gets the audios.
+	 *
+	 * @return The audios.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -74,8 +88,11 @@ public class AudioController {
 	}
 
 	/**
+	 * Gets the audios by id.
+	 *
 	 * @param key
-	 * @return
+	 *            the key
+	 * @return The audios by id.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -87,8 +104,11 @@ public class AudioController {
 	}
 
 	/**
+	 * Gets the audios by name.
+	 *
 	 * @param key
-	 * @return
+	 *            the key
+	 * @return The audios by name.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -100,8 +120,11 @@ public class AudioController {
 	}
 
 	/**
+	 * Gets the audios by lane.
+	 *
 	 * @param key
-	 * @return
+	 *            the key
+	 * @return The audios by lane.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -113,8 +136,11 @@ public class AudioController {
 	}
 
 	/**
+	 * Gets the audios by role.
+	 *
 	 * @param key
-	 * @return
+	 *            the key
+	 * @return The audios by role.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -126,8 +152,11 @@ public class AudioController {
 	}
 
 	/**
+	 * Gets the audios by offset.
+	 *
 	 * @param key
-	 * @return
+	 *            the key
+	 * @return The audios by offset.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -139,8 +168,11 @@ public class AudioController {
 	}
 
 	/**
+	 * Gets the audios by duration.
+	 *
 	 * @param key
-	 * @return
+	 *            the key
+	 * @return The audios by duration.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -152,8 +184,11 @@ public class AudioController {
 	}
 
 	/**
+	 * Gets the audios by start.
+	 *
 	 * @param key
-	 * @return
+	 *            the key
+	 * @return The audios by start.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -165,8 +200,11 @@ public class AudioController {
 	}
 
 	/**
+	 * Gets the audios by src ch.
+	 *
 	 * @param key
-	 * @return
+	 *            the key
+	 * @return The audios by src ch.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -178,8 +216,11 @@ public class AudioController {
 	}
 
 	/**
+	 * Gets the audios by src id.
+	 *
 	 * @param key
-	 * @return
+	 *            the key
+	 * @return The audios by src id.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -191,8 +232,11 @@ public class AudioController {
 	}
 
 	/**
+	 * Gets the audios by tc format.
+	 *
 	 * @param key
-	 * @return
+	 *            the key
+	 * @return The audios by tc format.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -204,9 +248,13 @@ public class AudioController {
 	}
 
 	/**
+	 * Gets the.
+	 *
 	 * @param col
+	 *            the col
 	 * @param key
-	 * @return
+	 *            the key
+	 * @return the list
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -236,7 +284,9 @@ public class AudioController {
 	}
 
 	/**
-	 * @return
+	 * Gets the all.
+	 *
+	 * @return The all.
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
@@ -264,8 +314,11 @@ public class AudioController {
 	}
 
 	/**
+	 * Creates the audio.
+	 *
 	 * @param rs
-	 * @return
+	 *            the rs
+	 * @return the audio
 	 * @throws SQLException
 	 *             If an SQL Exception occurs.
 	 * @throws ClassNotFoundException
