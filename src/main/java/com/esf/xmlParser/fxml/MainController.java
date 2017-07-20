@@ -121,22 +121,6 @@ public class MainController {
 	}
 
 	/**
-	 * Handles the refresh button click.
-	 * 
-	 * @param event
-	 *            The event.
-	 */
-	@FXML
-	private void menuItemRefreshClick(ActionEvent event) {
-		try {
-			loadFile();
-		} catch (ClassNotFoundException | SQLException | ParserConfigurationException | SAXException | IOException e) {
-			new Alert(AlertType.ERROR, resources.getString("errorLoadFile"), ButtonType.OK).showAndWait();
-			e.printStackTrace();
-		}
-	}
-
-	/**
 	 * Opens a file chooser window for FCPXML files and gets the selected file.
 	 *
 	 * @return The file the user has selected, or {@code null} if no file was
@@ -253,7 +237,7 @@ public class MainController {
 	 */
 	@FXML
 	private void menuItemAbout(ActionEvent event) {
-
+		// TODO Add about page
 	}
 
 	/**
@@ -276,6 +260,22 @@ public class MainController {
 	@FXML
 	private void menuItemClose(ActionEvent event) {
 		close();
+	}
+
+	/**
+	 * Handles the refresh button click.
+	 * 
+	 * @param event
+	 *            The event.
+	 */
+	@FXML
+	private void menuItemRefreshClick(ActionEvent event) {
+		try {
+			loadFile();
+		} catch (ClassNotFoundException | SQLException | ParserConfigurationException | SAXException | IOException e) {
+			new Alert(AlertType.ERROR, resources.getString("errorLoadFile"), ButtonType.OK).showAndWait();
+			e.printStackTrace();
+		}
 	}
 
 	/**
