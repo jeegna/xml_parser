@@ -61,9 +61,11 @@ public class MainController {
 	@FXML
 	private MenuBar menubar;
 	@FXML
-	private MenuItem menuItemClose;
-	@FXML
 	private MenuItem menuItemChooseFile;
+	@FXML
+	private MenuItem menuItemRefresh;
+	@FXML
+	private MenuItem menuItemClose;
 	@FXML
 	private MenuItem menuItemAbout;
 
@@ -88,6 +90,17 @@ public class MainController {
 	}
 
 	/**
+	 * Closes the application. And deletes the database file.
+	 */
+	public void close() {
+		// Delete database file.
+		new File(fileName + ".db").delete();
+
+		logger.info("Bye!");
+		System.exit(0);
+	}
+
+	/**
 	 * Allows the selection of a file by the user. Once a file has been selected
 	 * by the user, the file will be parsed and displayed in the tables.
 	 */
@@ -108,16 +121,19 @@ public class MainController {
 	}
 
 	/**
-	 * Closes the application. And deletes the database file.
+	 * Handles the refresh button click.
+	 * 
+	 * @param event
+	 *            The event.
 	 */
-	public void close() {
-		// TODO
-		 File file = new File(fileName + ".db");
-		 System.out.println(file.getAbsolutePath());
-		 file.delete();
-
-		logger.info("Bye!");
-		System.exit(0);
+	@FXML
+	private void menuItemRefreshClick(ActionEvent event) {
+		try {
+			loadFile();
+		} catch (ClassNotFoundException | SQLException | ParserConfigurationException | SAXException | IOException e) {
+			new Alert(AlertType.ERROR, resources.getString("errorLoadFile"), ButtonType.OK).showAndWait();
+			e.printStackTrace();
+		}
 	}
 
 	/**

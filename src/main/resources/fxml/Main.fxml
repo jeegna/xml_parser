@@ -16,6 +16,7 @@
 						<Menu mnemonicParsing="false" text="%menuItemFile">
 							<items>
 								<MenuItem fx:id="menuItemChooseFile" mnemonicParsing="false" onAction="#menuItemChooseFile" text="%menuItemChooseFile" />
+                        <MenuItem fx:id="menuItemRefresh" mnemonicParsing="false" onAction="#menuItemRefreshClick" text="%menuItemRefresh" />
 								<SeparatorMenuItem mnemonicParsing="false" />
 								<MenuItem fx:id="menuItemClose" mnemonicParsing="false" onAction="#menuItemClose" text="%menuItemClose" />
 							</items>
