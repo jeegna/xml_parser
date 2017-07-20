@@ -108,9 +108,14 @@ public class MainController {
 	}
 
 	/**
-	 * Closes the application.
+	 * Closes the application. And deletes the database file.
 	 */
-	private void close() {
+	public void close() {
+		// TODO
+		 File file = new File(fileName + ".db");
+		 System.out.println(file.getAbsolutePath());
+		 file.delete();
+
 		logger.info("Bye!");
 		System.exit(0);
 	}

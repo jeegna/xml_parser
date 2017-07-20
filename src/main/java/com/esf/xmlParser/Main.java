@@ -74,17 +74,16 @@ public class Main extends Application {
 	 *            The fxml loader.
 	 */
 	private void addEventHandlers(Stage stage, FXMLLoader loader) {
+		// Get MainController.
+		MainController controller = (MainController) loader.getController();
+
 		// Say "Bye!" on exit because that's adorable
 		stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
 			@Override
 			public void handle(WindowEvent event) {
-				logger.info("Bye!");
-				System.exit(0);
+				controller.close();
 			}
 		});
-
-		// Get MainController.
-		MainController controller = (MainController) loader.getController();
 
 		// Show the file chooser window on startup.
 		stage.setOnShowing(new EventHandler<WindowEvent>() {
