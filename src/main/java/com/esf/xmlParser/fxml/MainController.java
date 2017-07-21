@@ -93,8 +93,7 @@ public class MainController {
 	 * Closes the application. And deletes the database file.
 	 */
 	public void close() {
-		// Delete database file.
-		new File(fileName + ".db").delete();
+		deleteDatabaseFile();
 
 		logger.info("Bye!");
 		System.exit(0);
@@ -118,6 +117,13 @@ public class MainController {
 				e.printStackTrace();
 			}
 		}
+	}
+
+	/**
+	 * Deletes the current database file.
+	 */
+	private void deleteDatabaseFile() {
+		new File(fileName + ".db").delete();
 	}
 
 	/**
@@ -279,12 +285,18 @@ public class MainController {
 	}
 
 	/**
-	 * Sets the file.
+	 * Sets the file. This method will also delete the previous database file if
+	 * one exists.
 	 *
 	 * @param file
 	 *            The new file.
 	 */
 	private void setFile(File file) {
+		// Delete previous database file if it exists.
+		if (fileName != null) {
+			deleteDatabaseFile();
+		}
+
 		if (file != null) {
 			filePath = file.getAbsolutePath();
 			fileName = file.getName();
