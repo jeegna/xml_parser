@@ -33,6 +33,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.util.Callback;
 
 /**
@@ -51,6 +52,8 @@ public class SearchViewController {
 	// BorderPane sections
 	@FXML
 	private AnchorPane anchorPaneTop;
+	@FXML
+	private HBox hBoxMiddle;
 	@FXML
 	private AnchorPane anchorPaneLeft;
 	@FXML
@@ -116,6 +119,26 @@ public class SearchViewController {
 	private Set<String> videoStatements;
 
 	/**
+	 * Sets the table view controller.
+	 *
+	 * @param tableViewController
+	 *            The new table view controller.
+	 */
+	public void setTableViewController(TableViewController tableViewController) {
+		this.tableViewController = tableViewController;
+	}
+
+	/**
+	 * Sets the database controller.
+	 *
+	 * @param db
+	 *            The new database controller.
+	 */
+	public void setDatabaseController(DatabaseController db) {
+		this.db = db;
+	}
+
+	/**
 	 * Initializes the search view.
 	 */
 	public void initializeSearchBar() {
@@ -127,7 +150,6 @@ public class SearchViewController {
 		formatStatements = new HashSet<>();
 		videoStatements = new HashSet<>();
 
-		// http://www.java2s.com/Code/Java/JavaFX/customcellfactory.htm
 		comboBoxSearch.setCellFactory(new Callback<ListView<Element>, ListCell<Element>>() {
 			@Override
 			public ListCell<Element> call(ListView<Element> list) {
@@ -138,6 +160,7 @@ public class SearchViewController {
 
 						if (element == null || empty) {
 							setText(null);
+							setGraphic(null);
 						} else {
 							setText(element.getClass().getSimpleName() + " " + element.getName());
 						}
@@ -151,6 +174,7 @@ public class SearchViewController {
 		initializeItems();
 		addEventHandlers();
 		checkDefaults();
+		toggelAdvancedSearchPaneVisibility();
 	}
 
 	/**
@@ -311,23 +335,6 @@ public class SearchViewController {
 	}
 
 	/**
-	 * Removes the given column name from the specified list.
-	 *
-	 * @param list
-	 *            The list from which to remove the column names.
-	 * @param removals
-	 *            The column names to remove.
-	 */
-	private void removeQueryFromList(Set<String> list, List<? extends String> removals) {
-		for (String removal : removals) {
-			String column = convertString(removal);
-			logger.info("Removing column from array " + column);
-
-			list.remove(column);
-		}
-	}
-
-	/**
 	 * Handles the advanced search button click.
 	 *
 	 * @param event
@@ -335,10 +342,7 @@ public class SearchViewController {
 	 */
 	@FXML
 	private void buttonAdvancedSearchClick(ActionEvent event) {
-		boolean b = !anchorPaneBottom.isVisible();
-		anchorPaneLeft.setVisible(b);
-		anchorPaneRight.setVisible(b);
-		anchorPaneBottom.setVisible(b);
+		toggelAdvancedSearchPaneVisibility();
 	}
 
 	/**
@@ -358,43 +362,6 @@ public class SearchViewController {
 		checkComboBoxVideos.getCheckModel().clearChecks();
 
 		checkDefaults();
-	}
-
-	/**
-	 * Handles the select all check box check.
-	 *
-	 * @param event
-	 *            The event.
-	 */
-	@FXML
-	private void checkBoxSelectAllCheck(ActionEvent event) {
-		boolean b = !checkBoxSelectAll.isSelected();
-		checkBoxAsset.setSelected(b);
-		checkBoxAssetClip.setSelected(b);
-		checkBoxAudio.setSelected(b);
-		checkBoxClip.setSelected(b);
-		checkBoxEffect.setSelected(b);
-		checkBoxFormat.setSelected(b);
-		checkBoxVideo.setSelected(b);
-		checkBoxAsset.fire();
-		checkBoxAssetClip.fire();
-		checkBoxAudio.fire();
-		checkBoxClip.fire();
-		checkBoxEffect.fire();
-		checkBoxFormat.fire();
-		checkBoxVideo.fire();
-	}
-
-	/**
-	 * Check default values for check combo box items.
-	 */
-	private void checkDefaults() {
-		checkComboBoxAssets.getCheckModel().check(1);
-		checkComboBoxAssetClips.getCheckModel().check(1);
-		checkComboBoxClips.getCheckModel().check(1);
-		checkComboBoxEffects.getCheckModel().check(1);
-		checkComboBoxFormats.getCheckModel().check(1);
-		checkComboBoxVideos.getCheckModel().check(1);
 	}
 
 	/**
@@ -453,6 +420,43 @@ public class SearchViewController {
 	}
 
 	/**
+	 * Handles the select all check box check.
+	 *
+	 * @param event
+	 *            The event.
+	 */
+	@FXML
+	private void checkBoxSelectAllCheck(ActionEvent event) {
+		boolean b = !checkBoxSelectAll.isSelected();
+		checkBoxAsset.setSelected(b);
+		checkBoxAssetClip.setSelected(b);
+		checkBoxAudio.setSelected(b);
+		checkBoxClip.setSelected(b);
+		checkBoxEffect.setSelected(b);
+		checkBoxFormat.setSelected(b);
+		checkBoxVideo.setSelected(b);
+		checkBoxAsset.fire();
+		checkBoxAssetClip.fire();
+		checkBoxAudio.fire();
+		checkBoxClip.fire();
+		checkBoxEffect.fire();
+		checkBoxFormat.fire();
+		checkBoxVideo.fire();
+	}
+
+	/**
+	 * Check default values for check combo box items.
+	 */
+	private void checkDefaults() {
+		checkComboBoxAssets.getCheckModel().check(1);
+		checkComboBoxAssetClips.getCheckModel().check(1);
+		checkComboBoxClips.getCheckModel().check(1);
+		checkComboBoxEffects.getCheckModel().check(1);
+		checkComboBoxFormats.getCheckModel().check(1);
+		checkComboBoxVideos.getCheckModel().check(1);
+	}
+
+	/**
 	 * Handles the entity property combo box item check.
 	 *
 	 * @param event
@@ -464,26 +468,6 @@ public class SearchViewController {
 		if (element != null) {
 			tableViewController.selectItem(element);
 		}
-	}
-
-	/**
-	 * Sets the table view controller.
-	 *
-	 * @param tableViewController
-	 *            The new table view controller.
-	 */
-	public void setTableViewController(TableViewController tableViewController) {
-		this.tableViewController = tableViewController;
-	}
-
-	/**
-	 * Sets the database controller.
-	 *
-	 * @param db
-	 *            The new database controller.
-	 */
-	public void setDatabaseController(DatabaseController db) {
-		this.db = db;
 	}
 
 	/**
@@ -542,5 +526,34 @@ public class SearchViewController {
 		}
 
 		return converted;
+	}
+
+	/**
+	 * Removes the given column name from the specified list.
+	 *
+	 * @param list
+	 *            The list from which to remove the column names.
+	 * @param removals
+	 *            The column names to remove.
+	 */
+	private void removeQueryFromList(Set<String> list, List<? extends String> removals) {
+		for (String removal : removals) {
+			String column = convertString(removal);
+			logger.info("Removing column from array " + column);
+
+			list.remove(column);
+		}
+	}
+
+	/**
+	 * Hides the advanced search pane if it is not hidden, and if it is already
+	 * hidden, it will unhide the pane.
+	 */
+	private void toggelAdvancedSearchPaneVisibility() {
+		boolean b = !anchorPaneBottom.isVisible();
+		hBoxMiddle.setVisible(b);
+		anchorPaneBottom.setVisible(b);
+		hBoxMiddle.setManaged(b);
+		anchorPaneBottom.setManaged(b);
 	}
 }

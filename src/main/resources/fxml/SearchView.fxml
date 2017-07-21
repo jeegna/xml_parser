@@ -6,71 +6,114 @@
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 <?import org.controlsfx.control.CheckComboBox?>
 
-<BorderPane xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.esf.xmlParser.fxml.SearchViewController" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="30.0" AnchorPane.rightAnchor="0.0">
-   <top>
-      <AnchorPane fx:id="anchorPaneTop" BorderPane.alignment="CENTER">
-         <children>
-      		<ComboBox fx:id="comboBoxSearch" editable="true" layoutX="10.0" layoutY="10.0" onAction="#comboBoxItemSelected" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
-            <ButtonBar buttonMinWidth="100.0" layoutX="481.0" layoutY="10.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-               <buttons>
-            		<Button fx:id="buttonSearch" defaultButton="true" mnemonicParsing="false" onAction="#buttonSearchClick" text="%btnSearch" />
-                  <Button fx:id="buttonAdvancedSearch" mnemonicParsing="false" onAction="#buttonAdvancedSearchClick" text="%btnAdvancedSearch" />
-               </buttons>
-            </ButtonBar>
-         </children>
-         <padding>
-            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-         </padding>
-      </AnchorPane>
-   </top>
-   <left>
-      <AnchorPane fx:id="anchorPaneLeft" prefWidth="375.0" visible="false" BorderPane.alignment="CENTER">
-         <children>
-      		<CheckBox fx:id="checkBoxAsset" layoutY="4.0" mnemonicParsing="false" onAction="#checkBoxClick" text="%asset" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="4.0" />
-      		<CheckBox fx:id="checkBoxAssetClip" layoutY="34.0" mnemonicParsing="false" onAction="#checkBoxClick" text="%assetClip" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="34.0" />
-      		<CheckBox fx:id="checkBoxAudio" layoutY="64.0" mnemonicParsing="false" onAction="#checkBoxClick" text="%audio" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="64.0" />
-      		<CheckBox fx:id="checkBoxClip" layoutY="94.0" mnemonicParsing="false" onAction="#checkBoxClick" text="%clip" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="94.0" />
-      		<CheckComboBox fx:id="checkComboBoxAssets" layoutX="125.0" AnchorPane.leftAnchor="125.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-      		<CheckComboBox fx:id="checkComboBoxAssetClips" layoutX="125.0" layoutY="30.0" AnchorPane.leftAnchor="125.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0" />
-      		<CheckComboBox fx:id="checkComboBoxAudios" layoutX="125.0" layoutY="60.0" AnchorPane.leftAnchor="125.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="60.0" />
-      		<CheckComboBox fx:id="checkComboBoxClips" layoutX="125.0" layoutY="90.0" AnchorPane.leftAnchor="125.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="90.0" />
-         </children>
-         <padding>
-            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-         </padding>
-      </AnchorPane>
-   </left>
-   <right>
-      <AnchorPane fx:id="anchorPaneRight" prefWidth="375.0" visible="false" BorderPane.alignment="CENTER">
-         <children>
-      		<CheckBox fx:id="checkBoxEffect" layoutX="373.0" layoutY="4.0" mnemonicParsing="false" onAction="#checkBoxClick" text="%effect" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="4.0" />
-      		<CheckBox fx:id="checkBoxFormat" layoutX="373.0" layoutY="36.0" mnemonicParsing="false" onAction="#checkBoxClick" text="%format" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="34.0" />
-      		<CheckBox fx:id="checkBoxVideo" layoutX="373.0" layoutY="68.0" mnemonicParsing="false" onAction="#checkBoxClick" text="%video" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="64.0" />
-      		<CheckComboBox fx:id="checkComboBoxEffects" layoutX="690.0" AnchorPane.leftAnchor="125.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-      		<CheckComboBox fx:id="checkComboBoxFormats" layoutX="690.0" layoutY="32.0" AnchorPane.leftAnchor="125.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0" />
-      		<CheckComboBox fx:id="checkComboBoxVideos" layoutX="690.0" layoutY="64.0" AnchorPane.leftAnchor="125.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="60.0" />
-         </children>
-         <padding>
-            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-         </padding>
-      </AnchorPane>
-   </right>
-   <bottom>
-      <AnchorPane fx:id="anchorPaneBottom" prefWidth="750.0" visible="false" BorderPane.alignment="CENTER">
-         <children>
-      		<Button fx:id="buttonReset" mnemonicParsing="false" onAction="#buttonResetClick" text="%btnReset" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-               <padding>
-                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-               </padding>
-            </Button>
-      		<CheckBox fx:id="checkBoxSelectAll" mnemonicParsing="false" onAction="#checkBoxSelectAllCheck" text="%selectAll" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
-         </children>
-         <padding>
-            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-         </padding>
-      </AnchorPane>
-   </bottom>
-</BorderPane>
+<VBox xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="com.esf.xmlParser.fxml.SearchViewController"
+	AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+	AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0">
+	<children>
+		<AnchorPane fx:id="anchorPaneTop">
+			<children>
+				<ComboBox fx:id="comboBoxSearch" editable="true" layoutX="10.0"
+					layoutY="10.0" onAction="#comboBoxItemSelected"
+					AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+					AnchorPane.rightAnchor="216.0" AnchorPane.topAnchor="0.0" />
+				<ButtonBar buttonMinWidth="100.0" layoutX="481.0" layoutY="10.0"
+					prefWidth="200.0" AnchorPane.bottomAnchor="0.0"
+					AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+					<buttons>
+						<Button fx:id="buttonSearch" defaultButton="true"
+							mnemonicParsing="false" onAction="#buttonSearchClick" text="%btnSearch" />
+						<Button fx:id="buttonAdvancedSearch" mnemonicParsing="false"
+							onAction="#buttonAdvancedSearchClick" text="%btnAdvancedSearch" />
+					</buttons>
+				</ButtonBar>
+			</children>
+			<padding>
+				<Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+			</padding>
+		</AnchorPane>
+		<HBox fx:id="hBoxMiddle">
+			<children>
+				<AnchorPane fx:id="anchorPaneLeft" HBox.hgrow="ALWAYS">
+					<children>
+						<CheckBox fx:id="checkBoxAsset" layoutY="4.0"
+							mnemonicParsing="false" onAction="#checkBoxClick" text="%asset"
+							AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="4.0" />
+						<CheckBox fx:id="checkBoxAssetClip" layoutY="34.0"
+							mnemonicParsing="false" onAction="#checkBoxClick" text="%assetClip"
+							AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="34.0" />
+						<CheckBox fx:id="checkBoxAudio" layoutY="64.0"
+							mnemonicParsing="false" onAction="#checkBoxClick" text="%audio"
+							AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="64.0" />
+						<CheckBox fx:id="checkBoxClip" layoutY="94.0"
+							mnemonicParsing="false" onAction="#checkBoxClick" text="%clip"
+							AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="94.0" />
+						<CheckComboBox fx:id="checkComboBoxAssets" layoutX="125.0"
+							AnchorPane.leftAnchor="125.0" AnchorPane.rightAnchor="0.0"
+							AnchorPane.topAnchor="0.0" />
+						<CheckComboBox fx:id="checkComboBoxAssetClips"
+							layoutX="125.0" layoutY="30.0" AnchorPane.leftAnchor="125.0"
+							AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0" />
+						<CheckComboBox fx:id="checkComboBoxAudios" layoutX="125.0"
+							layoutY="60.0" AnchorPane.leftAnchor="125.0"
+							AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="60.0" />
+						<CheckComboBox fx:id="checkComboBoxClips" layoutX="125.0"
+							layoutY="90.0" AnchorPane.leftAnchor="125.0"
+							AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="90.0" />
+					</children>
+					<padding>
+						<Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+					</padding>
+				</AnchorPane>
+				<AnchorPane fx:id="anchorPaneRight" HBox.hgrow="ALWAYS">
+					<children>
+						<CheckBox fx:id="checkBoxEffect" layoutX="373.0" layoutY="4.0"
+							mnemonicParsing="false" onAction="#checkBoxClick" text="%effect"
+							AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="4.0" />
+						<CheckBox fx:id="checkBoxFormat" layoutX="373.0" layoutY="36.0"
+							mnemonicParsing="false" onAction="#checkBoxClick" text="%format"
+							AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="34.0" />
+						<CheckBox fx:id="checkBoxVideo" layoutX="373.0" layoutY="68.0"
+							mnemonicParsing="false" onAction="#checkBoxClick" text="%video"
+							AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="64.0" />
+						<CheckComboBox fx:id="checkComboBoxEffects" layoutX="690.0"
+							AnchorPane.leftAnchor="125.0" AnchorPane.rightAnchor="0.0"
+							AnchorPane.topAnchor="0.0" />
+						<CheckComboBox fx:id="checkComboBoxFormats" layoutX="690.0"
+							layoutY="32.0" AnchorPane.leftAnchor="125.0"
+							AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0" />
+						<CheckComboBox fx:id="checkComboBoxVideos" layoutX="690.0"
+							layoutY="64.0" AnchorPane.leftAnchor="125.0"
+							AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="60.0" />
+					</children>
+					<padding>
+						<Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+					</padding>
+				</AnchorPane>
+			</children>
+		</HBox>
+		<AnchorPane fx:id="anchorPaneBottom" prefWidth="750.0">
+			<children>
+				<Button fx:id="buttonReset" mnemonicParsing="false"
+					onAction="#buttonResetClick" text="%btnReset"
+					AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0"
+					AnchorPane.topAnchor="0.0">
+					<padding>
+						<Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+					</padding>
+				</Button>
+				<CheckBox fx:id="checkBoxSelectAll" mnemonicParsing="false"
+					onAction="#checkBoxSelectAllCheck" text="%selectAll"
+					AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+					AnchorPane.topAnchor="0.0" />
+			</children>
+			<padding>
+				<Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+			</padding>
+		</AnchorPane>
+	</children>
+</VBox>
